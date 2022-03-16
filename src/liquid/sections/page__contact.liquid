@@ -1,0 +1,219 @@
+{% capture props %}
+{
+  {% if page.metafields.custom_fields['sidebar_link_list_handle'] != blank %}
+    "navigation": [
+      {%- for link in linklists[page.metafields.custom_fields['sidebar_link_list_handle']].links -%}
+        { 
+          "label": {{ link.title | json }}, 
+          "labelRight": "", 
+          "url": {{ link.url | json }},
+          "value": {{ link.title | handleize | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ],
+  {% endif %}
+  "modsettings": {
+    "handle" : {{ page.handle | json }}
+  },
+  "blocks": [
+  {% for item in page.metafields.custom_fields['frequently_asked_questions'] %}
+    {
+      "settings": {
+        "category": {{ item['faq_category'] | json }},
+        "question": {{ item['faq_question'] | json }},
+        "answer": {{ item['faq_answer'] | json }}
+      }
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+  ]
+}
+{% endcapture %}
+
+{% if page.metafields.custom_fields['sidebar_link_list_handle'] == blank %}
+  <img class="block md:hidden w-full h-e160 object-cover" src="{{ page.metafields.custom_fields['page_hero_banner'] }}" />
+  <div 
+    style="background-image: url({{ page.metafields.custom_fields['page_hero_banner'] }});" 
+    class="h-e375 bg-gray-300 hidden md:flex flex-col justify-center items-center bg-cover">
+    <p style="color: {{ page.metafields.custom_fields['page_text_color'] }};"  class="text-black font-primary font-extrabold text-e48 uppercase tracking-header">{{ page.title }}</p>
+    <p style="color: {{ page.metafields.custom_fields['page_text_color'] }};" class="text-black font-body font-semibold text-lg mt-8">
+      {{ page.metafields.custom_fields['page_sub-header'] }}
+    </p>
+  </div>
+  <div 
+    class="h-e160 px-2 bg-gray-100 flex md:hidden flex-col justify-center items-center">
+    <p class="text-black font-primary font-extrabold text-e36 uppercase tracking-header">{{ page.title }}</p>
+    <p class="text-black font-body font-semibold text-megamenu_top mt-4">
+      {{ page.metafields.custom_fields['page_sub-header'] }}
+    </p>
+  </div>
+{% endif %}
+<div class="flex flex-wrap md:flex-no-wrap">
+  {% if page.metafields.custom_fields['sidebar_link_list_handle'] != blank %}
+    <div class="w-full -mb-10 block md:hidden" data-vue-component="FAQNavigation" data-props="{{ props | escape | strip_newlines }}">
+      <div 
+        is="Dropdown" 
+        :selected="selectedSupportNav" 
+        class="w-full block md:hidden px-4 my-5"
+        @select="(value) => supportNavigation(value)"
+        :options="supportOptions">
+      </div>      
+    </div>
+    <div class="w-1/4 bg-gray-100 hidden md:flex flex-col pt-13 px-12 items-start">
+      {%- for link in linklists[page.metafields.custom_fields['sidebar_link_list_handle']].links -%}
+        <a href="{{ link.url }}"
+          class="text-left font-primary font-bold uppercase text-black text-megamenu_top tracking-wider mb-6 border-b-2 transition-all duration-200 hover:border-primary-500 {% if link.active %}border-primary-500{% else %}border-transparent{% endif %}">
+          {{- link.title -}}
+        </a>
+      {%- endfor -%}
+    </div>
+  {% endif %}
+  <article class="container mx-auto">
+    <div class="px-4 page py-e40">
+      {% if page.metafields.custom_fields['sidebar_link_list_handle'] != blank %}
+        <span class="wysiwyg">
+          <h1>{{ page.title }}</h1>
+        </span>
+      {% endif %}
+      <span class="wysiwyg">
+        {{ page.content }}
+      </span>
+
+      <article class="max-w-screen-md px-0 md:px-4 mx-auto lg:px-0 py-e32 md:py-e80" data-vue-component="RegistrationPage">
+        {% form 'contact' %} 
+          <header class="text-center">
+            {% if form.posted_successfully? %}
+              <div class="border border-solid border-gray-200 p-e24 mb-e32 md:mb-e40">
+                <h2 class="h5 text-red-700 mb-e24">{{ 'contact.form.post_success_heading' | t }}</h2>
+                <p class="body-md">
+                  {{ 'contact.form.post_success_body' | t }}
+                </p>
+              </div>
+            {% endif %}
+            {% if form.errors %}        
+              <div class="border border-solid border-gray-200 p-e24 mb-e32 md:mb-e40">
+                <h2 class="h5 text-red-700 mb-e24">Error</h2>
+                <div class="body-md">
+                  {{ form.errors | default_errors }}
+                  The fields here are required or something. Thanks!
+                </div>
+              </div>
+            {% endif %}
+          </header>
+
+          <div class="flex flex-wrap md:flex-no-wrap w-full md:w-2/3 justify-between">
+            <div class="w-full md:w-1/3">
+              <p class="font-primary font-bold text-lg md:text-xl tracking-header uppercase mb-2 md:mb-5">{{ section.settings.column_1_header }}</p>
+              <div class="wysiwyg">{{ section.settings.column_1_content }}</div>
+            </div>
+            <div class="w-full md:w-1/3">
+              <p class="font-primary font-bold text-e22 md:text-xl tracking-header uppercase mt-7 md:mt-0 mb-2 md:mb-5">{{ section.settings.column_2_header }}</p>
+              <div class="wysiwyg">{{ section.settings.column_2_content }}</div>
+            </div>
+            {% if section.settings.column_3_content != blank %}
+              <div class="w-full md:w-1/3">
+                <p class="font-primary font-bold text-e22 md:text-xl tracking-header uppercase mt-7 md:mt-0 mb-2 md:mb-5">{{ section.settings.column_3_header }}</p>
+                <div class="wysiwyg">{{ section.settings.column_3_content }}</div>
+              </div>
+            {% endif %}
+          </div>
+          
+          <p class="text-xl mt-8 mb-6 font-primary font-bold uppercase">{{ 'contact.form.hours_of_operation' | t }}</p>
+          
+          <div class="flex border border-black w-full md:w-1/2">
+            <div class="flex flex-col w-1/2">
+              <div class="w-full flex justify-center items-center font-body font-semibold text-md border-b py-2">{{ 'contact.form.monday' | t }}</div>
+              <div class="w-full flex justify-center items-center font-body font-semibold text-md border-b py-2">{{ 'contact.form.tuesday' | t }}</div>
+              <div class="w-full flex justify-center items-center font-body font-semibold text-md border-b py-2">{{ 'contact.form.wednesday' | t }}</div>
+              <div class="w-full flex justify-center items-center font-body font-semibold text-md border-b py-2">{{ 'contact.form.thursday' | t }}</div>
+              <div class="w-full flex justify-center items-center font-body font-semibold text-md border-b py-2">{{ 'contact.form.friday' | t }}</div>
+              <div class="w-full flex justify-center items-center font-body font-semibold text-md border-b py-2">{{ 'contact.form.saturday' | t }}</div>
+              <div class="w-full flex justify-center items-center font-body font-semibold text-md py-2">{{ 'contact.form.sunday' | t }}</div>
+            </div>
+            <div class="w-1/2 border-l font-body font-semibold flex justify-center items-center">{{ section.settings.open_daily_between }}</div>
+          </div>
+          
+          <span class="wysiwyg">
+            <hr>
+            <h3>{{ section.settings.header }}</h3>
+            <p>{{ section.settings.subheader }}</p>
+          </span>
+          
+      
+          <div class="contact-form form-vertical mt-4 w-full md:w-2/3">
+      
+            <fieldset>
+              <legend class="u-sr-only">Contact Form</legend>
+              <input class="w-full mb-4 md-" is="InputText" type="text" label="{{ 'contact.form.name' | t }}" name="contact[name]" required />
+              <input class="w-full mb-4" is="InputText" type="email" label="{{ 'contact.form.email' | t }}" name="contact[email]" required />
+              <input class="w-full mb-4" is="InputText" type="tel" label="{{ 'contact.form.phone' | t }}" name="contact[phone]"/>
+              <input type="hidden" hidden name="contact[subject]" :value="activeSubject">
+              <div is="Dropdown" class="w-full form mb-4" placeholder="{{ 'contact.form.subject' | t }}" :options="subjectOptions" :selected="activeSubject ? activeSubject : null" @select="(value) => onInputChange({ name: 'contact[subject]', value: value })"></div>
+              <input class="w-full mb-4 font-body" is="InputText" rows="5" tag="textarea" label="{{ 'contact.form.message' | t }}" name="contact[body]" value="{% if form.body %}{{ form.body }}{% endif %}" />
+            </fieldset>
+            <button class="mb-4 w-full md:w-auto" is="BtnPrimary" type="submit">{{ 'contact.form.submit' | t }}</button>
+          </div>
+        {% endform %}
+      </article>
+            
+    </div>
+  </article>  
+</div>
+
+<script src="{{ 'misc.entry.js' | asset_url }}" defer></script>
+
+
+{% schema %}
+{
+  "name": "Contact Page",
+  "settings": [
+    {"type": "header", "content": "Contact Information"},
+    {
+      "type": "text",
+      "id": "column_1_header",
+      "label": "Column 1 Header"
+    },
+    {
+      "type": "richtext",
+      "id": "column_1_content",
+      "label": "Column 1 Content"
+    },
+    {
+      "type": "text",
+      "id": "column_2_header",
+      "label": "Column 2 Header"
+    },
+    {
+      "type": "richtext",
+      "id": "column_2_content",
+      "label": "Column 2 Content"
+    },
+    {
+      "type": "text",
+      "id": "column_3_header",
+      "label": "Column 3 Header"
+    },
+    {
+      "type": "richtext",
+      "id": "column_3_content",
+      "label": "Column 3 Content"
+    },
+    {"type": "header", "content": "Hours of Operation"},
+    {
+      "type": "text",
+      "id": "open_daily_between",
+      "label": "Open Daily Between"
+    },
+    {"type": "header", "content": "Contact Form"},
+    {
+      "type": "text",
+      "id": "header",
+      "label": "Header"
+    },
+    {
+      "type": "text",
+      "id": "subheader",
+      "label": "Sub-Header"
+    }
+  ]
+}
+{% endschema %}

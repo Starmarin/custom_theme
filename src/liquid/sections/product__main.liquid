@@ -1,0 +1,97 @@
+{% render 'gwp--redirect' %}
+{% capture initial_product %}{% render 'json--product', is_pdp: true %}{% endcapture %}
+{% assign product_group_handle = product.metafields.accentuate.product_group %}
+{%- assign enable_icon = section.settings.enable_superstar | json -%}
+<script>
+  (function() {
+    window.__PDP_INITIAL_PRODUCT__ = {{ initial_product }};
+    window.__PDP_CUSTOMER__ = {{ customer | json }};
+    window.__PDP_LINKED_PRODUCTS__ = {{ collections[product_group_handle].products | json }};
+    window.__PDP_COLLECTION__ = {{ collection | json }};
+    window.__PDP_COMPARE_PAGE_URL__ = {{ settings.compare_page_url | json }};
+  })()
+</script>
+<article class="product-main">
+  <div data-vue-component="ProductRoot">
+    <div is="ProductProvider">
+      <div is="TransitionPromiseFade" class="scroll-root">
+        <div is="ProductProvider" class="flex">
+          <section is="ProductHero"></section>
+        </div>
+        <div id="breadcrumbs-mount"></div>
+        <div id="product" class="flex flex-wrap justify-center max-w-lg mx-auto md:px-e12 lg:px-0 md:flex-row">
+          {%- if product.type == "Gift Cards" and product.images != blank -%}
+          <picture>
+            <source srcset="{{ product.images[0] | product_img_url: '500x' }}" media="(max-width: 649px)">
+            <source srcset="{{ product.images[0] | product_img_url: '1000x' }}" media="(min-width: 650px)">
+            <img src="{{ product.images[0] | product_img_url: '1000x' }}" alt="{{product.images[0].alt}}" class="md:min-h-e750 md:max-h-e750"/>
+          </picture>
+          {%- else -%}
+            <div is="ProductProvider">
+              <section is="ProductGallery" tooltip-active-color-class="text-red-500">
+                <span slot="badge" v-if="$store.state.product['selectedVariant'] && $store.getters['product/onSale']" class="absolute left-0 top-0 hidden md:block px-e30 py-e12 font-bold text-e18 text-white uppercase tracking-wide bg-red-500 z-10">sale</span>
+                <span slot="badge" v-if="$store.state.product['selectedVariant'] && $store.getters['product/taggedNew'] && !$store.getters['product/onSale']" class="absolute left-0 top-0 hidden md:block px-e30 py-e12 font-bold text-e18 text-white uppercase tracking-wide bg-green-500 z-10">new</span>
+              </section>
+            </div>
+          {%- endif -%}
+          <section class="px-e12 w-full md:px-0 md:w-1/3 top-0 h-full md:sticky sticky-column">
+            <div is="ProductProvider">
+              <section is="ProductTitlePrice" class="block"></section> 
+            </div>
+            <div is="ProductProvider">
+              <form is="ProductForm" :show-superstar-icon="{{ enable_icon | escape }}"></form>
+            </div>
+          </section>
+        </div>
+        <div is="ProductProvider" class="flex">
+          <section is="ProductBanner"></section> 
+        </div>
+        <div is="ProductProvider">
+          <section is="ProductRecommendationsShopifyAPI"></section>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% render 'pdp--gallery-widget' %}
+  {% render 'pdp--reviews-widget' %}
+</article>
+
+
+
+<script src="{{ 'pdp.entry.js' | asset_url }}" defer></script>
+
+{% schema %}
+  {
+    "name": "Product",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Value Props"
+      },
+      {
+        "id": "vp_text_1",
+        "type": "text",
+        "label": "Text 1",
+        "default": "Free Shipping"
+      },
+      {
+        "id": "vp_text_2",
+        "type": "text",
+        "label": "Text 2",
+        "default": "2 Year Warrany"
+      },
+      {
+        "id": "vp_text_3",
+        "type": "text",
+        "label": "Text 3",
+        "default": "30 Day Return"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_superstar",
+        "label": "Enable SuperStar Icon",
+        "default": false
+      }
+    ]
+  }
+{% endschema %}

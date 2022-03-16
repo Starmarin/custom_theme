@@ -1,0 +1,160 @@
+<div class="border border-solid border-gray-300 bg-white">
+  <div class="bg-black flex items-center justify-between p-e16 md:px-e40">
+    <span class="font-primary font-bold text-megamenu_top uppercase text-white">{{ 'customer.addresses.add_new' | t }}</span>
+    <a @click.prevent="toggleNewAddressForm(false)" class="font-primary font-bold text-megamenu_top uppercase underline text-white cursor-pointer">{{ 'customer.addresses.cancel' | t }}</a>
+  </div>
+  <div
+    class="px-e16 py-e24 md:px-e40 md:py-e16 bg-white "
+    is="AccountNewAddress"
+    :first-name="activeAddress.firstName"
+    :last-name="activeAddress.lastName"
+    :company="activeAddress.company"
+    :address1="activeAddress.address1"
+    :address2="activeAddress.address2"
+    :city="activeAddress.city"
+    :province="activeAddress.province"
+    :zip="activeAddress.zip"
+    :country="activeAddress.country"
+    :phone="activeAddress.phone"
+    :is-default="activeAddress.isDefault"
+    :id="activeAddress.id"
+    :toggle-new-address-form="toggleNewAddressForm"
+    :key="'address-' + activeAddress.id"
+    :countries="countries"
+    inline-template>
+    <div ref="wrapper">
+
+      <form @submit="validate" method="post" :action="formAction" id="address_form_new" accept-charset="UTF-8">
+        <input type="hidden" name="form_type" value="customer_address" />
+        <input type="hidden" name="utf8" value="✓" />
+        <input v-if="id" type="hidden" name="_method" value="put" />
+
+        {%- if form.errors -%}
+          {{- form.errors | default_errors -}}
+        {%- endif -%}
+
+        <div class="flex items-center justify-between mb-e24 ">
+          <div class="inline-flex items-center">
+            <input type="checkbox" @change="onInputChange" :checked="getInitialValue('address[default]')" name="address[default]" id="is-default" />
+            <label class="body-md" for="is-default">Is Default</label>
+          </div>
+
+          <div v-if="id">
+            <a @click.prevent="remove" href="#" class="font-primary font-bold text-megamenu_top uppercase underline text-primary-500 cursor-pointer">
+              {{ 'customer.addresses.delete' | t }}
+            </a>
+          </div>
+          <div v-else>
+            <a @click.prevent="toggleNewAddressForm(false)" class="font-primary font-bold text-megamenu_top uppercase underline text-primary-500 cursor-pointer">
+              {{ 'customer.addresses.cancel' | t }}
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-e26 mb-3 md:mb-e26">
+          <div>
+            {%- include 'text-input' with
+              mod_name: 'address[first_name]',
+              mod_label: 'First Name',
+              mod_change: 'onInputChange',
+              mod_type: 'text',
+              mod_initial_value: "getInitialValue('address[first_name]')",
+              mod_error: 'First Name is required',
+              mod_required: true -%}
+          </div>
+
+          <div>
+            {%- include 'text-input' with
+              mod_name: 'address[last_name]',
+              mod_label: 'Last Name',
+              mod_change: 'onInputChange',
+              mod_type: 'text',
+              mod_initial_value: "getInitialValue('address[last_name]')",
+              mod_error: 'Last Name is required',
+              mod_required: true -%}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-e26 mb-3 md:mb-e26">
+          <div>
+            {%- include 'text-input' with
+              mod_name: 'address[company]',
+              mod_label: 'Company',
+              mod_type: 'text',
+              mod_change: 'onInputChange',
+              mod_initial_value: "getInitialValue('address[company]')", -%}
+          </div>
+          <div>
+            {%- include 'text-input' with
+            mod_name: 'address[phone]',
+            mod_label: 'Phone',
+            mod_type: 'phone',
+            mod_change: 'onInputChange',
+            mod_initial_value: "getInitialValue('address[Phone]')" -%}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-e26 mb-3 md:mb-e26">
+          <div>
+            {%- include 'text-input' with
+              mod_name: 'address[address1]',
+              mod_label: 'Address',
+              mod_change: 'onInputChange',
+              mod_type: 'text',
+              mod_initial_value: "getInitialValue('address[address1]')",
+              mod_error: 'Address is required',
+              mod_required: true -%}
+          </div>
+          <div>
+            {%- include 'text-input' with
+              mod_name: 'address[address2]',
+              mod_label: 'Apt, Suite, etc. (optional)',
+              mod_change: 'onInputChange',
+              mod_type: 'text',
+              mod_initial_value: "getInitialValue('address[address2]')",
+              mod_required: false -%}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-e26 mb-3 md:mb-e26">
+          <div>
+          {%- include 'text-input' with
+            mod_name: 'address[city]',
+            mod_label: 'City',
+            mod_type: 'text',
+            mod_change: 'onInputChange',
+            mod_initial_value: "getInitialValue('address[city]')",
+            mod_error: 'City is required',
+            mod_required: true -%}
+          </div>
+          <div>
+            <input type="hidden" hidden name="address[country]" :value="activeCountry ? activeCountry.code : null">
+            <div is="Dropdown" class="w-full form" placeholder="Select a Country" :options="generateCountryArray()" :selected="activeCountry ? activeCountry.code : null" @select="(value) => onInputChange({ name: 'address[country]', value: value })"></div>
+          </div>
+        </div>
+      
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-e26 mb-3 md:mb-e26">
+          <div :key="country" v-if="showProvinceSelect">
+            <input type="hidden" hidden name="address[province]" :value="activeProvince ? activeProvince : null">
+            <div v-if="showProvinceSelect" is="Dropdown" placeholder="Select a State" class="w-full form" :options="generateProvinceArray()" :selected="activeProvince ? activeProvince : null" @select="(value) => onInputChange({ name: 'address[province]', value: value })"></div>
+          </div>
+          <div>
+            {%- include 'text-input' with
+              mod_name: 'address[zip]',
+              mod_label: 'Zip / Postal Code',
+              mod_type: 'text',
+              mod_initial_value: "getInitialValue('address[zip]')",
+              mod_change: 'onInputChange' -%}
+          </div>
+        </div>
+
+        <p class="flex items-center justify-center mb-6 w-full">
+          <button is="BtnPrimary" type="submit" class="w-full md:w-auto">{{ 'customer.addresses.save' | t }}</button>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+{%- assign form_id = nil -%}
+{%- assign form_classes = '' -%}

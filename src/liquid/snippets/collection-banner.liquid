@@ -1,0 +1,59 @@
+
+{% if collection.metafields.custom_fields["banner_layout"] != blank %}
+  <div class="flex">
+    {% if collection.metafields.custom_fields["banner_layout"] == 'Full Width Background Image' %}
+      {% assign left_column_bg_desktop = 'url(' | append: collection.metafields.custom_fields["banner_desktop_image"] | append: ')' %}
+      {% if collection.metafields.custom_fields["banner_mobile_image"] != blank %}
+        {% assign left_column_bg_mobile = 'url(' | append: collection.metafields.custom_fields["banner_mobile_image"] | append: ')' %}
+      {% else %}
+        {% assign left_column_bg_mobile = 'url(' | append: collection.metafields.custom_fields["banner_desktop_image"] | append: ')' %}
+      {% endif %}
+      {% assign left_column_classes = 'w-full flex flex-col flex-wrap justify-center items-center py-e80' %}
+      {% assign left_column_text_classes = 'text-center w-3/4 md:w-1/2' %}
+      {% assign right_column_classes = 'hidden' %}
+    {% else %}
+      {% if collection.metafields.custom_fields["banner_background_color"] != blank %}
+        {% assign left_column_bg_desktop = collection.metafields.custom_fields["banner_background_color"] %}
+      {% else %}
+        {% assign left_column_bg_desktop = "#003250" %}
+      {% endif %}
+      {% if collection.metafields.custom_fields["banner_mobile_image"] != blank %}
+        {% assign left_column_bg_mobile = 'url(' | append: collection.metafields.custom_fields["banner_mobile_image"] | append: ')' %}
+      {% else %}
+        {% assign left_column_bg_mobile = 'url(' | append: collection.metafields.custom_fields["banner_desktop_image"] | append: ')' %}
+      {% endif %}
+      {% assign left_column_classes = 'w-full md:w-3/5 flex flex-col flex-wrap justify-center items-center md:items-start py-e80 md:pl-10' %}
+      {% assign left_column_text_classes = 'text-center md:text-left w-3/4 md:w-2/3' %}
+      {% assign right_column_classes = 'hidden md:block md:w-2/5' %}
+    {% endif %}
+    <div class="{{ left_column_classes }} banner-bg md:min-h-e320" style="background-color:{{ collection.metafields.custom_fields['banner_background_color'] }}">
+      {% if collection.metafields.custom_fields["banner_header"] != blank %}
+        <h2 class="font-primary font-black uppercase text-e28 md:text-hero tracking-header" style="color:{{ collection.metafields.custom_fields['banner_text_color'] }}">{{ collection.metafields.custom_fields["banner_header"] }}</h2>
+      {% endif %}
+      {% if collection.metafields.custom_fields["banner_description"] != blank %}
+        <p class="font-body text-megamenu_sub md:text-md mt-4 max-w-e600 {{ left_column_text_classes }}" style="color:{{ collection.metafields.custom_fields['banner_text_color'] }}">{{ collection.metafields.custom_fields["banner_description"] }}</p>
+      {% endif %}
+      {% if collection.metafields.custom_fields["banner_link_url"] != blank %}
+        <a class="font-primary font-bold uppercase tracking-header mt-5 link--secondary" style="color:{{ collection.metafields.custom_fields['banner_text_color'] }}" href="{{ collection.metafields.custom_fields['banner_link_url'] }}">{{ collection.metafields.custom_fields["banner_link_text"] }}</a>
+      {% endif %}
+    </div>
+    <div class="{{ right_column_classes }}" style="background-color:{{ collection.metafields.custom_fields['banner_background_color'] }}">
+      {% if collection.metafields.custom_fields['banner_desktop_image'] != blank %}
+        <img class="w-full h-full object-cover" src="{{ collection.metafields.custom_fields['banner_desktop_image'] }}" />
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+<style>
+  .banner-bg {
+    background: {{ left_column_bg_desktop }} {{ collection.metafields.custom_fields["banner_background_color"] }};
+    background-size: cover;
+  }
+  @media screen and (max-width:650px) {
+    .banner-bg{
+      background: {{ left_column_bg_mobile }} {{ collection.metafields.custom_fields["banner_background_color"] }};
+      background-size: cover;
+    }      
+  }
+</style>

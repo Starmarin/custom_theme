@@ -1,0 +1,6 @@
+
+<ul class="u-list-simple footer__linklist">
+  {%- for link in linklists[list].links -%}
+    <li><a href="{{ link.url }}" class="footer__linklist__link">{{ link.title }}</a></li>
+  {%- endfor -%}
+</ul>

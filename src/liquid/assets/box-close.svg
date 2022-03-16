@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>54D89273-3120-4692-96D7-6C6F4541CC15</title>
+    <g id="Navigation" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="D_Navigation_1.1-/-Default-" transform="translate(-1404.000000, -14.000000)">
+            <g id="Icons/Close" transform="translate(1404.000000, 14.000000)">
+                <g id="cancel" transform="translate(5.036550, 5.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <polygon id="Rectangle" transform="translate(5.010105, 4.996652) rotate(-44.991897) translate(-5.010105, -4.996652) " points="-1.42000113 4.38316917 11.4420291 4.36439248 11.4402105 5.61013554 -1.42181973 5.62891223"></polygon>
+                    <polygon id="Rectangle" transform="translate(5.011673, 4.996084) rotate(-45.008103) translate(-5.011673, -4.996084) " points="4.39818955 -1.43402151 5.64393261 -1.43584011 5.62515591 11.4261902 4.37941286 11.4280088"></polygon>
+                </g>
+                <rect id="Rectangle" stroke="#FFFFFF" x="0.5" y="0.5" width="19" height="19"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

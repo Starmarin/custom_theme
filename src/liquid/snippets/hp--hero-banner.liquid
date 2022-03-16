@@ -1,0 +1,78 @@
+{% capture props %}
+{
+  {% if block_data_from_metafields %}
+    "modsettings": {{ mod_settings }},
+    "slides": {{ mod_blocks }}
+  {% elsif block_data_from_collections %}
+    "modsettings": {{ mod_settings | json }},
+    "slides": {{ mod_blocks }}
+  {% else %}
+    "modsettings": {{ mod_settings | json }},
+    "slides": [
+    {% for block in mod_blocks %}
+      {
+        "settings": {{ block.settings | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    ]
+  {% endif %}
+}
+{% endcapture %}
+
+<div class="" data-aos="fade-up" data-vue-component="HeroCarousel" data-props="{{ props | escape | strip_newlines }}">
+  <div class="flex md:h-e600" :class="textboxFlexAlign">
+    <a :href="[slides[activeSlide].settings.cta_1_url !== null ? slides[activeSlide].settings.cta_1_url : '#']" class="flex w-full h-e496 md:h-e600 absolute">
+      <video class="absolute w-full h-e496 md:h-e600" v-if="slides[activeSlide].settings.shopify_video_url != ''" class="w-full h-full" muted autoplay playsinline>
+        <source :src="slides[activeSlide].settings.shopify_video_url" type="video/mp4" />
+      </video>
+      <img class="sm absolute w-full h-e496 md:h-e600 object-cover" :alt="slides[activeSlide].settings.slide_header" v-else :src="bannerImage($mq)" />
+      <div class="absolute w-full h-e496 md:h-e600" v-if="slides[activeSlide].settings.enable_image_overlay" :style="overlayCSS"></div>
+    </a>
+    <div :class="[(modsettings.layout === 'overlaid') ? 'flex' : 'hidden md:flex']" class="z-1 flex-wrap content-start md:content-center h-e496 md:h-auto md:mx-10 md:my-e100 py-11 px-5 md:px-10 w-full md:w-2/5" :style="textboxCSS">
+      <a :href="slides[activeSlide].settings.cta_1_url" class="z-0 bg-transparent w-full absolute h-e496 md:h-e600 md:hidden -mt-11 -ml-5"></a>
+      <p v-if="slides[activeSlide].settings.slide_preheader" :style="preHeaderColor" v-html="slides[activeSlide].settings.slide_preheader" class="font-primary font-bold uppercase text-md py-1 border-b-2 h-9 border-t-2 mb-3"></p>
+      <p v-if="slides[activeSlide].settings.slide_header" :style="headerBodyColor" v-html="slides[activeSlide].settings.slide_header" class="font-primary font-extrabold uppercase text-e36 md:text-e48 leading-3 mb-3 w-full tracking-header"></p>
+      <p v-if="slides[activeSlide].settings.slide_body_copy" :style="headerBodyColor" v-html="slides[activeSlide].settings.slide_body_copy" class="mb-6 carousel-text w-full font-body font-semibold text-megamenu_sub md:text-md"></p>
+      <div class="z-1 flex flex-col md:flex-row w-full" :style="ctaAlignmentCSS">
+        <button @click="anchorClick(slides[activeSlide].settings.cta_1_url)" class="py-3 px-10 h-e50 w-2/3 md:w-auto text-center whitespace-no-wrap mb-4 mr-4 md:mb-0 font-primary font-bold uppercase tracking-header transition-all duration-200 hover:filter-brightness focus:shadow-outline" v-if="slides[activeSlide].settings.cta_1_url != null" :style="cta1Colors" :href="slides[activeSlide].settings.cta_1_url" v-html="slides[activeSlide].settings.cta_1_text"></button>
+        <button @click="anchorClick(slides[activeSlide].settings.cta_2_url)" class="py-3 px-10 h-e50 w-2/3 md:w-auto text-center whitespace-no-wrap font-primary font-bold uppercase tracking-header transition-all duration-200 hover:filter-brightness focus:shadow-outline" v-if="slides[activeSlide].settings.cta_2_url != null" :style="cta2Colors" :href="slides[activeSlide].settings.cta_2_url" v-html="slides[activeSlide].settings.cta_2_text"></button>  
+      </div>
+    </div>  
+  </div>
+  <div class="flex flex-wrap justify-center items-center w-full">
+    <div v-if="modsettings.layout === 'below_image'" class="bg-gray-700 p-6 flex md:hidden flex-wrap md:content-center w-full md:mb-10 mt-e496" :style="ctaCSS($mq)">
+      <p v-if="slides[activeSlide].settings.slide_preheader" :style="preHeaderColor" v-html="slides[activeSlide].settings.slide_preheader" class="font-primary font-bold uppercase text-md py-1 border-b-2 h-9 border-t-2 mb-3"></p>
+      <p v-if="slides[activeSlide].settings.slide_header" :style="headerBodyColor" v-html="slides[activeSlide].settings.slide_header" class="font-primary font-extrabold uppercase text-e36 md:text-e48 leading-3 mb-3 w-full tracking-header"></p>
+      <p v-if="slides[activeSlide].settings.slide_body_copy" :style="headerBodyColor" v-html="slides[activeSlide].settings.slide_body_copy" class="mb-6 carousel-text w-full font-body font-semibold text-megamenu_sub md:text-md"></p>
+      <div class="flex flex-col md:flex-row w-full" :style="ctaCSS($mq)">
+        <a 
+          class="py-3 px-10 h-e50 w-2/3 md:w-auto text-center whitespace-no-wrap mb-4 mr-0 font-primary font-bold uppercase tracking-header text-white bg-primary-500" 
+          :class="[slides[activeSlide].settings.cta_2_url != null ? 'md:mr-4' : '']"
+          v-if="slides[activeSlide].settings.cta_1_url != null" 
+          :style="cta1Colors" 
+          :href="slides[activeSlide].settings.cta_1_url" 
+          v-html="slides[activeSlide].settings.cta_1_text">
+        </a>
+        <a 
+          class="py-3 px-10 h-e50 w-2/3 md:w-auto text-center whitespace-no-wrap font-primary font-bold uppercase tracking-header text-white bg-primary-500" 
+          v-if="slides[activeSlide].settings.cta_2_url != null" 
+          :style="cta2Colors" 
+          :href="slides[activeSlide].settings.cta_2_url" 
+          v-html="slides[activeSlide].settings.cta_2_text">
+        </a>
+      </div>
+    </div>  
+    <div v-if="slides.length > 1" class="p-6 bg-gray-700 w-full flex justify-center">
+      <div class="flex justify-center items-start md:items-center w-full md:w-3/4">
+        <div class="flex flex-col w-full" :class="[(activeSlide === slideIndex) ? 'active-slide' : '']" v-for="(slide, slideIndex) in slides.length">
+          <div class="w-full h-e2 bg-gray-300">
+            <div :class="[(slideInteraction && (activeSlide === slideIndex)) ? 'w-full' : 'bar-grow w-0']" class="h-e2 bg-primary-500"></div>
+          </div>
+          <div @click="setSlide(slideIndex)" class="cursor-pointer">
+            <p :class="[(activeSlide === slideIndex) ? 'text-white' : 'text-gray-300']" class="font-body font-bold text-e10 md:text-xs tracking-header text-center w-full uppercase mt-2" v-html="slides[slideIndex].settings.slide_title"></p>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+</div>

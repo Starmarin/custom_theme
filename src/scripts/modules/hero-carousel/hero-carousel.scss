@@ -1,0 +1,51 @@
+.featured-products-card.with-hover {
+  @media (hover: hover) {
+    &:hover {
+      color: white;
+      transition: 0.4s ease color;
+
+      .subtext {
+        color: white;
+      }
+
+      .hover-image {
+        opacity: 1;
+      }
+    }
+  }
+
+  .hover-image {
+    opacity: 0;
+    transition: 0.4s ease opacity;
+  }
+}
+
+.carousel-text {
+  p {
+    @apply font-body font-semibold text-megamenu_sub;
+    @screen md {
+      @apply text-md;
+    }
+  }
+  a {
+    @apply font-body font-bold text-megamenu_sub underline;
+    @screen md {
+      @apply text-md;
+    }
+  }
+}
+
+.active-slide {
+  .bar-grow {
+    animation: growRight 5s linear forwards;
+  }
+}
+
+@keyframes growRight {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}

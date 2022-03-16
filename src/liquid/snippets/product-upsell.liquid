@@ -1,0 +1,16 @@
+
+{%- for tag in product.tags -%}
+  {%- if tag contains '__upsell-collection:' -%}
+    {%- assign upsell_collection = tag | replace: '__upsell-collection:', '' -%}
+
+    <div class="container">
+      {%-
+        include 'product-carousel',
+        title: 'Related Products',
+        collection_handle: upsell_collection
+      -%}
+    </div>
+
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}

@@ -1,0 +1,153 @@
+{%- assign mod_minimal = mod_minimal | default: false, allow_false: true -%}
+{% capture props %}
+{
+  "colorText": {{ 'products.product.color' | t }}
+}
+{% endcapture %}
+
+<div 
+  class="{{mod_class}}" 
+  {%- if mod_product -%}
+    {% capture _product %}{% render 'json--product', product: mod_product %}{% endcapture %}
+    key="{{- mod_product.id -}}"
+    :product="{{- _product | escape | strip -}}"
+  {%- endif -%}
+  {%- if mod_attr -%}
+    {{ mod_attr }}
+  {%- endif -%}
+  is="product-card" 
+  inline-template>
+  <div class="product-card relative sm:transition ease-in-out duration-500 bg-white overflow-hidden {{ mod_class }}">
+    <div class="max-w-e180 sm:max-w-e312">
+      <a :href="`${product.url}?variant=${selectedVariant.id}`" class="block ratio ro-78 w-e180 h-e180 sm:w-e312 sm:h-e312 bg-gray-100">
+        <img v-cloak v-if="selectedVariant && currentImage" :src="currentImage.src" class="absolute transition-opacity duration-200 inset-0 w-full h-full object-contain object-position-center card-image {% if mod_product.images.size > 1 %}card-primary{% endif %}" alt="">
+        {% if mod_product.images.size > 1 %}
+          <img v-if="`{product.media.length > 1}`" :alt="activeAlt" :src="activeImage" class="absolute transition-opacity duration-200 inset-0 w-full h-full object-contain object-position-center card-image card-hover opacity-0">
+        {% endif %}
+        <div v-cloak v-if="isCustomizable" class="z-10 absolute top-12 left-8 px-4 py-1 tracking-header uppercase text-xxs font-bold" style="color:{{ settings.customizable_text_color }}; background-color:{{ settings.customizable_bg_color }};">{{ 'products.product.customizable' | t }}</div>
+        <div v-cloak v-else-if="isOOS" class="z-10 absolute top-12 left-8 px-4 py-1 tracking-header uppercase text-xxs font-bold" style="color:{{ settings.oos_text_color }}; background-color:{{ settings.oos_bg_color }};">{{ 'products.product.out_of_stock' | t }}</div>
+        <div v-cloak v-else-if="isPromo" v-html="isPromo" class="z-10 absolute top-12 left-8 px-4 py-1 tracking-header uppercase text-xxs font-bold" style="color:{{ settings.promo_text_color }}; background-color:{{ settings.promo_bg_color }};">{{ 'products.product.promo' | t }}</div>
+        <div v-cloak v-else-if="isPreorder" class="z-10 absolute top-12 left-8 px-4 py-1 tracking-header uppercase text-xxs font-bold" style="color:{{ settings.preorder_text_color }}; background-color:{{ settings.preorder_bg_color }};">{{ 'products.product.preorder' | t }}</div>
+        <div v-cloak v-else-if="isBackorder" class="z-10 absolute top-12 left-8 px-4 py-1 tracking-header uppercase text-xxs font-bold" style="color:{{ settings.backorder_text_color }}; background-color:{{ settings.backorder_bg_color }};">{{ 'products.product.backorder' | t }}</div>
+        <div v-cloak v-else-if="onSale" class="z-10 absolute top-12 left-8 px-4 py-1 tracking-header uppercase text-xxs font-bold" style="color:{{ settings.sale_text_color }}; background-color:{{ settings.sale_bg_color }};">{{ 'products.product.sale' | t }}</div>
+        <div v-cloak v-else-if="isLimited" class="z-10 absolute top-12 left-8 px-4 py-1 tracking-header uppercase text-xxs font-bold" style="color:{{ settings.limited_text_color }}; background-color:{{ settings.limited_bg_color }};">{{ 'products.product.limited' | t }}</div>
+        <div v-cloak v-else-if="isBestseller" class="z-10 absolute top-12 left-8 px-4 py-1 tracking-header uppercase text-xxs font-bold" style="color:{{ settings.bestseller_text_color }}; background-color:{{ settings.bestseller_bg_color }};">{{ 'products.product.bestseller' | t }}</div>
+        <div v-cloak v-else-if="isNew" class="z-10 absolute top-12 left-8 px-4 py-1 tracking-header uppercase text-xxs font-bold" style="color:{{ settings.new_text_color }}; background-color:{{ settings.new_bg_color }};">{{ 'products.product.new' | t }}</div>
+        <div v-cloak v-else-if="isYouth" class="z-10 absolute top-12 left-8 px-4 py-1 tracking-header uppercase text-xxs font-bold" style="color:{{ settings.youth_text_color }}; background-color:{{ settings.youth_bg_color }};">{{ 'products.product.youth' | t }}</div>
+
+        <div v-cloak v-if="vendorBadgeImageUrl" class="z-10 absolute w-12 h-12 md:w-16 md:h-16 object-contain top-12 right-12 hidden md:block">
+          <img alt="" :src="vendorBadgeImageUrl" />
+        </div>
+
+        <button class="hidden md:flex opacity-0 z-10 absolute bottom-8 right-8 px-4 py-5 font-primary font-bold tracking-wider uppercase text-modal bg-btn-secondary_main hover:bg-btn-secondary_hover text-white rounded-e2 quickshop-btn transition-all duration-300">
+          <svg is="Icon" name="cart" size="16px" class="text-white mr-2"></svg>
+          Quick Shop
+        </button>
+      </a>
+
+      {%- unless mod_minimal -%}
+      {%- else -%}
+      <div class="py-e10 px-e10 md:px-e24 lg:px-e56 mb-e30 sm:mb-e50">
+        <a is="BtnTertiaryLink" class="w-full min-w-0" :href="`${product.url}?variant=${selectedVariant.id}`">BUY NOW</a>
+      </div> 
+
+      <div class="border-t border-solid border-gray-200 py-e30 sm:py-e40">
+        <div class="font-medium tracking-normal flex justify-center text-body-md mb-e16">
+          <del class="text-red-100 whitespace-no-wrap bfx-price" v-if="onSale" v-html="`Sale ${currentFormattedComparePrice}`"></del>
+          <ins class="whitespace-no-wrap no-underline ml-2 bfx-original-price" v-if="selectedVariant" v-html="currentFormattedPrice">{{ mod_product.price | money }}</ins>
+        </div>
+        <div class="h-e30">
+          <div class="flex items-center justify-center h-e30 space-x-e4" v-if="hasColorOptions && selectedVariant">
+            <div 
+              @click="setOptionByIndex(colorOptionPositionIndex, color);"
+              @mouseenter="setOptionByIndex(colorOptionPositionIndex, color);"
+              v-for="color in product.Color" 
+              :active="selectedVariant.options.includes(color)" 
+              is="VariantSwatch" 
+              :size="30"
+              :color="color"
+              :key="color"
+            ></div>
+          </div>
+        </div>
+      </div>
+      {%- endunless -%}
+      
+      {%- unless mod_minimal -%}
+        <div class="pr-3">          
+          <div class="ml-1 pb-2 flex flex-wrap items-start" :class="[hasValueProps && valueProps.length === 0 ? 'pb-e20' : '' ]">
+            <div class="w-full order-1">
+              <a :href="`${product.url}?variant=${selectedVariant.id}`" class="block mb-1">
+                <div v-cloak v-if="vendorBadgeImageUrl" class="w-12 mt-2 object-contain block md:hidden">
+                  <img alt="" :src="vendorBadgeImageUrl" />
+                </div>        
+                <h3 class="font-secondary text-xs sm:text-md font-bold text-black w-full mt-1" v-html="product.title">{{ mod_product.title }}</h3>
+              </a>
+            </div>
+            <div class="w-full order-2">
+              <div class="flex justify-start" :class="[hasValueProps ? 'text-e14' : 'text-body-md']">
+                <ins class="font-body font-bold text-xs sm:text-md text-util-sale no-underline" v-if="selectedVariant && onSale" v-html="currentFormattedPrice">{{ mod_product.price | money }}</ins>
+                <ins class="font-body font-bold text-xs sm:text-md no-underline text-misc-price_std" v-else v-html="currentFormattedPrice">{{ mod_product.price | money }}</ins>
+                <del class="font-body font-bold text-xs sm:text-md ml-2 text-misc-price_sale" v-if="onSale" v-html="currentFormattedComparePrice"></del>
+              </div>
+            </div>
+            {% if mod_product.metafields.product.promo_title != blank %}
+              <div class="w-full order-4 md:order-3">
+                <p class="font-body font-semibold text-xs text-primary-500 mt-2">
+                  {{ mod_product.metafields.product.promo_title }}
+                </p>
+              </div>
+            {% endif %}
+            <div class="w-full mt-2 order-3 md:order-4">
+              {% render 'yotpo--stars', product: product %}
+            </div>
+          </div>
+
+          <div class="h-full absolute hidden md:block top-320 w-full max-w-e312 transition-all duration-300 opacity-0 transform origin-left scale-105 swatches bg-white" v-if="hasColorOptions && selectedVariant && (hasMultipleColors > 1)">
+            <div class="active-color"><span>{{ 'products.product.color' | t }}</span><p class="font-normal" v-html="activeColor"></p></div>
+            <div class="h-e42 flex">
+              <div v-if="hasMultipleColors > 6" class="h-full w-3 flex items-center bg-misc-color_multi">
+                <svg is="icon" name="chevron-left" size="16px" class="text-white"></svg>
+              </div>
+              <div class="flex items-center overflow-x-scroll h-e42">
+                <div class="flex w-e400">
+                  <div 
+                    @click="setOptionByIndex(colorOptionPositionIndex, color);"
+                    v-for="color in product.Color" 
+                    :active="selectedVariant.options.includes(color)" 
+                    is="VariantSwatch" 
+                    :size="42"
+                    :color="color"
+                    :key="color"
+                    class="mr-e6"
+                  ></div>
+                </div>
+              </div>
+              <div v-if="hasMultipleColors > 6" class="h-full w-3 flex items-center bg-misc-color_multi">
+                <svg is="icon" name="chevron-right" size="16px" class="text-white"></svg>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="sm:px-e12 pb-e20 w-full flex justify-center overflow-hidden sm:overflow-visible sm:hidden" v-if="!hasValueProps" v-cloak>
+          <button @click.prevent="addToCart" class="w-full hidden md:block" v-cloak v-if="product.has_only_default_variant" is="BtnPill">{{ 'products.product.add' | t }}</button>
+          <button class="w-full hidden md:block" v-cloak v-else is="BtnPillLink" :href="`${product.url}?variant=${selectedVariant.id}`">{{ 'products.product.view' | t }}</button>
+        </div>
+
+      <div class="pb-e16 px-e12" v-if="hasValueProps && valueProps.length" v-cloak>
+        <div class="flex border-t border-solid border-gray-200 pt-e16">
+          <div class="flex items-center justify-center mr-e8 md:mr-e16" v-for="prop in valueProps">
+            <!-- Cloudinary Image Reszigin -->
+            <img :src="`${prop.icon}w_70,h_70`" class="w-e24 hidden sm:block" :alt="prop.label"> 
+            <span class="whitespace-no-wrap text-e10 sm:text-e12 font-medium ml-1" v-html="prop.label"></span>
+          </div>
+        </div> 
+      </div> 
+      {%- else -%} 
+      <!-- MINIMAL CARD -->
+      {%- endunless -%}
+    </div>
+  </div>
+</div>

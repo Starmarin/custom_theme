@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="12px" viewBox="0 0 18 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Main-User-Flow-Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="MainFlow_3-/-PDP" transform="translate(-1031.000000, -868.000000)">
+            <g id="Superstar-Badge" transform="translate(877.000000, 841.000000)"> 
+                <g id="Name" transform="translate(40.000000, 17.000000)">
+                    <g id="Group" transform="translate(107.000000, 0.000000)">
+                        <g id="Icons/Arrow_Long-Copy-2" transform="translate(16.000000, 16.000000) scale(-1, 1) translate(-16.000000, -16.000000) ">
+                            <g id="Arrow_Long" transform="translate(4.000000, 4.000000)">
+                                <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                                <polygon id="Path" fill="currentColor" points="21 11 6.83 11 10.41 7.41 9 6 3 12 9 18 10.41 16.59 6.83 13 21 13"></polygon>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

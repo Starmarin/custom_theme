@@ -1,0 +1,173 @@
+{%- render 'hp--fifty-fifty', mod_settings: section.settings, mod_blocks: section.blocks -%}
+{% schema %}
+  {
+    "name": "FiftyFifty",
+    "class": "fifty-fifty",
+    "settings": [
+      {"type": "header", "content": "Content"},
+      {
+        "id": "layout",
+        "type": "select",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "50/50",
+            "label": "50/50"
+          },
+          {
+            "value": "60/40",
+            "label": "60/40"
+          }
+        ],
+        "default": "50/50"
+      },
+      {
+        "id": "image_location",
+        "type": "select",
+        "label": "Image Location",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color"
+      },
+      {"type": "header", "content": "Image"},
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {"type": "header", "content": "Text"},
+      {
+        "id": "alignment",
+        "type": "select",
+        "label": "Alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "text",
+        "id": "preheader",
+        "label": "Preheader"
+      },
+      {
+        "type": "text",
+        "id": "header",
+        "label": "Header"
+      },
+      {
+        "type": "richtext",
+        "id": "body_copy",
+        "label": "Body Copy"
+      },
+      {"type": "header", "content": "Text Color"},
+      {
+        "type": "color",
+        "id": "preheader_text_color",
+        "label": "Preheader Text Color"
+      },
+      {
+        "type": "color",
+        "id": "preheader_border_color",
+        "label": "Preheader Top/Bottom Border"
+      },
+      {
+        "type": "color",
+        "id": "header_text_color",
+        "label": "Header Text Color"
+      },
+      {
+        "type": "color",
+        "id": "body_text_color",
+        "label": "Body Copy Color"
+      },
+      {"type": "header", "content": "CTA 1"},
+      {
+        "type": "text",
+        "id": "cta_1_link_text",
+        "label": "CTA 1 Text"
+      },
+      {
+        "type": "url",
+        "id": "cta_1_link_url",
+        "label": "CTA 1 Link"
+      },
+      {
+        "type": "color",
+        "id": "cta_1_text_color",
+        "label": "CTA 1 Text Color"
+      },
+      {
+        "type": "color",
+        "id": "cta_1_background_color",
+        "label": "CTA 1 Background Color"
+      },
+      {"type": "header", "content": "CTA 2"},
+      {
+        "type": "text",
+        "id": "cta_2_link_text",
+        "label": "CTA 2 Text"
+      },
+      {
+        "type": "url",
+        "id": "cta_2_link_url",
+        "label": "CTA 2 Link"
+      },
+      {
+        "type": "color",
+        "id": "cta_2_text_color",
+        "label": "CTA 2 Text Color"
+      },
+      {
+        "type": "color",
+        "id": "cta_2_background_color",
+        "label": "CTA 2 Background Color"
+      },
+      {"type": "header", "content": "CTA 3"},
+      {
+        "type": "text",
+        "id": "cta_3_link_text",
+        "label": "CTA 3 Text"
+      },
+      {
+        "type": "url",
+        "id": "cta_3_link_url",
+        "label": "CTA 3 Link"
+      },
+      {
+        "type": "color",
+        "id": "cta_3_text_color",
+        "label": "CTA 3 Text Color"
+      },
+      {
+        "type": "color",
+        "id": "cta_3_background_color",
+        "label": "CTA 3 Background Color"
+      }
+    ],
+    "presets": [{
+      "name": "FiftyFifty",
+      "category": "Content"
+    }]
+  }
+{% endschema %}

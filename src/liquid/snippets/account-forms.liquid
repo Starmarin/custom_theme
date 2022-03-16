@@ -1,0 +1,12 @@
+<div class="account-forms mb1" is="account-forms" v-cloak inline-template>
+  <div>
+    {% case view %}
+      {% when 'register' %} {% render 'account-register-form' %}
+      {% when 'reset' %} {% render 'account-reset-form' %}
+      {% when 'activate' %} {% render 'account-activate-form' %}
+      {% when 'login' %}
+        {% render 'account-login-form' %}
+        {% render 'account-recover-form' %}
+    {% endcase %}
+  </div>
+</div>

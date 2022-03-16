@@ -1,0 +1,33 @@
+{%- render 'hp--featured-product', mod_settings: section.settings, mod_blocks: section.blocks -%}
+{% schema %}
+  {
+    "name": "Featured Product",
+    "class": "featured-product",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color"
+      },
+      {
+        "type": "text",
+        "id": "header",
+        "label": "Header"
+      },
+      {
+        "type": "color",
+        "id": "header_text_color",
+        "label": "Header Text Color"
+      },
+      {
+        "type": "product",
+        "id": "featured_product",
+        "label": "Product"
+      }
+    ],
+    "presets": [{
+      "name": "Featured Product",
+      "category": "Content"
+    }]
+  }
+{% endschema %}

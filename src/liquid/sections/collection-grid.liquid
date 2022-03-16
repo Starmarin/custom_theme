@@ -1,0 +1,105 @@
+
+{%- assign collection_cta = blank -%}
+
+{%- for block in section.blocks -%}
+  {%- if block.settings.collection == collection.handle -%}
+    {%- capture cta_data -%}
+      {%- if block.settings.cta_title -%}
+        {
+          "type": "cta",
+          "position": {{ block.settings.cta_position }},
+          "title": "{{ block.settings.cta_title | escape }}",
+          "description": "{{ block.settings.cta_description | escape }}",
+          "btnText": "{{ block.settings.cta_btn_text | escape }}",
+          "btnUrl": "{{ block.settings.cta_btn_link }}",
+          "backgroundImage": "{%- if block.settings.cta_background_image -%}{{ block.settings.cta_background_image | img_url: '725x' }}{%- endif -%}",
+          "overlayOpacity": "{{ block.settings.cta_overlay_opacity | escape }}"
+        }
+      {%- endif -%}
+    {%- endcapture -%}
+
+    {%- assign collection_cta = cta_data -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<div class="container">
+  <collection-grid 
+    collection-handle="{{ collection.handle }}"
+    {% if collection_cta != blank %}
+      :cta="{{ collection_cta | escape }}"
+    {% endif %}
+    >
+    {%- for product in collection.products -%}
+      <h2>{{ product.title }}</h2>
+      <a href="{{ product.url }}">Shop Now</a>
+    {%- endfor -%}
+  </collection-grid>
+</div>
+
+{% schema %}
+  {
+    "name": "Collection Grid",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          },
+          {
+            "type": "header",
+            "content": "Interstitial Tile"
+          },
+          {
+            "type": "text",
+            "id": "cta_title",
+            "label": "Title"
+          },
+          {
+            "type": "image_picker",
+            "id": "cta_background_image",
+            "label": "Background Image"
+          },
+          {
+            "type": "range",
+            "id": "cta_position",
+            "label": "Position",
+            "min": 1,
+            "max": 20,
+            "step": 1,
+            "default": 4
+          },
+          {
+            "type": "range",
+            "id": "cta_overlay_opacity",
+            "label": "Overlay Opacity",
+            "min": 0,
+            "max": 1,
+            "step": 0.1,
+            "default": 0
+          },
+          {
+            "type": "textarea",
+            "id": "cta_description",
+            "label": "Description"
+          },
+          {
+            "type": "text",
+            "id": "cta_btn_text",
+            "label": "Button Text"
+          },
+          {
+            "type": "url",
+            "id": "cta_btn_link",
+            "label": "Button Link"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

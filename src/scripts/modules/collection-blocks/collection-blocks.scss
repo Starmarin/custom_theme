@@ -1,0 +1,15 @@
+.collection-block-card {
+  @apply w-full;
+  @screen md {
+    width: calc(50% - 18px);
+    &:hover .collection-block-link + svg {
+      @apply opacity-100 ml-0;
+    }
+  }
+}
+
+.collection-block-link {
+  @media screen and (max-width: 650px) {
+    @apply w-full;
+  }
+}

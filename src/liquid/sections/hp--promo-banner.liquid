@@ -1,0 +1,101 @@
+{%- render 'hp--promo-banner', mod_settings: section.settings, mod_blocks: section.blocks -%}
+{% schema %}
+  {
+    "name": "Promo Banner",
+    "class": "hp-promo-banner",
+    "max_blocks": 18,
+    "settings": [
+      {"type": "header", "content": "Margins"},
+      {
+        "type": "range",
+        "id": "top_margin",
+        "label": "Top",
+        "min": 0,
+        "max": 80,
+        "step": 4,
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "bottom_margin",
+        "label": "Bottom",
+        "min": 0,
+        "max": 80,
+        "step": 4,
+        "default": 40
+      },
+      {"type": "header", "content": "Text"},
+      {
+        "type": "text",
+        "id": "heading_text",
+        "label": "Heading Text"
+      },
+      {"type": "header", "content": "Images"},
+      {"type": "paragraph", "content": "You can either have a background image or a left/right images, not both."},
+      {
+        "type": "image_picker",
+        "id": "desktop_background_image",
+        "label": "Desktop Background Image",
+        "info": "Suggested dimensions: 1440 x 220"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_background_image",
+        "label": "Mobile Background Image",
+        "info": "Suggested dimensions: 375 x 196"
+      },
+      {
+        "type": "image_picker",
+        "id": "left_image",
+        "label": "Left Image",
+        "info": "Suggested dimensions: 394 x 220"
+      },
+      {
+        "type": "image_picker",
+        "id": "right_image",
+        "label": "Right Image",
+        "info": "Suggested dimensions: 394 x 220"
+      },
+      {"type": "header", "content": "Colors"},
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "info": "Only applies if you haven’t uploaded a background image."
+      },
+      {
+        "type": "color",
+        "id": "heading_text_color",
+        "label": "Heading Text Color"
+      },
+      {
+        "type": "color",
+        "id": "link_color",
+        "label": "Link Color"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "link",
+        "name": "Link",
+        "settings": [
+          {"type": "header", "content": "Settings"},
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link Text"
+          },
+          {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link URL"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Promo Banner",
+      "category": "Content"
+    }]
+  }
+{% endschema %}

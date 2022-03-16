@@ -1,0 +1,24 @@
+{%- assign mod_value = mod_value | default: 0 | plus: 0 -%}
+<div class="star-rating mt-e20 mb-e12">
+  <ul class="star-rating__list flex items-center justify-start">
+    {%- for i in (1..5) -%}
+      {%- assign j = i | minus: 1 -%}
+
+      <li class="star-rating__item icon text-red-700 ml-1">
+        <i class="star-rating__icon icon">
+          {%- if i <= mod_value -%}
+            <icon name="star" size="20px"></icon>
+          {%- elsif i > mod_value and mod_value > j -%}
+            <icon name="star-half" size="20px"></icon>
+          {%- else -%}
+            <icon name="star-empty" size="20px"></icon>
+          {%- endif -%}
+        </i>
+      </li>
+
+      {%- assign j = nil -%}
+    {%- endfor -%}
+  </ul>
+</div>
+
+{%- assign mod_value = nil -%}

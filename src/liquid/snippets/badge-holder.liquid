@@ -1,0 +1,12 @@
+<div class="flex badge-holder">
+  <div v-cloak v-if="isOOS" class="mr-1 float-left px-4 py-1 pb-e3 md:py-2 md:pb-e7 tracking-header uppercase text-xxs md:text-xs font-bold mb-2" :style="OOSClass" v-html="state.language.out_of_stock"></div>
+  <div v-cloak v-if="isCustomizable" class="float-left px-4 py-1 pb-e3 md:py-2 md:pb-e7 tracking-header uppercase text-xxs md:text-xs font-bold mb-2" :style="customizableClass" v-html="state.language.customizable"></div>
+  <div v-cloak v-if="isPromo" v-html="isPromo" class="mr-1 float-left px-4 py-1 pb-e3 md:py-2 md:pb-e7 tracking-header uppercase text-xxs md:text-xs font-bold mb-2" :style="promoClass" v-html="state.language.promo"></div>
+  <div v-cloak v-if="isPreorder" class="mr-1 float-left px-4 py-1 pb-e3 md:py-2 md:pb-e7 tracking-header uppercase text-xxs md:text-xs font-bold mb-2" :style="preorderClass" v-html="state.language.preorder"></div>
+  <div v-cloak v-if="isBackorder" class="mr-1 float-left px-4 py-1 pb-e3 md:py-2 md:pb-e7 tracking-header uppercase text-xxs md:text-xs font-bold mb-2" :style="backorderClass" v-html="state.language.backorder"></div>
+  <div v-cloak v-if="onSale" class="mr-1 float-left px-4 py-1 pb-e3 md:py-2 md:pb-e7 tracking-header uppercase text-xxs md:text-xs font-bold mb-2" :style="saleClass" v-html="state.language.sale"></div>
+  <div v-cloak v-if="isLimited" class="mr-1 float-left px-4 py-1 pb-e3 md:py-2 md:pb-e7 tracking-header uppercase text-xxs md:text-xs font-bold mb-2" :style="limitedClass" v-html="state.language.limited"></div>
+  <div v-cloak v-if="isBestseller" class="mr-1 float-left px-4 py-1 pb-e3 md:py-2 md:pb-e7 tracking-header uppercase text-xxs md:text-xs font-bold mb-2" :style="bestsellerClass" v-html="state.language.bestseller"></div>
+  <div v-cloak v-if="isNew" class="mr-1 float-left px-4 py-1 pb-e3 md:py-2 md:pb-e7 tracking-header uppercase text-xxs md:text-xs font-bold mb-2" :style="newClass" v-html="state.language.new"></div>
+  <div v-cloak v-if="isYouth" class="float-left px-4 py-1 pb-e3 md:py-2 md:pb-e7 tracking-header uppercase text-xxs md:text-xs font-bold mb-2" :style="youthClass" v-html="state.language.youth"></div>
+</div>

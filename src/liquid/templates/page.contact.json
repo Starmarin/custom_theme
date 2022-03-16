@@ -1,0 +1,11 @@
+{
+    "sections": {
+        "page-contact": {
+            "type": "page__contact",
+            "settings": {}
+        }
+    },
+    "order": [
+        "page-contact"       
+    ]
+}

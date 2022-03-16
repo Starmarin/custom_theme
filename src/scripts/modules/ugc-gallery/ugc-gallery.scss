@@ -1,0 +1,95 @@
+.body-copy p {
+  color: inherit;
+
+  @apply font-body text-md;
+}
+
+.body-copy a {
+  color: inherit;
+
+  @apply font-body text-md underline;
+}
+
+.yotpo-pictures-gallery-upload-button {
+  border-radius: 0 !important;
+
+  .yotpo-icon-upload-photo:before {
+    color: white !important;
+  }
+}
+
+.hp-instagram .gallery-6018512bf1b6081033bea572 .yotpo-pictures-gallery-upload-button-wrapper .yotpo-pictures-gallery-upload-button {
+  font-family: Heading Pro, Helvetica, sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+
+  @apply tracking-header py-1 px-2 h-11;
+}
+
+.hp-instagram .yotpo-pictures-gallery .load-btn-white span,
+.yotpo-pictures-widget .load-btn-white .yotpo-icon-button-text:focus {
+  color: var(--color-black) !important;
+}
+
+.hp-instagram .yotpo-pictures-gallery .load-btn-white,
+.yotpo-pictures-widget .load-btn-white {
+  background-color: var(--color-primary-500) !important;
+  width: auto !important;
+  border: 0 !important;
+  padding: 14px 20px 0 20px !important;
+  height: 44px !important;
+  margin: 0 0 0 10px !important;
+
+  @apply tracking-header;
+
+  span {
+    font-family: Heading Pro, Helvetica, sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    color: var(--color-white) !important;
+  }
+
+  &.yotpo-hidden {
+    display: block !important;
+    opacity: 0 !important;
+  }
+}
+
+.yotpo-pictures-gallery-header-wrapper {
+  padding: 0 10px !important;
+  margin-bottom: 0 !important;
+}
+
+.gallery-6018512bf1b6081033bea572 {
+  display: flex !important;
+
+  @apply justify-between items-center flex-wrap;
+
+  .yotpo-pictures-gallery-header-wrapper {
+    margin: 0 !important;
+    padding: 0 10px 0 0 !important;
+    background-color: var(--color-gray-600) !important;
+    margin-right: 10px !important;
+
+    @apply order-3 w-1/2;
+
+    @screen md {
+      background-color: transparent !important;
+      margin-right: 0 !important;
+    }
+  }
+
+  .yotpo-pictures-collage-wrapper {
+    @apply w-full order-1;
+  }
+
+  .yotpo-default-button {
+    width: 40% !important;
+
+    @apply order-2;
+
+    @screen md {
+      width: auto !important;
+    }
+  }
+}

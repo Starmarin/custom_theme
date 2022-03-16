@@ -1,0 +1,16 @@
+{
+    "sections": {
+        "collection-legends": {
+            "type": "collection__legends",
+            "settings": {}
+        },
+        "sub-brand-legends": {
+            "type": "sub-brand__legends",
+            "settings": {}
+        }
+    },
+    "order": [
+        "collection-legends",
+        "sub-brand-legends"
+    ]
+}

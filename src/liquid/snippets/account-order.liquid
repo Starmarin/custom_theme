@@ -1,0 +1,126 @@
+<div class="order-header">
+  <h1 class="order-header__heading">
+    <a href="{{ routes.account_url }}" aria-label="View all orders">←</a>{{ 'customer.order.title' | t: name: order.name }}
+  </h1>
+  <p class="order-header__date">
+    {{ 'customer.order.date' | t: date: order.created_at | date: "%B %d, %Y %I:%M%p" }}
+  </p>
+</div>
+
+<div class="order-content">
+  <section class="order-details">
+    <div class="order-details__row">
+      <div class="order-details__column">
+        <h2 class="order-details__header">Shipping Address</h2>
+        {{ order.shipping_address | format_address }}
+      </div>
+      <div class="order-details__column">
+        <h2 class="order-details__header">Billing Address</h2>
+        {{ order.billing_address | format_address }}
+      </div>
+    </div>
+    <div class="order-details__row">
+      <div class="order-details__column">
+        <h2 class="order-details__header">Shipping Method</h2>
+        <p class="order-details__content">
+          {%- for shipping_method in order.shipping_methods -%}
+            {%- if shipping_method.price == 0 -%}
+              Free
+            {%- else -%}
+              {{ shipping_method.price | money }}
+            {%- endif -%}<br>
+            {{ shipping_method.title }}{% unless forloop.last %}<br>{% endunless %}
+          {%- endfor -%}
+        </p>
+      </div>
+      <div class="order-details__column">
+        <h2 class="order-details__header">Payment Method</h2>
+        <p class="order-details__content">
+          {%- for transaction in order.transactions -%}
+            {%- if transaction.payment_details.credit_card_company -%}
+              {{ transaction.payment_details.credit_card_company }} ending in {{ transaction.payment_details.credit_card_number | slice: 15, 4 }}
+            {%- else -%}
+              Other Payment Method (non-card)
+            {%- endif -%}{% unless forloop.last %}<br>{% endunless %}
+          {%- endfor -%}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {%- if fulfillment.tracking_url != blank -%}
+    <a class="order-content__tracking" href="{{ fulfillment.tracking_url }}">Track Package</a>
+  {%- endif -%}
+
+  <section class="order-items">
+    {%- for line_item in order.line_items -%}
+      {%- if line_item.properties.subscription_id -%}
+        {%- assign subscription = true -%}
+      {%- endif -%}
+
+      <div class="order-items__item">
+        <img class="order-items__image" src="{{ line_item. | img_url: 'x140' }}" alt="{{ line_item.title | escape }}">
+        <div class="order-items__details">
+          <p class="order-items__line order-items__line--title">{{ line_item.title }}<span class="order-items__line__quantity">QTY: {{ line_item.quantity }}</span></p>
+          <p class="order-items__line">{{ line_item.price | money }}</p>
+          <p class="order-items__line order-items__line--properties">
+            {%- if subscription -%}
+              Delivered every {{ line_item.properties.shipping_interval_frequency }} {{ line_item.properties.shipping_interval_unit_type }}
+            {%- else -%}
+              One Time Purchase
+            {%- endif -%}
+          </p>
+        </div>
+      </div>
+    {%- endfor -%}
+  </section>
+
+  <table class="order-totals">
+    <tr>
+      <th scope="row" class="order-totals__heading order-totals__heading--subtotal">Subtotal</th>
+      <td class="order-totals__cell">{{ order.subtotal_price | money }}</td>
+    </tr>
+    <tr class="order-totals__tax">
+      <th scope="row" class="order-totals__heading order-totals__heading--small">Taxes</th>
+      <td class="order-totals__cell">{{ order.tax_price | money }}</td>
+    </tr>
+    <tr class="order-totals__shipping">
+      <th scope="row" class="order-totals__heading order-totals__heading--small">Shipping</th>
+      <td class="order-totals__cell">
+        {%- if order.shipping_price == 0 -%}
+          Free
+        {%- else -%}
+          {{ order.shipping_price | money }}
+        {%- endif -%}
+      </td>
+    </tr>
+    <tr class="order-totals__total">
+      <th scope="row" class="order-totals__heading order-totals__heading--total">Total</th>
+      <td class="order-totals__cell">{{ order.total_price | money }}</td>
+    </tr>
+  </table>
+</div>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    'event': 'product-impression',
+    'ecommerce': {
+      'currencyCode': '{{ cart.currency.iso_code }}',
+      'impressions': [
+        {% for line_item in order.line_items %}
+          {
+            'list': 'order-items',
+            'position': {{ forloop.index | json }}, 
+            'id': {{ line_item.product_id | json }},
+            'name': {{ line_item.title | json }},
+            'category': {{ line_item.product.type | json }},
+            'brand': {{ line_item.vendor | json }},
+            'variant': {{ line_item.product.selected_or_first_available_variant.id | json }},
+            'price': {{ line_item.product.selected_or_first_available_variant.price | money_with_currency | json }}
+          }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    }
+  });
+</script>

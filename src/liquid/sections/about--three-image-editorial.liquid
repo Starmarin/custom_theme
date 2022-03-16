@@ -1,0 +1,37 @@
+{%- render 'three-image-editorial', mod_title: section.settings.intro_title, mod_blocks: section.blocks -%}
+{% schema %}
+{
+  "name": "Three Image Editorial",
+  "settings": [
+    {
+      "id": "intro_title",
+      "type": "text",
+      "label": "Intro Title"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "editorial-image",
+      "name": "Editorial Image",
+      "limit": 3,
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "Image"
+        },
+        {
+          "id": "text",
+          "type": "text",
+          "label": "Text"
+        },
+        {
+          "id": "link",
+          "type": "url",
+          "label": "Link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

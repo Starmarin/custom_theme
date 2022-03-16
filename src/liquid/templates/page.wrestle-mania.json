@@ -1,0 +1,16 @@
+{
+    "sections": {
+        "wrestlemania": {
+            "type": "collection__brand",
+            "settings": {}
+        },
+        "sub-brand-wrestlemania": {
+            "type": "sub-brand__page",
+            "settings": {}
+        }
+    },
+    "order": [
+        "wrestlemania",
+        "sub-brand-wrestlemania"
+    ]
+}

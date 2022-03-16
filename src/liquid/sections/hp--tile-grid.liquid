@@ -1,0 +1,329 @@
+{%- render 'hp--tile-grid', mod_settings: section.settings, mod_blocks: section.blocks -%}
+{% schema %}
+  {
+    "name": "Tile Grid",
+    "class": "fifty-fifty",
+    "settings": [
+      {"type": "paragraph", "content": "You can have either 1 large tile or 3 tiles (1 large, 2 small). If you do not fill out the image fields for both small tiles, only a large tile will appear."},
+      {
+        "type": "text",
+        "id": "optional_header",
+        "label": "Optional Header"
+      },
+      {
+        "type": "color",
+        "id": "optional_header_text_color",
+        "label": "Optional Header Text Color"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color"
+      },
+      {"type": "header", "content": "Large Tile"},
+      {"type": "header", "content": "Image"},
+      {
+        "type": "image_picker",
+        "id": "large_desktop_image",
+        "label": "Large Tile -  Desktop Image",
+        "info": "Dimensions (grid layout) 894 x 874 | Dimensions (hero layout) 1360 x 874"
+      },
+      {
+        "type": "image_picker",
+        "id": "large_mobile_image",
+        "label": "Large Tile - Mobile Image",
+        "info": "Dimensions 343 x 496"
+      },
+      {"type": "header", "content": "Video"},
+      {
+        "type": "text",
+        "id": "youtube_video_url",
+        "label": "Youtube Video URL",
+        "info": "If there is a url here, it will be selected before the Shopify video"
+      },
+      {
+        "type": "text",
+        "id": "shopify_video_url",
+        "label": "Shopify Video URL"
+      },
+      {"type": "header", "content": "Text Content"},
+      {
+        "type": "text",
+        "id": "large_preheader",
+        "label": "Large Tile - Preheader"
+      },
+      {
+        "type": "text",
+        "id": "large_header",
+        "label": "Large Tile - Header"
+      },
+      {
+        "type": "richtext",
+        "id": "large_body_copy",
+        "label": "Large Tile - Body Copy"
+      },
+      {"type": "header", "content": "Text Color"},
+      {
+        "type": "checkbox",
+        "id": "enable_large_textbox",
+        "label": "Large Tile - Enabled Textbox Background on Desktop"
+      },
+      {
+        "type": "select",
+        "id": "textbox_alignment",
+        "label": "Textbox alignment",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          }
+        ],
+        "default": "bottom"
+      },
+      {
+        "type": "color",
+        "id": "large_textbox_background_color",
+        "label": "Large Tile - Textbox Background Color",
+        "info": "Reqired for mobile"
+      },
+      {
+        "type": "color",
+        "id": "large_preheader_text_color",
+        "label": "Large Tile - Preheader Text Color"
+      },
+      {
+        "type": "color",
+        "id": "large_preheader_border_color",
+        "label": "Large Tile - Preheader Top/Bottom Border"
+      },
+      {
+        "type": "color",
+        "id": "large_header_text_color",
+        "label": "Large Tile - Header Text Color"
+      },
+      {
+        "type": "color",
+        "id": "large_body_text_color",
+        "label": "Large Tile - Body Copy Color"
+      },
+      {"type": "header", "content": "Large Tile - CTA 1"},
+      {
+        "type": "text",
+        "id": "large_cta_1_link_text",
+        "label": "Large Tile - CTA 1 Text"
+      },
+      {
+        "type": "url",
+        "id": "large_cta_1_link_url",
+        "label": "Large Tile - CTA 1 Link"
+      },
+      {
+        "type": "color",
+        "id": "large_cta_1_text_color",
+        "label": "Large Tile - CTA 1 Text Color"
+      },
+      {
+        "type": "color",
+        "id": "large_cta_1_background_color",
+        "label": "Large Tile -  CTA 1 Background Color"
+      },
+      {"type": "header", "content": "Large Tile - CTA 2"},
+      {
+        "type": "text",
+        "id": "large_cta_2_link_text",
+        "label": "Large Tile - CTA 2 Text"
+      },
+      {
+        "type": "url",
+        "id": "large_cta_2_link_url",
+        "label": "Large Tile - CTA 2 Link"
+      },
+      {
+        "type": "color",
+        "id": "large_cta_2_text_color",
+        "label": "Large Tile - CTA 2 Text Color"
+      },
+      {
+        "type": "color",
+        "id": "large_cta_2_background_color",
+        "label": "Large Tile -  CTA 2 Background Color"
+      },
+      {"type": "header", "content": "Small Tile 1"},
+      {"type": "header", "content": "Image"},
+      {
+        "type": "checkbox",
+        "id": "static_hover_tile_1",
+        "label": "Enable static Hover on Small Tile 1",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "small_desktop_image_1",
+        "label": "Small Tile 1 -  Desktop Image",
+        "info": "Dimensions 430 x 423"
+      },
+      {
+        "type": "image_picker",
+        "id": "small_mobile_image_1",
+        "label": "Small Tile 1 - Mobile Image",
+        "info": "Dimensions 343 x 310"
+      },
+      {"type": "header", "content": "Text Content"},
+      {
+        "type": "text",
+        "id": "small_preheader_1",
+        "label": "Small Tile 1 - PreHeader"
+      },
+      {
+        "type": "text",
+        "id": "small_header_1",
+        "label": "Small Tile 1 - Header"
+      },
+      {
+        "type": "text",
+        "id": "small_description_1",
+        "label": "Small Tile 1 - Text"
+      },
+      {"type": "header", "content": "Text Color"},
+      {
+        "type": "color",
+        "id": "small_textbox_background_color_1",
+        "label": "Small Tile 1 - Textbox Background Color",
+        "info": "Reqired"
+      },
+      {
+        "type": "color",
+        "id": "small_preheader_text_color_1",
+        "label": "Small Tile 1 - Preheader Text Color"
+      },
+      {
+        "type": "color",
+        "id": "small_header_text_color_1",
+        "label": "Small Tile 1 - Header Text Color"
+      },
+      {"type": "header", "content": "Links"},
+      {
+        "type": "text",
+        "id": "small_link_1_text_1",
+        "label": "Small Tile 1 - Link Text 1"
+      },
+      {
+        "type": "url",
+        "id": "small_link_1_url_1",
+        "label": "Small Tile 1 - Link URL 1"
+      },
+      {
+        "type": "text",
+        "id": "small_link_2_text_1",
+        "label": "Small Tile 1 - Link Text 2"
+      },
+      {
+        "type": "url",
+        "id": "small_link_2_url_1",
+        "label": "Small Tile 1 - Link URL 2"
+      },
+      {
+        "type": "text",
+        "id": "small_link_3_text_1",
+        "label": "Small Tile 1 - Link Text 3"
+      },
+      {
+        "type": "url",
+        "id": "small_link_3_url_1",
+        "label": "Small Tile 1 - Link URL 3"
+      },
+      {"type": "header", "content": "Small Tile 2"},
+      {"type": "header", "content": "Image"},
+      {
+        "type": "checkbox",
+        "id": "static_hover_tile_2",
+        "label": "Enable static Hover on Small Tile 2",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "small_desktop_image_2",
+        "label": "Small Tile 2 -  Desktop Image",
+        "info": "Dimenions 430 x 423"
+      },
+      {
+        "type": "image_picker",
+        "id": "small_mobile_image_2",
+        "label": "Small Tile 2 - Mobile Image",
+        "info": "Dimenions 343 x 310"
+      },
+      {"type": "header", "content": "Text Content"},
+      {
+        "type": "text",
+        "id": "small_preheader_2",
+        "label": "Small Tile 2 - PreHeader"
+      },
+      {
+        "type": "text",
+        "id": "small_header_2",
+        "label": "Small Tile 2 - Header"
+      },
+      {
+        "type": "text",
+        "id": "small_description_2",
+        "label": "Small Tile 2 - Text"
+      },
+      {"type": "header", "content": "Text Color"},
+      {
+        "type": "color",
+        "id": "small_textbox_background_color_2",
+        "label": "Small Tile 2 - Textbox Background Color",
+        "info": "Reqired"
+      },
+      {
+        "type": "color",
+        "id": "small_preheader_text_color_2",
+        "label": "Small Tile 2 - Preheader Text Color"
+      },
+      {
+        "type": "color",
+        "id": "small_header_text_color_2",
+        "label": "Small Tile 2 - Header Text Color"
+      },
+      {"type": "header", "content": "Links"},
+      {
+        "type": "text",
+        "id": "small_link_1_text_2",
+        "label": "Small Tile 2 - Link Text 1"
+      },
+      {
+        "type": "url",
+        "id": "small_link_1_url_2",
+        "label": "Small Tile 2 - Link URL 1"
+      },
+      {
+        "type": "text",
+        "id": "small_link_2_text_2",
+        "label": "Small Tile 2 - Link Text 2"
+      },
+      {
+        "type": "url",
+        "id": "small_link_2_url_2",
+        "label": "Small Tile 2 - Link URL 2"
+      },
+      {
+        "type": "text",
+        "id": "small_link_3_text_2",
+        "label": "Small Tile 2 - Link Text 3"
+      },
+      {
+        "type": "url",
+        "id": "small_link_3_url_2",
+        "label": "Small Tile 2 - Link URL 3"
+      }
+    ],
+    "presets": [{
+      "name": "Tile Grid",
+      "category": "Content"
+    }]
+  }
+{% endschema %}

@@ -1,0 +1,53 @@
+{%- layout 'theme' -%}
+
+{%- assign tags = customer.tags | join: '' | downcase  -%}
+
+<div data-vue-component="AccountBase" class="relative">
+  <div class="lg:container mx-auto px-0 lg:px-0 grid grid-cols-12">
+    <div class="absolute left-0 top-0 bottom-0 bg-white-100 hidden md:block w-3/12"></div>
+    <div class="md:bg-white-100 col-span-12 md:col-span-3 relative z-10">
+      <div class="pt-0 md:pt-10 pb-0 md:pb-e20">
+        {%- include 'account-nav' -%}
+      </div>
+    </div>
+    <div class="bg-white col-span-12 md:col-span-9 mb-8">
+      <div class="md:py-10 md:pl-e40 lg:pl-10 swell-account">
+        <div class="swell-wwe">
+          <div class="swell-account-section" style="margin-bottom: 0px;">
+            <h3 class="account-heading">{{ 'customer.rewards.my_subscriptions' | t }}</h3>
+          </div>
+          <div class="text-center">
+          {%- if tags contains 'subscriber'  -%}
+            <div class="bg-cover bg-center py-e84 md:mb-8 mb-4 mx-e15 px-e36 md:mx-auto flex justify-center items-center flex-col" role="img" aria-label="{{ settings.subscription_background_image_subscriber.alt }}" style="background-image: url({{ settings.subscription_background_image_subscriber | img_url: '1000x' }});">
+              {%- if settings.subscription_title_subscriber != blank -%}
+                <h4 class="mb-4 font-body text-md uppercase font-bold" style="color: {{ settings.subscription_primary_color_subscriber }};">{{ settings.subscription_title_subscriber }}</h4>
+              {%- endif -%}
+              {%- if settings.subscription_description_text_subscriber != blank -%}
+                <p class="font-body text-md mb-8" style="color: {{ settings.subscription_primary_color_subscriber }};">{{ settings.subscription_description_text_subscriber }}</p>
+              {%- endif -%}
+              {%- if settings.subscription_cta_1_url_subscriber != blank and settings.subscription_cta_1_text_subscriber != blank -%}
+                <a style="color: {{ settings.subscription_cta_1_text_color_subscriber }}; background-color: {{ settings.subscription_cta_1_bg_color_subscriber }};" class="font-primary font-bold text-md text-center md:max-w-e256 tracking-header uppercase py-3 px-10 transition-all duration-200 hover:filter-brightness" href="{{ settings.subscription_cta_1_url_subscriber }}">{{ settings.subscription_cta_1_text_subscriber }}</a>
+              {%- endif -%}
+            </div>
+            {%- if settings.subscription_cta_2_url != blank and settings.subscription_cta_2_text != blank -%}
+              <a style="color: {{ settings.subscription_cta_2_text_color }}; background-color: {{ settings.subscription_cta_2_bg_color }};" class="font-primary font-bold text-md text-center md:max-w-e256 tracking-header uppercase py-3 px-10 transition-all duration-200 hover:filter-brightness" href="{{ settings.subscription_cta_2_url }}">{{ settings.subscription_cta_2_text }}</a>
+            {%- endif -%}
+          {%- else -%}
+              <div class="bg-cover bg-center py-e84 md:mb-8 mb-4 mx-e15 px-e36 md:mx-auto flex justify-center items-center flex-col" role="img" aria-label="{{ settings.subscription_background_image_unsubscriber.alt }}" style="background-image: url({{ settings.subscription_background_image_unsubscriber | img_url: '1000x' }});">
+              {%- if settings.subscription_title_unsubscriber != blank -%}
+                <h4 class="mb-4 font-body text-md uppercase font-bold" style="color: {{ settings.subscription_primary_color_unsubscriber }};">{{ settings.subscription_title_unsubscriber }}</h4>
+              {%- endif -%}
+              {%- if settings.subscription_description_text_unsubscriber != blank -%}
+                <p class="font-body text-md mb-8" style="color: {{ settings.subscription_primary_color_unsubscriber }};">{{ settings.subscription_description_text_unsubscriber }}</p>
+              {%- endif -%}
+              {%- if settings.subscription_cta_1_url_unsubscriber != blank and settings.subscription_cta_1_text_unsubscriber != blank -%}
+                <a style="color: {{ settings.subscription_cta_1_text_color_unsubscriber }}; background-color: {{ settings.subscription_cta_1_bg_color_unsubscriber }};" class="font-primary font-bold text-md text-center md:max-w-e256 tracking-header uppercase py-3 px-10 transition-all duration-200 hover:filter-brightness" href="{{ settings.subscription_cta_1_url_unsubscriber }}">{{ settings.subscription_cta_1_text_unsubscriber }}</a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

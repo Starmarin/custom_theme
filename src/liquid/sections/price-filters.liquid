@@ -1,0 +1,41 @@
+<script>
+  window.__COLLECTION_PRICE_FILTER__ = [
+    {%- for block in section.blocks -%}
+      {
+        "lower_limit": {{ block.settings.lower_limit | times: 1 | json }},
+        "upper_limit": {{ block.settings.upper_limit | times: 1 | json }}
+      }
+      {%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ];
+</script>
+{% schema %}
+{
+  "name": "Price Filters",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Please note all range values are in cents, so please multiple dollar amount with 100."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "price-filter",
+      "name": "Price Filter Range",
+      "settings": [
+        {
+          "type": "number",
+          "id": "lower_limit",
+          "label": "Lower Limit"
+        },
+        {
+          "type": "number",
+          "id": "upper_limit",
+          "label": "Upper Limit",
+          "info": "Set as -1 for Infinite Limit"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,43 @@
+<div is="account-reset-form" inline-template>
+  <div @submit="validate" class="text-center sm:w-10/12 mx-auto max-w-e410">
+
+    <h1 class="text-h3 font-bold mb-e16">Reset Password</h1>
+    <p class="body-sm text-gray-700 mb-e48">Manage your orders, shipping details, and more with your account.</p>
+
+    {% form 'reset_customer_password' %}
+
+      {%- assign mod_errors = form.errors | default: false -%}
+      {%- if mod_errors -%}
+        {%- for field in mod_errors -%}
+          {%- if field == 'form' -%}
+            <p class="p bg-white font-body p-4 text-e14 my-e10 text-red-700">{{- mod_errors.messages[field] -}}</p>
+          {%- else -%}
+            <p class="p bg-white font-body p-4 text-e14 my-e10 text-red-700">{{ mod_errors.translated_fields[field] | capitalize }} {{ mod_errors.messages[field] }}.</p>
+          {%- endif -%}
+          {%- assign error_text = mod_errors.messages[field] -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- assign mod_errors = nil -%}
+
+      <div class="grid grid-cols-1 gap-e32 mb-e32">
+        <div>
+          {% render 'text-input' with
+            mod_name: 'customer[password]',
+            mod_type: 'password',
+            mod_label: 'Password' %}
+        </div>
+
+        <div>
+          {% render 'text-input' with
+            mod_name: 'customer[password_confirmation]',
+            mod_type: 'password',
+            mod_label: 'Confirm Password' %}
+        </div>
+
+        <div>
+          <button is="BtnPrimary" class="w-full uppercase mb-e32" type="submit">Confirm New Password</button>
+        </div>
+      </div>
+    {% endform %}
+  </div>
+</div>

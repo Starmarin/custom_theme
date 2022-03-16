@@ -1,0 +1,198 @@
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-{{ settings.gtm_id }}"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+<script>
+  (function () {
+
+    /* DATALAYER: Base Event */
+        
+    {% assign _dataLayer_pageType = template.name | json %}
+    {% assign _dataLayer_pageEvent = template.name | json %}
+
+    var url = window.location.href;
+
+    var baseEvent = {
+      'pageType': {{ _dataLayer_pageType }},
+      'event': {{ _dataLayer_pageEvent }},
+    };
+
+    /* DATALAYER: Collections */
+
+    {% if template.name == 'collection' %}
+      var products = [
+        {%- for product in collection.products -%}
+          {%- assign brand = 'WWE' -%}
+            {%- for tag in product.tags -%}
+              {%- if tag contains "Superstar:" -%}
+                {%- assign brand = tag | split: "Superstar:" | last -%}
+                {%- break -%}
+              {%- elsif tag contains 'Brand:' -%}
+                {%- assign brand = tag | split: "Brand:" | last -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+          {
+            'name'            : {{ product.title | json }},
+            'id'              : {{ product.id | json }},
+            'sku'             : {{ product.selected_or_first_available_variant.sku | json }},
+            'variantId'       : {{ product.selected_or_first_available_variant.id | json }},
+            'productType'     : {{ product.type | downcase | json }},
+            'price'           : {{ product.price | divided_by: 100.00 }},
+            'currentCategory' : {{ product.type | downcase | json }},
+            'brand'           : {{ brand | json }},
+            'variantOption1'  : {{ product.selected_or_first_available_variant.option1 | json }},
+            'variantOption2'  : {{ product.selected_or_first_available_variant.option2 | json }},
+            'variantOption3'  : {{ product.selected_or_first_available_variant.option3 | json }},
+            'source'          : {{ product.vendor | json }}
+          }
+        {%- unless forloop.last -%},{%- endunless -%}
+      {% endfor %}
+    ];
+  
+    baseEvent.products = products;
+    baseEvent.productList = {{ collection.title | json }};
+    {% endif %}
+    
+    
+    /* DATALAYER: Product Detail Page  */
+
+    {% if template.name == 'product' %}
+      var product = [{
+        'id'              : {{ product.id | json }},
+        'sku'             : {{ product.selected_or_first_available_variant.sku | json }},
+        'variantId'       : {{ product.selected_or_first_available_variant.id | json }},
+        'productType'     : {{ product.type | downcase | json}},
+        'name'            : {{ product.title | json }},
+        'price'           : {{ product.price | divided_by: 100.00 }},
+        'comparePrice'    : {{ product.compare_at_price_max | divided_by: 100.00 }},
+        'currentCategory' : {{ product.type | downcase | json }},
+        'brand'           : {%- render 'product--brand' with product -%},
+        'imageURL'		    : {{ product.featured_image | json }},
+        'variantOption1'  : {{ product.selected_or_first_available_variant.option1 | json }},
+        'variantOption2'  : {{ product.selected_or_first_available_variant.option2 | json }},
+        'variantOption3'  : {{ product.selected_or_first_available_variant.option3 | json }},
+        'source'          : {{ product.vendor | json }}
+      }];
+
+      baseEvent.products = product;
+      window.dataLayerDTO.brand = {{ brand | json }};
+    {% endif %}
+      
+    
+    /* DATALAYER: Cart View */
+
+    {% if template.name == 'cart' %}
+
+      var product = [{% for line_item in cart.items %}{
+        'id'              : {{ line_item.id | json }},
+        'sku'             : {{ line_item.sku | json }},
+        'variantId'       : {{ line_item.id | json }},
+        'name'            : {{ line_item.title | json }},
+        'price'           : {{ line_item.price | divided_by: 100.00 }},
+        'comparePrice'    : Number({{ line_item.compare_at_price_max | divided_by: 100.00 }}),
+        'quantity'        : {{ line_item.quantity | downcase | json }},
+      }{% unless forloop.last %},{% endunless %}{% endfor %}];
+
+      baseEvent.products = product;
+
+    {% endif %}
+    
+    /* DATALAYER: Checkout & Transaction Data */
+
+    if (url.indexOf('checkouts') > -1 || url.indexOf('order') > -1) {
+      __bva__products = [];
+
+      {% for line_item in checkout.line_items %}
+
+        __bva__products.push({
+          'id'             : {{ line_item.id | json }},
+          'sku'            : {{ line_item.sku | json }},
+          'variantId'      : {{ line_item.variant_id | json }},
+          'productType'    : {{ line_item.type | downcase | json }},
+          'name'           : {{ line_item.product.title | json }},
+          'price'          : {{ line_item.price | divided_by: 100.00 }},
+          'comparePrice'   : Number({{ line_item.compare_at_price_max | divided_by: 100.00 }}),
+          'category'       : {{ line_item.product.type | downcase | json }},
+          'quantity'       : {{ line_item.quantity | downcase | json }},
+          'brand'          : {%- render 'product--brand' product: line_item.product -%},
+          'variantOption1' : {{ line_item.variant.option1 | json }},
+          'variantOption2' : {{ line_item.variant.option2 | json }},
+          'variantOption3' : {{ line_item.variant.option3 | json }},
+          'source'         : {{ line_item.vendor | json }}
+        });
+
+      {% endfor %}
+
+      var transactionData = {
+        'transactionNumber'      : {{ checkout.order_number | json }},
+        'transactionId'          : {{ checkout.order_id | json }},
+        'transactionAffiliation' : {{ shop.name | json }},
+        'transactionCurrency'    : {{ checkout.currency | json }},
+        'transactionTotal'       : Number({{ checkout.total_price | divided_by: 100.00 }}),
+        'transactionTax'         : Number({{ checkout.tax_price | divided_by: 100.00 }}),
+        'transactionShipping'    : Number({{ checkout.shipping_price | divided_by: 100.00 }}),
+        'transactionSubtotal'    : Number({{ checkout.subtotal_price | divided_by: 100.00 }}),
+        {% for discount in checkout.discounts %}
+        'promoCode' : {{ discount.code | json }},
+        'discount'  : {{ discount.amount | divided_by: 100.0 | json }},
+        {% endfor %}
+        'products': __bva__products,
+      };
+
+      if (url.indexOf('thank_you') > -1) {
+        baseEvent = transactionData;
+        baseEvent.pageType = 'Transaction';
+        baseEvent.event = 'Transaction';
+      }
+
+      if (url.indexOf('order') > -1) {
+        baseEvent = transactionData;
+        baseEvent.pageType = 'Order Status';
+        baseEvent.event = 'Order Status';
+      }
+    }
+    /* DATALAYER: Checkout */
+    {% if checkout %}
+      switch(window.Shopify.Checkout.step) {
+        case 'contact_information': {
+          baseEvent = transactionData;
+          baseEvent.pageType = 'Customer Information';
+          baseEvent.event = 'Customer Information';
+          break;
+        }
+
+        case 'shipping_method': {
+          baseEvent = transactionData;
+          baseEvent.pageType = 'Shipping Information';
+          baseEvent.event = 'Shipping Information';
+          break;
+        }
+
+        case 'payment_method': {
+          baseEvent = transactionData;
+          baseEvent.pageType = 'Add Payment Info';
+          baseEvent.event = 'Add Payment Info';
+          break;
+        }
+
+        default: {
+          break;
+        }
+      }
+    {% endif %}
+    
+    
+      /* DATALAYER: Template-Specific Events */
+    dataLayer.push(baseEvent);
+
+
+    /* DATALAYER: All Pages */
+
+    dataLayer.push({
+      'event': 'DataLayer Loaded',
+      'currencyCode': '{{ cart.currency.iso_code | default: checkout.currency }}',
+    });
+}());
+</script>

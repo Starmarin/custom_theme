@@ -1,0 +1,51 @@
+{% capture props %}
+{
+  {% if block_data_from_metafields %}
+    "modsettings": {{ mod_settings }},
+    "blocks": {{ mod_blocks }}
+  {% elsif block_data_from_collections %}
+    "modsettings": {{ mod_settings | json }},
+    "blocks": {{ mod_blocks }}
+  {% else %}
+    "modsettings": {{ mod_settings | json }},
+    "blocks": [
+    {% for block in mod_blocks %}
+      {
+        "settings": {{ block.settings | json }},
+        "collection": {
+          "url": "{{ collections[block.settings.collection].url }}"
+        }
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    ]
+  {% endif %}
+}
+{% endcapture %}
+
+<div :style="backgroundStyles" class="w-full pl-4 md:px-6 py-10 bg-gray-200 flex flex-wrap justify-center bg-cover {{ block_type }}" data-vue-component="ButtonCollection" data-props="{{ props | escape | strip_newlines }}">
+  <div data-aos="fade-up" class="flex flex-wrap md:flex-no-wrap justify-center md:justify-between items-center w-full max-w-lg mx-auto">
+    <h3 :style="titleColor" :class="[modsettings.shop_all_link_text != '' ? 'w-full md:w-1/2 text-center md:text-left' : 'w-full text-center']" class="font-primary font-extrabold text-e28 md:text-hero uppercase tracking-header" v-html="modsettings.header"></h3>
+    <a :style="shopAllColor" class="font-primary font-bold text-lg tracking-header uppercase link--secondary-reverse text-center md:text-right px-0" :href="modsettings.shop_all_link_url" v-html="modsettings.shop_all_link_text"></a>  
+  </div>
+  <div v-swiper:swiper="swiperOptions" class="overflow-x-hidden mt-10 pb-6 max-w-lg mx-auto">
+    <div class="swiper-wrapper">
+      <div v-for="(buttonCard, buttonIndex) in blocks" v-if="blocks[buttonIndex].settings.collection != ''" data-aos="fade-up" :data-aos-delay="[buttonIndex] * 100" class="swiper-slide min-w-e156 flex justify-center items-center cursor-pointer button-collection-card"> 
+          <a :href="collectionLink(buttonIndex)" class="pt-e10">
+            <div :style="borderColor(buttonIndex)" class="w-e156 min-w-e156 h-e156 min-h-e156 bg-white rounded-full border border-transparent overflow-hidden button-image-container">
+              <img class="swiper-lazy lazy w-full h-full object-cover p-0"  :data-src="imageSized(blocks[buttonIndex].settings.collection_image, '_500x500.$1', '_800x800.$1')" :alt="blocks[buttonIndex].settings.collection_title" />
+            </div>
+            <div :style="buttonTextColor" class="font-secondary font-bold uppercase text-md w-full text-center mt-6" v-html="blocks[buttonIndex].settings.collection_title"></div>
+          </a>
+      </div>
+    </div>
+    <div v-show="blocks.length > 6" class="swiper-scrollbar mt-5 w-full left-0"></div>
+  </div>
+</div>
+
+{% if block_data_from_collections or block_data_from_metafields %}
+  <style>
+    .button_collection .swiper-scrollbar {
+      display: none !important;
+    }
+  </style>
+{% endif %}

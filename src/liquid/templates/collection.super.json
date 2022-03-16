@@ -1,0 +1,11 @@
+{
+    "sections": {
+        "collection-super": {
+            "type": "collection__super",
+            "settings": {}
+        }
+    },
+    "order": [
+        "collection-super"
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "sections": {
+        "collection-smackdown": {
+            "type": "collection__smackdown",
+            "settings": {}
+        },
+        "sub-brand-smackdown": {
+            "type": "sub-brand__smackdown",
+            "settings": {}
+        }
+    },
+    "order": [
+        "collection-smackdown",
+        "sub-brand-smackdown"
+    ]
+}

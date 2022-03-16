@@ -1,0 +1,23 @@
+{% assign separator = "|###|" %}
+{% assign category_collection_array = collection.metafields.custom_fields["collection"] | split: separator %}
+{% assign category_image_array = collection.metafields.custom_fields["collection_image"] | split: separator %}
+{% assign category_title_array = collection.metafields.custom_fields["collection_title"] | split: separator %}
+
+{% assign category_holder_width = category_title_array.size | times: 166 | plus: 'px' %}
+
+{% if category_collection_array.size > 0 %}
+  <div class="order-2 md:order-1">
+    <p class="font-primary font-bold text-megamenu_top uppercase tracking-header mt-5 md:mt-0">{{ collection.metafields.custom_fields["categories_title"] }}</p>
+
+    <div class="w-full overflow-x-scroll mt-6 mb-10">
+      <div class="flex" style="width: {{ category_holder_width }};">
+        {% for category in category_collection_array limit: 12 %}
+          <a href="/collections/{{ category }}" class="{% unless forloop.last %}mr-4{% endunless %}">
+            <img class="h-e150 min-w-e150 object-contain mb-2" src="{{ category_image_array[forloop.index0] }}" />
+            <p class="font-body font-semibold uppercase text-md text-center">{{ category_title_array[forloop.index0] }}</p>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}

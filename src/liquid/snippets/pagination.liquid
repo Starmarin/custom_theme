@@ -1,0 +1,19 @@
+<ul class="px-4 mt-e40">
+  <div class="py-e30 flex w-full items-center justify-center border-t border-solid border-gray-200">
+    <li class="mr-2 hover:text-red-700  {% unless paginate.previous %}pointer-events-none opacity-50{% endunless %}">
+      <a href="{{ paginate.previous.url }}">
+        <svg class="icon icon--chevron-left" style="height: 12px; width: 12px;"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#chevron-left"></use></svg>
+      </a>
+    </li>
+
+    <li class="font-normal text-e20 mx-4">
+      <span>{{ paginate.current_page }} of {{ paginate.pages }}</span>
+    </li>
+
+    <li class="mr-2">
+      <a href="{{ paginate.next.url }}" class="hover:text-red-700 {% unless paginate.next %}pointer-events-none opacity-50{% endunless %}">
+        <svg class="icon icon--chevron-right" style="height: 12px; width: 12px;"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#chevron-right"></use></svg>
+      </a>
+    </li>
+  </div>
+</ul>

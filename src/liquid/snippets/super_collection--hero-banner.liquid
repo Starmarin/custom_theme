@@ -1,0 +1,45 @@
+{% if collection.metafields.custom_fields['order-hero_banner'] != blank %}
+  <div style="order: {{ collection.metafields.custom_fields['order-hero_banner'] | json }}">
+    {% capture hero_banner_settings %}
+      {
+        "layout": "below_image"
+      }
+    {% endcapture %}
+    {% capture hero_banner_blocks %}
+      [
+        {% for i in (1..1) %}
+          {
+            "settings": {
+              "desktop_image": {{ collection.metafields.custom_fields['super_hero-desktop_image'] | json }},
+              "mobile_image": {{ collection.metafields.custom_fields['super_hero-mobile_image'] | json }},
+              "shopify_video_url": "",
+              "vimeo_video_url": "",
+              "enable_image_overlay": false,
+              "image_overlay_color": "",
+              "image_overlay_opacity_percentage": 0,
+              "enable_text_box": true,
+              "text_box_color": {{ collection.metafields.custom_fields['super_hero-text_area_color'] | downcase | json }},
+              "text_box_opacity_percentage": 75,
+              "text_box_alignment": {{ collection.metafields.custom_fields['super_hero-text_alignment'] | downcase | json }},
+              "slide_title": "",
+              "slide_preheader": "",
+              "slide_header": {{ collection.metafields.custom_fields['super_hero-header'] | json }},
+              "slide_body_copy": {{ collection.metafields.custom_fields['super_hero-body_copy'] | json }},
+              "preheader_color": "",
+              "header_body_color": "",
+              "cta_1_text": {{ collection.metafields.custom_fields['super_hero-cta_text'] | json }},
+              "cta_1_url": {{ collection.metafields.custom_fields['super_hero-cta_url'] | json }},
+              "cta_1_text_color": {{ collection.metafields.custom_fields['super_hero-cta_text_color'] | json }},
+              "cta_1_bg_color": {{ collection.metafields.custom_fields['super_hero-cta_background'] | json }},
+              "cta_2_text": "",
+              "cta_2_url": null,
+              "cta_2_text_color": "",
+              "cta_2_bg_color": ""
+            }
+          }
+        {% endfor %}
+      ]
+    {% endcapture %}
+    {%- render 'hp--hero-banner', mod_settings: hero_banner_settings, mod_blocks: hero_banner_blocks, block_data_from_metafields: true, block_type: block.type -%}
+  </div>
+{% endif %}

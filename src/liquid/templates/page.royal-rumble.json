@@ -1,0 +1,16 @@
+{
+    "sections": {
+        "collection-royal-rumble": {
+            "type": "collection__brand",
+            "settings": {}
+        },
+        "sub-brand-royal-rumble": {
+            "type": "sub-brand__page",
+            "settings": {}
+        }
+    },
+    "order": [
+        "collection-royal-rumble",
+        "sub-brand-royal-rumble"
+    ]
+}

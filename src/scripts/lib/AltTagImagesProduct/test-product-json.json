@@ -1,0 +1,603 @@
+{
+  "title": "Product: Test Product [ BVA TEST]",
+  "handle": "bva-test-product",
+  "id": 4532314308672,
+  "type": "",
+  "url": "\/products\/bva-test-product",
+  "vendor": "BVA",
+  "media": [
+    {
+      "alt": "black",
+      "id": 6607536848960,
+      "position": 1,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/TestProd.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/TestProd.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": "electric blue",
+      "id": 6607536881728,
+      "position": 2,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/TestProd.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/TestProd.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": "brushed aluminum",
+      "id": 6607536914496,
+      "position": 3,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Black-RtRearAngl_fb601016-645b-46c1-bfcb-7c99f50fd0b1.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Black-RtRearAngl_fb601016-645b-46c1-bfcb-7c99f50fd0b1.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607536947264,
+      "position": 4,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Black-LftRearAngl_3262612d-1f04-4a5a-8ae4-75d008200748.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Black-LftRearAngl_3262612d-1f04-4a5a-8ae4-75d008200748.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607536980032,
+      "position": 5,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Black-LftSide_58eb2b6e-52be-40ad-8a87-7e132ae625c6.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Black-LftSide_58eb2b6e-52be-40ad-8a87-7e132ae625c6.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537012800,
+      "position": 6,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Alum-RtSide_8df7e417-3540-43d4-b164-aa443ad9f0b8.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Alum-RtSide_8df7e417-3540-43d4-b164-aa443ad9f0b8.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537045568,
+      "position": 7,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Alum-RtFrontAngl_d3a35feb-15aa-446e-bb71-ba6d1074eed7.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Alum-RtFrontAngl_d3a35feb-15aa-446e-bb71-ba6d1074eed7.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537078336,
+      "position": 8,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Alum-RtRearAngl_2e47d88e-51e4-48f3-9d8f-915f6f0c3e6a.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Alum-RtRearAngl_2e47d88e-51e4-48f3-9d8f-915f6f0c3e6a.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537111104,
+      "position": 9,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Alum-LftRearAngl_5ba2deda-0024-4ccc-948a-42d92db3c2c9.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Alum-LftRearAngl_5ba2deda-0024-4ccc-948a-42d92db3c2c9.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537143872,
+      "position": 10,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Alum-LftSide_81ee3ad3-bebd-404e-84d5-882ba1dafbc3.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Alum-LftSide_81ee3ad3-bebd-404e-84d5-882ba1dafbc3.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537176640,
+      "position": 11,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Blue-RtSide_a649aa40-ad20-426d-876f-5c7823ffe013.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Blue-RtSide_a649aa40-ad20-426d-876f-5c7823ffe013.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537209408,
+      "position": 12,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Blue-RtFrontAngl_330f91ea-67c8-4446-afc7-7ec0cf91b971.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Blue-RtFrontAngl_330f91ea-67c8-4446-afc7-7ec0cf91b971.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537242176,
+      "position": 13,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Blue-RtRearAngl_33a7255a-6b06-46f7-95a7-1374f7a68566.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Blue-RtRearAngl_33a7255a-6b06-46f7-95a7-1374f7a68566.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537274944,
+      "position": 14,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Blue-LftRearAngl_b8c4f7f8-b5cc-4ad6-9329-2e960155dd76.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Blue-LftRearAngl_b8c4f7f8-b5cc-4ad6-9329-2e960155dd76.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537307712,
+      "position": 15,
+      "preview_image": {
+        "aspect_ratio": 1.5,
+        "height": 1333,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Blue-LftSide_6d568dc6-f1c9-41ee-88e4-adc1ea4a82c5.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.5,
+      "height": 1333,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Blue-LftSide_6d568dc6-f1c9-41ee-88e4-adc1ea4a82c5.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537340480,
+      "position": 16,
+      "preview_image": {
+        "aspect_ratio": 1.499,
+        "height": 1334,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Combo3_aa204b83-9721-4392-8833-07cb2861d178.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.499,
+      "height": 1334,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Combo3_aa204b83-9721-4392-8833-07cb2861d178.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537373248,
+      "position": 17,
+      "preview_image": {
+        "aspect_ratio": 1.047,
+        "height": 1911,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-alarm_e99c74ac-df80-4a21-b6c6-708d9652a698.jpg?v=1597885096"
+      },
+      "aspect_ratio": 1.047,
+      "height": 1911,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-alarm_e99c74ac-df80-4a21-b6c6-708d9652a698.jpg?v=1597885096",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537406016,
+      "position": 18,
+      "preview_image": {
+        "aspect_ratio": 1.303,
+        "height": 1535,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Headlight1_3d054e5f-80b2-46ce-8be2-da520c9aac90.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.303,
+      "height": 1535,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Headlight1_3d054e5f-80b2-46ce-8be2-da520c9aac90.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537438784,
+      "position": 19,
+      "preview_image": {
+        "aspect_ratio": 1.302,
+        "height": 1536,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Headlight2_14c21581-1785-46ae-b97a-84eb1e64064f.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.302,
+      "height": 1536,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Headlight2_14c21581-1785-46ae-b97a-84eb1e64064f.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537471552,
+      "position": 20,
+      "preview_image": {
+        "aspect_ratio": 1.302,
+        "height": 1536,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Headlight3_e545bfcc-da29-41dd-95cf-1c8d63de2c02.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.302,
+      "height": 1536,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Headlight3_e545bfcc-da29-41dd-95cf-1c8d63de2c02.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537504320,
+      "position": 21,
+      "preview_image": {
+        "aspect_ratio": 1.576,
+        "height": 1269,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-LCD1_f6cd5921-fbcc-4b0e-84aa-bd4442a0127e.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.576,
+      "height": 1269,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-LCD1_f6cd5921-fbcc-4b0e-84aa-bd4442a0127e.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537537088,
+      "position": 22,
+      "preview_image": {
+        "aspect_ratio": 1.576,
+        "height": 1269,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-LCD2_301d5fa2-2544-4164-ae98-56c38b385672.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.576,
+      "height": 1269,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-LCD2_301d5fa2-2544-4164-ae98-56c38b385672.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537569856,
+      "position": 23,
+      "preview_image": {
+        "aspect_ratio": 1.459,
+        "height": 1371,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Logo_f6944a7a-6c3e-471d-acf1-e4c1fcee01a1.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.459,
+      "height": 1371,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Logo_f6944a7a-6c3e-471d-acf1-e4c1fcee01a1.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537602624,
+      "position": 24,
+      "preview_image": {
+        "aspect_ratio": 0.736,
+        "height": 2000,
+        "width": 1471,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Mirror1_45543620-da1b-4a04-be44-2e6bab89bdc2.jpg?v=1597885097"
+      },
+      "aspect_ratio": 0.736,
+      "height": 2000,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Mirror1_45543620-da1b-4a04-be44-2e6bab89bdc2.jpg?v=1597885097",
+      "width": 1471
+    },
+    {
+      "alt": null,
+      "id": 6607537635392,
+      "position": 25,
+      "preview_image": {
+        "aspect_ratio": 1.326,
+        "height": 1508,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Mirror2_ace37c18-1bea-40b4-b932-7ff1a18f0e31.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.326,
+      "height": 1508,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Mirror2_ace37c18-1bea-40b4-b932-7ff1a18f0e31.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537668160,
+      "position": 26,
+      "preview_image": {
+        "aspect_ratio": 1.333,
+        "height": 1500,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Motor1_6b09eed2-7e58-4a10-bc03-5c349a153238.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.333,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Motor1_6b09eed2-7e58-4a10-bc03-5c349a153238.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537700928,
+      "position": 27,
+      "preview_image": {
+        "aspect_ratio": 1.489,
+        "height": 1343,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Rack_e23b82b8-efcb-42f3-9b48-e8b38f5a6074.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.489,
+      "height": 1343,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Rack_e23b82b8-efcb-42f3-9b48-e8b38f5a6074.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537733696,
+      "position": 28,
+      "preview_image": {
+        "aspect_ratio": 1.389,
+        "height": 1440,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-RearShocks_cd2389ba-e4e7-41d2-ab40-209bf4703331.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.389,
+      "height": 1440,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-RearShocks_cd2389ba-e4e7-41d2-ab40-209bf4703331.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537766464,
+      "position": 29,
+      "preview_image": {
+        "aspect_ratio": 1.028,
+        "height": 1946,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Switches1_8175ee56-942c-4b13-8d97-d2a203c045e4.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.028,
+      "height": 1946,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Switches1_8175ee56-942c-4b13-8d97-d2a203c045e4.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537799232,
+      "position": 30,
+      "preview_image": {
+        "aspect_ratio": 1.028,
+        "height": 1946,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Switches2_cb11a634-845e-4c62-8440-1e6d35205f5f.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.028,
+      "height": 1946,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-Switches2_cb11a634-845e-4c62-8440-1e6d35205f5f.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537832000,
+      "position": 31,
+      "preview_image": {
+        "aspect_ratio": 1.222,
+        "height": 1637,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-TurnSignalsBrakeLt_9a08e138-48f8-49af-b93c-c29f54cd484e.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.222,
+      "height": 1637,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-TurnSignalsBrakeLt_9a08e138-48f8-49af-b93c-c29f54cd484e.jpg?v=1597885097",
+      "width": 2000
+    },
+    {
+      "alt": null,
+      "id": 6607537864768,
+      "position": 32,
+      "preview_image": {
+        "aspect_ratio": 1.3,
+        "height": 1538,
+        "width": 2000,
+        "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-TurnSignalsFrontOn_b8a1df28-912e-40ef-8937-06b375dfebbc.jpg?v=1597885097"
+      },
+      "aspect_ratio": 1.3,
+      "height": 1538,
+      "media_type": "image",
+      "src": "https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Clsup-TurnSignalsFrontOn_b8a1df28-912e-40ef-8937-06b375dfebbc.jpg?v=1597885097",
+      "width": 2000
+    }
+  ],
+  "description": "\u003cdiv style=\"text-align: center;\"\u003eClick \u003ca href=\"https:\/\/www.website.com\/blogs\/news\" target=\"_blank\" rel=\"noopener noreferrer\"\u003e\u003cspan style=\"color: #ff0000;\"\u003e\u003cstrong\u003eHERE\u003c\/strong\u003e\u003c\/span\u003e\u003c\/a\u003e to check out our blog for current updates! \u003ciframe width=\"560\" height=\"315\" src=\"https:\/\/www.youtube.com\/embed\/zU6uSmVxRxo\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"\"\u003e\u003c\/iframe\u003e\n\u003c\/div\u003e\n\u003cscript type=\"application\/ld+json\"\u003e\/\/ \u003c![CDATA[\n{\n \"@context\": \"https:\/\/schema.org\/\", \n \"@type\": \"Product\", \n \"name\": \"Test: Test Product\",\n \"image\": \"https:\/\/cdn.shopify.com\/s\/files\/1\/1009\/9108\/products\/HyperScorpion-Black-RtSide_900x.jpg?v=1593126189\",\n \"description\": \"A micro-mobility masterpiece! The fully-loaded HyperScorpion features a massive 1,000W Bafang motor to fuel off-road speeds up to 30mph. Equipped with a 52V\/19.2Ah battery, the HyperScorpion is capable of an impressive 70+ mile riding range.\",\n \"brand\": \"BVA\",\n \"offers\": {\n \"@type\": \"Offer\",\n \"url\": \"https:\/\/www.website.com\/products\/hyperscorpion\",\n \"priceCurrency\": \"USD\",\n \"price\": \"2899\",\n \"availability\": \"https:\/\/schema.org\/PreOrder\",\n \"itemCondition\": \"https:\/\/schema.org\/NewCondition\"\n },\n \"aggregateRating\": {\n \"@type\": \"AggregateRating\",\n \"ratingValue\": \"5\",\n \"bestRating\": \"5\",\n \"worstRating\": \"1\",\n \"ratingCount\": \"1\"\n }\n}\n\/\/ ]]\u003e\u003c\/script\u003e",
+  "price": 319900,
+  "available": true,
+  "tags": [
+    "new"
+  ],
+  "options": [
+    "Color",
+    "Seat"
+  ],
+  "has_only_default_variant": false,
+  "selected_or_first_available_variant": {
+    "title": "Electric Blue \/ Standard Seat - 30.9\"",
+    "id": 31944113487936,
+    "url": "/products/bva-test-product?variant=31944113487936",
+    "available": true,
+    "inventory_quantity": 0,
+    "price": 319900,
+    "compare_at_price": 349900,
+    "featured_media": null,
+    "option1": "Electric Blue",
+    "option2": "Standard Seat - 30.9\"",
+    "options": [
+      "Electric Blue",
+      "Standard Seat - 30.9\""
+    ],
+    "sku": null
+  },
+  "variants": [
+    {
+      "title": "Electric Blue \/ Standard Seat - 30.9\"",
+      "id": 31944113487936,
+      "url": "/products/bva-test-product?variant=31944113487936",
+      "available": true,
+      "inventory_quantity": 0,
+      "price": 319900,
+      "compare_at_price": 349900,
+      "featured_media": null,
+      "option1": "Electric Blue",
+      "option2": "Standard Seat - 30.9\"",
+      "options": [
+        "Electric Blue",
+        "Standard Seat - 30.9\""
+      ],
+      "sku": null
+    },
+    {
+      "title": "Black \/ Standard Seat - 30.9\"",
+      "id": 31944113520704,
+      "url": "/products/bva-test-product?variant=31944113520704",
+      "available": true,
+      "inventory_quantity": 0,
+      "price": 319900,
+      "compare_at_price": 349900,
+      "featured_media": null,
+      "option1": "Black",
+      "option2": "Standard Seat - 30.9\"",
+      "options": [
+        "Black",
+        "Standard Seat - 30.9\""
+      ],
+      "sku": null
+    },
+    {
+      "title": "Brushed Aluminum \/ Standard Seat - 30.9\"",
+      "id": 31944113553472,
+      "url": "/products/bva-test-product?variant=31944113553472",
+      "available": true,
+      "inventory_quantity": 0,
+      "price": 319900,
+      "compare_at_price": 349900,
+      "featured_media": null,
+      "option1": "Brushed Aluminum",
+      "option2": "Standard Seat - 30.9\"",
+      "options": [
+        "Brushed Aluminum",
+        "Standard Seat - 30.9\""
+      ],
+      "sku": null
+    }
+  ]
+}

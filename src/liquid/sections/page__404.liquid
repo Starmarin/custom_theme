@@ -1,0 +1,125 @@
+<div data-vue-component="ErrorPage">
+  {% if section.settings.image != blank %}
+    <img class="block md:hidden h-e216 object-cover" src="{{ section.settings.image | img_url: '400x' }}" />
+  {% endif %}
+  <div class="hidden md:flex justify-center items-center h-e820 bg-cover" style="background-image: url({{ section.settings.image | img_url: '1200x' }})">
+    <div class="w-full h-full max-w-lg flex justify-end items-center">
+      <div class="p-10 mr-10 lg:mr-0 flex flex-wrap content-star w-e500" style="background-color: {{ section.settings.textbox_background_color | color_modify: 'alpha', 0.85 }}">
+        {% if section.settings.preheader != blank %}
+          <p 
+            style="color: {{ section.settings.preheader_color }}; border-color: {{ section.settings.preheader_color }};" 
+            class="font-primary font-bold text-md uppercase tracking-header border-b border-t border-transparent mb-3">
+            {{ section.settings.preheader }}
+          </p>
+        {% endif %}
+        {% if section.settings.header != blank %}
+          <div 
+            style="color: {{ section.settings.header_color }};" 
+            class="w-full font-primary font-extrabold uppercase text-e48 leading-1 tracking-header mb-6">
+            {{ section.settings.header }}
+          </div>
+        {% endif %}
+        {% if section.settings.cta_url != blank %}
+          <a
+            style="color: {{ section.settings.cta_color }}; background-color: {{ section.settings.cta_background_color }};" 
+            class="font-primary font-bold text-md text-center tracking-header uppercase py-3 px-10" 
+            href="{{ section.settings.cta_url }}" class="">
+            {{ section.settings.cta_text }}
+          </a>
+        {% endif %}
+      </div>  
+    </div>
+  </div>
+
+  <div class="p-4 flex md:hidden flex-wrap content-star w-full" style="background-color: {{ section.settings.textbox_background_color }}">
+    {% if section.settings.preheader != blank %}
+      <p 
+        style="color: {{ section.settings.preheader_color }}; border-color: {{ section.settings.preheader_color }};" 
+        class="font-primary font-bold text-md uppercase tracking-header border-b border-t border-transparent mb-3">
+        {{ section.settings.preheader }}
+      </p>
+    {% endif %}
+    {% if section.settings.header != blank %}
+      <div 
+        style="color: {{ section.settings.header_color }};" 
+        class="w-full font-primary font-extrabold uppercase text-e36 leading-1 tracking-header mb-6">
+        {{ section.settings.header }}
+      </div>
+    {% endif %}
+    {% if section.settings.cta_url != blank %}
+      <a
+        style="color: {{ section.settings.cta_color }}; background-color: {{ section.settings.cta_background_color }};" 
+        class="font-primary font-bold text-md text-center tracking-header uppercase py-3 px-10" 
+        href="{{ section.settings.cta_url }}" class="">
+        {{ section.settings.cta_text }}
+      </a>
+    {% endif %}
+  </div>  
+
+
+</div>
+<script src="{{ 'misc.entry.js' | asset_url }}" defer></script>
+
+{% schema %}
+  {
+    "name": "404 Page",
+    "settings": [
+      { "type": "header", "content": "Background Image" },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image",
+        "info": "Minimum width: 1440px"
+      },
+      { "type": "header", "content": "Content" },
+      {
+        "type": "text",
+        "id": "preheader",
+        "label": "Pre-Header"
+      },
+      {
+        "type": "color",
+        "id": "preheader_color",
+        "label": "Pre-Header Color"
+      },
+      {
+        "type": "text",
+        "id": "header",
+        "label": "Header"
+      },
+      {
+        "type": "color",
+        "id": "header_color",
+        "label": "Header Color"
+      },
+      {
+        "type": "color",
+        "id": "textbox_background_color",
+        "label": "Textbox Background Color"
+      },
+      { "type": "header", "content": "CTA" },
+      {
+        "type": "text",
+        "id": "cta_text",
+        "label": "CTA Label",
+        "default": "Continue Shopping"
+      },
+      {
+        "type": "url",
+        "id": "cta_url",
+        "label": "CTA Link",
+        "default": "/"
+      },
+      {
+        "type": "color",
+        "id": "cta_color",
+        "label": "CTA Text Color"
+      },
+      {
+        "type": "color",
+        "id": "cta_background_color",
+        "label": "CTA Background Color"
+      }
+    ]
+  }
+{% endschema %}

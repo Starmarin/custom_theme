@@ -1,0 +1,16 @@
+{
+    "sections": {
+        "collection-gift-guide_2": {
+            "type": "collection__brand",
+            "settings": {}
+        },
+        "sub-brand-gift-guide_2": {
+            "type": "sub-brand__page",
+            "settings": {}
+        }
+    },
+    "order": [
+        "collection-gift-guide_2",
+        "sub-brand-gift-guide_2"
+    ]
+}

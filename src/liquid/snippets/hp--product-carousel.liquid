@@ -1,0 +1,59 @@
+{% if block_data_from_metafields %}
+  {% assign carousel_collection = mod_collection %}
+{% elsif block_data_from_collections %}
+  {% assign carousel_collection = mod_settings.collection %}
+{% else %}
+  {% assign carousel_collection = mod_settings.collection %}
+{% endif %}
+
+{% assign product_carousel = collections[carousel_collection] %}
+{% if mod_settings.product_limit %}
+  {% assign product_limit = mod_settings.product_limit %}
+{% else %}
+  {% assign product_limit = 10 %}
+{% endif %}
+
+
+{% capture props %}
+{
+  {% if block_data_from_metafields %}
+    "modsettings": {{ mod_settings }},
+    "collection": {{ product_carousel.products | json}},
+    "limit": {{ product_limit }}
+  {% elsif block_data_from_collections %}
+    "modsettings": {{ mod_settings | json }},
+    "collection": {{product_carousel.products | json}},
+    "limit": {{ product_limit }}
+  {% else %}
+    "modsettings": {{ mod_settings | json }},
+    "collection": {{product_carousel.products | json}},
+    "limit": {{ product_limit }}
+  {% endif %}
+}
+{% endcapture %}
+
+{% if product_carousel.products.size > 0 %}
+  <div data-vue-component="HPProductCarousel" data-props="{{ props | escape | strip_newlines }}">
+    <section :style="backgroundColor" class="bg-white py-4 md:pt-10 px-e12 lg:px-0 overflow-hidden" data-aos="fade">
+      <div class="max-w-lg mx-auto">
+        <div :class="[modsettings.text_alignment === 'left' ? 'items-center md:flex-row md:justify-between' : 'md:flex-col items-center']" class="flex flex-col mb-7 md:px-10 clear-both">
+          <h2 :style="headerColor" class="h3 text-left" v-html="modsettings.header"></h2>
+          <a 
+            class="link--secondary-reverse font-primary uppercase font-bold text-primary-500 px-0" 
+            :style="shopAllColor"
+            v-html="modsettings.shop_all_link_text"
+            :href="modsettings.shop_all_link_url">
+          </a>
+        </div>
+        <slider :swiperConfig="swiperOptions" class="px-0 sm:px-10">
+          {%- for carousel_product in product_carousel.products limit: product_limit -%}
+            {% capture carousel_product_json %}
+              {%- render 'json--product', product: carousel_product -%}
+            {% endcapture %}
+            <product-card class="swiper-slide sm:w-1/2 md:w-1/3 mr-2 max-w-e180 md:max-w-e250 min-w-e180 md:min-w-e250 transition-opacity duration-200" :product="{{ carousel_product_json | escape | strip }}"></product-card>
+          {%- endfor -%}            
+        </slider>      
+      </div>
+    </section>
+  </div>
+{% endif %} 

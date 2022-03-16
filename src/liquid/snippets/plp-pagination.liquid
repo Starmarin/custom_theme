@@ -1,0 +1,19 @@
+<ul class="px-4 mt-e40" v-if="totalPages > 1">
+  <div class="py-e30 flex w-full items-center justify-center border-t border-solid border-gray-200">
+    <li class="mr-2 hover:text-red-700" :class="[page <= 1 ? 'pointer-events-none opacity-50' : '' ]">
+      <a href="" @click.prevent='setPrevPage'>
+        <icon size='12px' name='chevron-left'></icon>
+      </a>
+    </li>
+
+    <li class="font-normal text-e20 mx-4">
+      <span v-html="`${page} of ${totalPages}`"></span> 
+    </li>
+
+    <li class="mr-2" v-if="page < totalPages">
+      <a href="" @click.prevent='setNextPage' class="hover:text-red-700">
+        <icon size='12px' name='chevron-right'></icon>
+      </a>
+    </li>
+  </div>
+</ul>

@@ -1,0 +1,40 @@
+{%- render 'simple-components-carousel', 
+  mod_title: section.settings.title,
+  mod_blocks: section.blocks
+-%}
+
+{% schema %}
+{
+  "name": "About: Premium Components",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "cta",
+          "label": "CTA"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "Link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

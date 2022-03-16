@@ -1,0 +1,9 @@
+[
+  {%- for order in customer.orders -%}
+    [
+    {%- for discount_application in order.discount_applications -%}
+      {{ discount_application.title | json }}{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+    ]{%- unless forloop.last -%},{%- endunless -%} 
+  {%- endfor -%}
+]

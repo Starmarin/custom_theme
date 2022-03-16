@@ -1,0 +1,12 @@
+.article-contents {
+  @screen md {
+    margin-top: -262px;
+  }
+}
+
+.article-social-share {
+  @screen md {
+    transform: translateX(-100%);
+    margin-left: -30px;
+  }
+}

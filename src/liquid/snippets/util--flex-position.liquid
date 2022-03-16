@@ -1,0 +1,46 @@
+{% comment %} 
+  @param flex_direction
+  @param position
+
+  @returns justify-content and align-item styles
+{% endcomment %} 
+
+{% if flex_direction == 'row' %}
+  {% assign main_axis = 'justify-content' %}
+  {% assign cross_axis = 'align-items' %}
+{% else %}
+  {% assign main_axis = 'align-items' %}
+  {% assign cross_axis = 'justify-content' %}
+{% endif %}
+
+
+
+{%- case position -%}
+  {%- when 'top_left' -%}
+    {{ main_axis }}: flex-start;
+    {{ cross_axis }}: flex-start;
+  {%- when 'top_center' -%}
+    {{ main_axis }}: center;
+    {{ cross_axis }}: flex-start;
+  {%- when 'top_right' -%}
+    {{ main_axis }}: flex-end;
+    {{ cross_axis }}: flex-start;
+  {%- when 'center_left' -%}
+    {{ main_axis }}: flex-start;
+    {{ cross_axis }}: center;
+  {%- when 'center_center' -%}
+    {{ main_axis }}: center;
+    {{ cross_axis }}: center;
+  {%- when 'center_right' -%}
+    {{ main_axis }}: flex-end;
+    {{ cross_axis }}: center;
+  {%- when 'bottom_left' -%}
+    {{ main_axis }}: flex-start;
+    {{ cross_axis }}: flex-end;
+  {%- when 'bottom_center' -%}
+    {{ main_axis }}: center;
+    {{ cross_axis }}: flex-end;
+  {%- when 'bottom_right' -%}
+    {{ main_axis }}: flex-end;
+    {{ cross_axis }}: flex-end;
+{%- endcase -%}

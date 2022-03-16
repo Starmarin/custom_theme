@@ -1,0 +1,51 @@
+
+{%- layout 'theme' -%}
+<div data-vue-component="AccountBase" class="relative">
+  <div class="lg:container mx-auto px-0 lg:px-0 grid grid-cols-12">
+    <div class="absolute left-0 top-0 bottom-0 bg-white-100 hidden md:block w-3/12"></div>
+    <div class="md:bg-white-100 col-span-12 md:col-span-3 relative z-10">
+      <div class="pt-0 md:pt-10 pb-0 md:pb-e20">
+        {%- include 'account-nav' -%}
+      </div>
+    </div>
+    <div class="bg-white col-span-12 md:col-span-9">
+      <div class="md:py-10 md:pl-e40 lg:pl-10 swell-account overflow-hidden">
+        <div class="swell-wwe">
+          <div class="swell-account-section">
+            <h3 class="account-heading">{{ 'customer.rewards.my_rewards' | t }}</h3>
+            <div class="account-points-holder">
+              <div class="points-holder">
+                <div class="points-balance">
+                  {{ 'customer.rewards.points_balance' | t }}
+                </div>
+                <div class="swell-points">
+                  <span class="swell-points-text swell-point-balance"></span><span class="swell-points-text left uppercase"> {{ 'customer.rewards.pts' | t }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="status-holder">
+              <div class="rewards-history">
+                {{ 'customer.rewards.rewards_history' | t }}
+              </div>
+              <a class="swell-history-link rewards-popup" href="javascript:void(0)">
+                {{ 'customer.rewards.view' | t }}
+              </a>
+            </div>
+            <div class="description-holder mb-4">
+              <div class="description-text-rewards mb-4 md:b-0">
+                {{ settings.rewards_program_description }}
+              </div>
+              <li class="swell-link">
+                <a class="how-to-earn" href="/pages/rewards">
+                  {{ 'customer.rewards.how_to_earn' | t }}
+                </a>
+              </li>
+            </div>
+            <div class="yotpo-widget-instance" data-yotpo-instance-id="67214"></div>
+        	  <div class="yotpo-widget-instance" data-yotpo-instance-id="70197"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

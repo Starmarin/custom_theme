@@ -1,0 +1,47 @@
+{% assign giftIds = '' %}
+{% for item in checkout.line_items %}
+  {% unless item.properties == blank %}
+    {% unless item.properties['_smgift'] == blank %}
+      {% capture giftIds %}{{ giftIds }}{% unless giftIds == '' %}|{% endunless %}{{ item.variant_id }}{% endcapture %}
+    {% endunless %}
+  {% endunless %}
+{% endfor %}
+{% assign giftIds = giftIds | split: '|' %}  
+<script>
+  var orderData = {
+    'giftIds': {{ giftIds | json }},
+    'items': [
+      {% for item in checkout.line_items %}
+        {
+          'line': {{ forloop.index }},
+          'variant_id': {{ item.variant_id }},
+          'original_price': {% if item.original_price %}{{ item.original_price }}{% else %}{{ item.price }}{% endif %},
+          'price': {{ item.price }},
+          'properties': {% if item.properties == empty %}[]{% else %}[{% for property in item.properties %}{ 'property': '{{ property.first }}', 'value': '{{ property.last }}' }{% unless forloop.last %},{% endunless %}{% endfor %}]{% endif %}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  };
+</script>
+
+<script>
+  function gwpHook() {
+    var uniqueIds = orderData.giftIds.filter(function(id, pos) {
+      return orderData.giftIds.indexOf(id) == pos;
+    });
+    if (uniqueIds.length > 0) {
+      uniqueIds.forEach(function(gift) {
+        $('.order-summary__section__content .product[data-variant-id="' + gift + '"] .product__price .order-summary__emphasis').each(function() {
+          if ($(this).text() === '$0.00') {
+            $(this).text('FREE GIFT');
+          }
+        });
+      });
+    }
+    $('tr.product[data-product-id="'+ window.localStorage.getItem('carrier_product_id') +'"]').hide();
+  }
+  $(document).on('page:load', function(e) {
+    gwpHook();
+  });
+  gwpHook();
+</script>

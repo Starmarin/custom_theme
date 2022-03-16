@@ -1,0 +1,72 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="{{ settings.color_accent }}">
+<link rel="canonical" href="{{ canonical_url }}">
+
+{%- if settings.favicon != blank -%}
+  <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+{%- endif -%}
+
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+{%- capture seo_title -%}
+  {{ page_title }}
+  {%- if current_tags -%}
+    {%- assign meta_tags = current_tags | join: ', ' -%} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+  {%- endif -%}
+  {%- if current_page != 1 -%}
+    &ndash; {{ 'general.meta.page' | t: page: current_page }}
+  {%- endif -%}
+  {%- assign escaped_page_title = page_title | escape -%}
+  {%- unless escaped_page_title contains shop.name -%}
+    &ndash; {{ shop.name }}
+  {%- endunless -%}
+{%- endcapture -%}
+<title>{{ seo_title | strip }}</title>
+
+{%- if page_description -%}
+  <meta name="description" content="{{ page_description | escape }}">
+{%- endif -%}
+
+{%- render 'social-meta-tags' -%}
+
+<style>[v-cloak] { opacity: 0; max-height: 100vh; }</style>
+
+<link rel="preload" href="{{ 'theme.entry.js' | asset_url }}" as="script">
+<link rel="preload" href="{{ 'theme.entry.css' | asset_url }}" as="style">
+{{ 'theme.entry.css' | asset_url | stylesheet_tag }}
+
+{% if template.name contains 'product' %}
+  {{ 'pdp.entry.css' | asset_url | stylesheet_tag }}
+  <link rel="preload" href="{{ 'pdp.entry.js' | asset_url }}"          as="script">
+{% endif %}
+{%- comment -%}
+  {%- render 'affirm' -%}
+{%- endcomment -%}
+{% if template.name contains 'collection' or 'search' %}
+  {{ 'plp.entry.css' | asset_url | stylesheet_tag }}
+  <link rel="preload" href="{{ 'plp.entry.js' | asset_url }}"          as="script">
+{% endif %}
+
+{% if template.name contains 'search' %}
+  {{ 'search.entry.css' | asset_url | stylesheet_tag }}
+  <link rel="preload" href="{{ 'search.entry.js' | asset_url }}"          as="script">
+{% endif %}
+
+{% if template contains 'quiz' %}
+  {{ 'quiz.entry.css' | asset_url | stylesheet_tag }}
+  <link rel="preload" href="{{ 'quiz.entry.js' | asset_url }}"          as="script">
+{% endif %}
+
+{% if template contains 'about' %}
+  {{ 'about.entry.css' | asset_url | stylesheet_tag }}
+  <link rel="preload" href="{{ 'about.entry.js' | asset_url }}"          as="script">
+{% endif %}
+
+{% if template.name contains 'blog' or template.name contains 'article' %}
+  {{ 'blog.entry.css' | asset_url | stylesheet_tag }}
+  <link rel="preload" href="{{ 'blog.entry.js' | asset_url }}"          as="script">
+{% endif %}
+
+{% render 'perf--preload' %}

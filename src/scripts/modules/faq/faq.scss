@@ -1,0 +1,50 @@
+.contact-content p {
+  @apply font-body font-normal;
+}
+
+.contact-content strong {
+  @apply font-body font-bold;
+}
+
+.contact-content a {
+  @apply font-body font-normal text-primary-500 underline;
+}
+
+.accordion-content {
+  @apply font-body font-normal text-megamenu_sub;
+
+  p {
+    @apply font-body font-normal text-megamenu_sub;
+  }
+
+  span {
+    @apply font-body font-normal text-megamenu_sub;
+  }
+
+  a {
+    @apply font-body font-semibold text-megamenu_sub underline;
+
+    &:hover {
+      @apply no-underline;
+    }
+  }
+
+  em {
+    @apply font-body text-megamenu_sub font-normal italic;
+  }
+
+  strong {
+    @apply font-body text-megamenu_sub font-semibold;
+  }
+
+  ul {
+    list-style: disc;
+
+    @apply ml-4;
+
+    li,
+    li span {
+      @apply font-body font-normal text-megamenu_sub;
+    }
+  }
+}

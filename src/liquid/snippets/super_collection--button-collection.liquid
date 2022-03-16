@@ -1,0 +1,37 @@
+{% for item in collection.metafields.custom_fields["super_button_collection"] %}
+  {% assign button_collection_key = 'order-button_collection_' | append: forloop.index %}
+  {% if collection.metafields.custom_fields[button_collection_key] != blank %}
+    <div style="order: {{ collection.metafields.custom_fields[button_collection_key] | json }}">
+      {% capture button_collection_settings %}
+        {
+          "header": {{ item["super_button-section_header"] | json }},
+          "shop_all_link_text": {{ 'general.megamenu.shop_all' | t | json }},
+          "shop_all_link_url": {{ item["super_button-shop_all_url"] | json }},
+          "bg_color": {{ item["super_button-background_color"] | json }},
+          "background_image": {{ item["super_button-background_image"] | json }},
+          "header_text_color": {{ item["super_button-header_color"] | json }},
+          "shop_all_link_color": {{ item["super_button-shop_all_color"] | json }},
+          "button_text_color": {{ item["super_button-header_color"] | json }}
+        }
+      {% endcapture %}
+      {% capture button_collection_blocks %}
+        [
+          {% for block in item["super_button-buttons"] %}
+            {
+              "settings": {
+                "collection": {{ block["super_button-collection"] | json }},
+                "collection_title": {{ block["super_button-collection_title"] | json }},
+                "collection_image": {{ block["super_button-collection_image"] | json }},
+                "border_color": {{ block["super_button-border_color"] | json }}
+              },
+              "collection": {
+                "url": "{{ collections[block["super_button-collection"]].url }}"
+              }
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      {% endcapture %}
+      {%- render 'hp--button-collection', mod_settings: button_collection_settings, mod_blocks: button_collection_blocks, block_data_from_metafields: true -%}
+    </div>
+  {% endif %}
+{% endfor %}

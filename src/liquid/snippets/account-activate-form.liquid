@@ -1,0 +1,48 @@
+<div is="account-reset-form" inline-template>
+  <div @submit="validate" class="container container--xs">
+
+    {%- assign mod_title = 'customer.activate_account.title' | t -%}
+    <h1 class="text-h3 font-bold">{{ mod_title }}</h1>
+    {%- assign mod_title = nil -%}
+
+    {% form 'activate_customer_password' %}
+
+      {%- assign mod_errors = form.errors | default: false -%}
+      {%- if mod_errors -%}
+        {%- for field in mod_errors -%}
+          {%- if field == 'form' -%}
+            <p class="p bg-white font-body p-4 text-e14 my-e10 text-red-700">{{- mod_errors.messages[field] -}}</p>
+          {%- else -%}
+            <p class="p bg-white font-body p-4 text-e14 my-e10 text-red-700">{{ mod_errors.translated_fields[field] | capitalize }} {{ mod_errors.messages[field] }}.</p>
+          {%- endif -%}
+          {%- assign error_text = mod_errors.messages[field] -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- assign mod_errors = nil -%}
+
+      <div class="form-row">
+        {%- assign placeholder = 'customer.activate_account.password' | t -%}
+        {% render 'text-input' with
+          mod_name: 'customer[password]',
+          mod_type: 'password',
+          mod_label: placeholder %}
+        {%- assign placeholder = nil -%}
+      </div>
+
+      <div class="form-row">
+        {%- assign placeholder = 'customer.activate_account.confirm_password' | t -%}
+        {% render 'text-input' with
+          mod_name: 'customer[password_confirmation]',
+          mod_type: 'password',
+          mod_label: placeholder %}
+        {%- assign placeholder = nil -%}
+      </div>
+
+      <div class="form-row">
+        {%- assign value = 'customer.activate_account.submit' | t -%}
+          <button is="BtnPrimary" type="submit">{{ value }}</button>
+        {%- assign value = nil -%}
+      </div>
+    {% endform %}
+  </div>
+</div>

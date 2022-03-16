@@ -1,0 +1,46 @@
+.bottom-promo-content p {
+  @apply font-body text-md text-white tracking-normal uppercase;
+}
+
+.bottom-promo-content a {
+  @apply font-body text-e12 text-white tracking-normal uppercase;
+
+  &:hover {
+    @apply underline;
+  }
+
+  &:focus {
+    @apply shadow-outline;
+  }
+}
+
+.promo-card .modal-content p {
+  @apply font-body text-modal font-normal text-black;
+}
+
+.promo-card .modal-content a {
+  @apply font-primary font-bold text-primary-500 uppercase inline-flex items-center text-modal underline tracking-wider mt-4;
+}
+
+.promo-swiper-pagination {
+  top: -33px;
+  position: relative;
+  z-index: 10;
+}
+
+.promo-swiper-pagination .swiper-pagination-bullet {
+  @apply h-e2 rounded-none w-6 bg-gray-400;
+}
+
+.promo-swiper-pagination .swiper-pagination-bullet-active {
+  @apply bg-primary-500;
+}
+
+.promo-swiper-arrow-prev,
+.promo-swiper-arrow-next {
+  width: 32px !important;
+  top: 6px;
+}
+.promo-swiper-arrow-next {
+  top: 8px;
+}

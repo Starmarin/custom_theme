@@ -1,0 +1,20 @@
+{% for item in collection.metafields.custom_fields["super_product_carousels"] %}
+  {% assign carousel_order_key = 'order-product_carousel_' | append: forloop.index %}
+  {% if collection.metafields.custom_fields[carousel_order_key] != blank %}
+    <div style="order: {{ collection.metafields.custom_fields[carousel_order_key] | json }}">
+      {% capture product_carousel_settings %}
+        {
+          "collection": {{ item["super_product-collection"] | json }},
+          "text_alignment": "left",
+          "header": {{ item["super_product-header"] | json }},
+          "shop_all_link_text": "{{ 'general.megamenu.shop_all' | t }}",
+          "shop_all_link_url": {{ collections[item["super_product-collection"]].url | json }},
+          "background_color": {{ item["super_product-background_color"] | json }},
+          "header_text_color": "var(--color-black)",
+          "shop_all_link_color": {{ collection.metafields.custom_fields["super_promo-header_text_color"] | json }}
+        }
+      {% endcapture %}
+      {%- render 'hp--product-carousel', mod_settings: product_carousel_settings, mod_collection: item["super_product-collection"], block_data_from_metafields: true -%}
+    </div>
+  {% endif %}
+{% endfor %}

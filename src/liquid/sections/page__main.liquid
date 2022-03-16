@@ -1,0 +1,194 @@
+{% capture props %}
+{
+  {% if page.metafields.custom_fields["sidebar_link_list_handle"] != blank %}
+    "navigation": [
+      {%- for link in linklists[page.metafields.custom_fields["sidebar_link_list_handle"]].links -%}
+        { 
+          "label": {{ link.title | json }}, 
+          "labelRight": "", 
+          "url": {{ link.url | json }},
+          "value": {{ link.title | handleize | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ],
+  {% endif %}
+  "modsettings": {
+    "handle" : {{ page.handle | json }}
+  },
+  "blocks": [
+  {% for item in page.metafields.custom_fields["frequently_asked_questions"] %}
+    {
+      "settings": {
+        "category": {{ item["faq_category"] | json }},
+        "question": {{ item["faq_question"] | json }},
+        "answer": {{ item["faq_answer"] | json }}
+      }
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+  ]
+}
+{% endcapture %}
+
+{% if page.metafields.custom_fields["sidebar_link_list_handle"] == blank %}
+  <img class="block md:hidden w-full h-e160 object-cover" src="{{ page.metafields.custom_fields['page_hero_banner'] }}" />
+  <div 
+    style="background-image: url({{ page.metafields.custom_fields['page_hero_banner'] }});" 
+    class="h-e375 bg-gray-300 hidden md:flex flex-col justify-center items-center bg-cover">
+    <p style="color: {{ page.metafields.custom_fields['page_text_color'] }};"  class="text-black font-primary font-extrabold text-e48 uppercase tracking-header">{{ page.title }}</p>
+    <p style="color: {{ page.metafields.custom_fields['page_text_color'] }};" class="text-black font-body font-semibold text-lg mt-8">
+      {{ page.metafields.custom_fields['page_sub-header'] }}
+    </p>
+  </div>
+  <div 
+    class="h-e160 px-2 bg-gray-100 flex md:hidden flex-col justify-center items-center">
+    <p class="text-black font-primary font-extrabold text-e36 uppercase tracking-header">{{ page.title }}</p>
+    <p class="text-black font-body font-semibold text-megamenu_top mt-4">
+      {{ page.metafields.custom_fields['page_sub-header'] }}
+    </p>
+  </div>
+{% endif %}
+<div class="flex flex-wrap md:flex-no-wrap">
+  {% if page.metafields.custom_fields["sidebar_link_list_handle"] != blank %}
+    <div class="w-full -mb-10 block md:hidden" data-vue-component="FAQNavigation" data-props="{{ props | escape | strip_newlines }}">
+      <div 
+        is="Dropdown" 
+        :selected="selectedSupportNav" 
+        class="w-full block md:hidden px-4 my-5"
+        @select="(value) => supportNavigation(value)"
+        :options="supportOptions">
+      </div>      
+    </div>
+    <div class="w-1/4 bg-gray-100 hidden md:flex flex-col pt-13 px-12 items-start">
+      {%- for link in linklists[page.metafields.custom_fields["sidebar_link_list_handle"]].links -%}
+        <a href="{{ link.url }}"
+          class="text-left font-primary font-bold uppercase text-black text-megamenu_top tracking-wider mb-6 border-b-2 transition-all duration-200 hover:border-primary-500 {% if link.active %}border-primary-500{% else %}border-transparent{% endif %}">
+          {{- link.title -}}
+        </a>
+      {%- endfor -%}
+    </div>
+  {% endif %}
+  <article class="container mx-auto">
+    <div class="px-4 page py-e40">
+      {% if page.metafields.custom_fields["sidebar_link_list_handle"] != blank %}
+        <h1 class="font-primary font-extrabold text-xl md:text-e36 uppercase tracking-header mb-4">{{ page.title }}</h1>
+      {% endif %}
+
+      <div class="{% unless page.title == 'UI Kit' %}wysiwyg{% endunless %} mb-8">
+        {{ page.content }}
+      </div>
+
+      {% if page.title contains 'FAQ' %}
+
+        <div class="w-full" data-vue-component="FAQ" data-props="{{ props | escape | strip_newlines }}">
+          <template v-for="faq in blocks">
+            <div v-if="faq.settings.category !== ''">
+              <h2 class="font-primary font-extrabold text-e22 md:text-e28  uppercase tracking-header mb-4" v-html="faq.settings.category"></h2>
+            </div>
+            <div class="w-full md:w-2/3" v-else>
+              <Accordion class="pl-3 md:pl-4 bg-gray-breadcrumbs mb-4" :header-classes="['flex', 'justify-between', 'items-center', 'w-full']">
+                <p slot="heading" class="text-megamenu_sub md:text-megamenu_top font-secondary font-bold text-left py-4" v-html="faq.settings.question"></p>
+                <template slot="icons">
+                  <div class="bg-gray-700 hover:bg-btn-secondary_hover p-5">
+                    <Icon class="text-white transition-all duration-300" name="chevron-down" size="14px"></Icon>
+                  </div>
+                </template>
+                <div slot="content" class="py-3 pb-5 md:pb-3 accordion-content">
+                  <div class="font-body" v-html="faq.settings.answer"></div>  
+                </div>
+              </Accordion>
+            </div>
+          </template>
+
+        </div>
+
+      {% endif %}
+
+      {% if page.title == 'International Order Status' %}
+        
+        <div id="bfTTContainer"></div>
+
+        {% if shop.metafields.custom_fields["store_country"] == 'usa' %}
+          {% if settings.borderfree_environment == 'staging' %}
+            <!-- STAGING -->
+            <script src="https://global.sbx.borderfree.com/cdn/checkout/v5/dist/merchant.js"></script>
+          {% else %}
+            <!-- PRODUCTION -->
+            <script src="https://global.prd.borderfree.com/cdn/checkout/v5/dist/merchant.js"></script>
+          {% endif %}
+        {% endif %}
+
+        <script>
+
+          var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+              sURLVariables = sPageURL.split('&'),
+              sParameterName,
+              i;
+            for (i = 0; i < sURLVariables.length; i++) {
+              sParameterName = sURLVariables[i].split('=');
+              if (sParameterName[0] === sParam) {
+                return typeof sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+              }
+            }
+            return false;
+          };
+
+          if(document.location.href.includes('ppStatus=')){
+            // Main Borderfree Order Status Iframe
+            let ppStatus = getUrlParameter('ppStatus')
+            let bfIframe = document.createElement('iframe');
+            bfIframe.setAttribute('name', 'envoy');
+            bfIframe.setAttribute('id', 'envoyID');
+            bfIframe.setAttribute('frameborder', '0');
+            bfIframe.setAttribute('border', '0');
+            bfIframe.setAttribute('scrolling', 'no');
+            bfIframe.setAttribute('style', 'width: 100%; height: 1000px;');
+            {% if settings.borderfree_environment == 'staging' %}
+              let borderfreeURL = "https://checkout.sbx.borderfree.com/v5/htmlcheckout/views/preloadBack_pp.xhtml"  // STAGING
+            {% else %}
+              let borderfreeURL = "https://checkout.prd.borderfree.com/v5/htmlcheckout/views/preloadBack_pp.xhtml"  // PRODUCTION
+            {% endif %}
+            let bfURL = borderfreeURL + "?ppStatus=" +  ppStatus + "&token=" + getUrlParameter('token');
+            bfIframe.setAttribute('src', bfURL);
+            document.getElementById("MainContent")?.appendChild(bfIframe);
+
+            // Hidden Borderfree Iframe for Firing Status URLs from
+            let __frame = document.createElement('iframe');
+            __frame.setAttribute('id', '__frame');
+            __frame.setAttribute('width', '0');
+            __frame.setAttribute('height', '0');
+            __frame.setAttribute('frameborder', '0');
+            document.getElementById("MainContent")?.appendChild(__frame);
+
+            document.querySelector(".page")?.classList.add("hidden");
+          }          
+
+          if(document.location.href.includes('order_number=')){
+            let orderNumber = getUrlParameter('order_number');
+            let emailAddress = getUrlParameter('email_address');
+            orderTrackerCheck(orderNumber, emailAddress);
+          }
+
+          function orderTrackerCheck(order, email){
+            if(document.getElementById("trackOrder")){
+              document.getElementById("orderId").value = order;
+              document.getElementById("emailId").value = email;
+            }else {
+              window.setTimeout(function(){
+                orderTrackerCheck(order, email);
+              }, 300)
+            }
+          }
+
+        </script>
+      {% endif %}
+
+      
+    </div>
+  </article>  
+</div>
+
+{% if page.title == 'UI Kit' %}
+  <script src="{{ 'ui-kit.entry.js' | asset_url }}"></script>
+  <link rel="stylesheet" href="{{ 'ui-kit.entry.css' | asset_url }}">
+{% endif %}

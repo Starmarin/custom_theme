@@ -1,0 +1,209 @@
+{%- render 'hp--hero-banner', mod_settings: section.settings, mod_blocks: section.blocks -%}
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "class": "hero",
+    "max_blocks": 5,
+    "settings": [
+      {"type": "header", "content": "Mobile Layout"},
+      {"type": "paragraph", "content": "Display the text content overlaid on the image/videos or below the image/videos."},
+      {
+        "id": "layout",
+        "type": "select",
+        "label": "Layout",
+        "options": [
+          {
+            "value": "overlaid",
+            "label": "Overlaid"
+          },
+          {
+            "value": "below_image",
+            "label": "Below Image"
+          }
+        ],
+        "default": "overlaid"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "slide",
+        "name": "Slide",
+        "settings": [
+          {"type": "header", "content": "Image or Video"},
+          {"type": "paragraph", "content": "Choose either an image or a video"},
+          {
+            "type": "image_picker",
+            "id": "desktop_image",
+            "label": "Desktop Image",
+            "info": "Suggested Dimensions: 1440 x 600"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_image",
+            "label": "Mobile Image",
+            "info": "Suggested Dimensions: 375 x 560"
+          },
+          {
+            "type": "text",
+            "id": "shopify_video_url",
+            "label": "Shopify Video URL",
+            "info": "Upload to Shopify files and paste URL here. Expected format: MP4"
+          },
+          {
+            "type": "text",
+            "id": "vimeo_video_url",
+            "label": "Vimeo Video URL",
+            "info": "Paste the URL of the Vimeo video here."
+          },
+          {"type": "header", "content": "Image Overlay"},
+          {"type": "paragraph", "content": "For image backgrounds only"},
+          {
+            "type": "checkbox",
+            "id": "enable_image_overlay",
+            "label": "Enable Image Overlay"
+          },
+          {
+            "type": "color",
+            "id": "image_overlay_color",
+            "label": "Image Overlay Color",
+            "default": "#000000"
+          },
+          {
+            "type": "range",
+            "id": "image_overlay_opacity_percentage",
+            "label": "Image Overlay Opacity Percentage",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 25
+          },
+          {"type": "header", "content": "Text Content"},
+          {
+            "type": "checkbox",
+            "id": "enable_text_box",
+            "label": "Enable Text Box",
+            "info": "Adds a background color behind text content."
+          },
+          {
+            "type": "color",
+            "id": "text_box_color",
+            "label": "Text Box Color",
+            "default": "#000000"
+          },
+          {
+            "type": "range",
+            "id": "text_box_opacity_percentage",
+            "label": "Text Box Opacity Percentage",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 75
+          },
+          {
+            "id": "text_box_alignment",
+            "type": "select",
+            "label": "Text Box Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default": "left"
+          },
+          {
+            "type": "text",
+            "id": "slide_title",
+            "label": "Slide Title",
+            "info": "Appears at the bottom of the slideshow."
+          },
+          {
+            "type": "text",
+            "id": "slide_preheader",
+            "label": "Preheader"
+          },
+          {
+            "type": "text",
+            "id": "slide_header",
+            "label": "Header"
+          },
+          {
+            "type": "richtext",
+            "id": "slide_body_copy",
+            "label": "Body Copy"
+          },
+          {"type": "header", "content": "Text Colors"},
+          {
+            "type": "color",
+            "id": "preheader_color",
+            "label": "Preheader Color",
+            "default": "#FFC71C"
+          },
+          {
+            "type": "color",
+            "id": "header_body_color",
+            "label": "Header & Body Copy Color",
+            "default": "#FFFFFF"
+          },
+          {"type": "header", "content": "CTAs"},
+          {
+            "type": "text",
+            "id": "cta_1_text",
+            "label": "CTA 1 Text"
+          },
+          {
+            "type": "url",
+            "id": "cta_1_url",
+            "label": "CTA 1 URL"
+          },
+          {
+            "type": "color",
+            "id": "cta_1_bg_color",
+            "label": "CTA 1 Background Color",
+            "default": "#DA1221"
+          },
+          {
+            "type": "color",
+            "id": "cta_1_text_color",
+            "label": "CTA 1 Text Color",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "text",
+            "id": "cta_2_text",
+            "label": "CTA 2 Text"
+          },
+          {
+            "type": "url",
+            "id": "cta_2_url",
+            "label": "CTA 2 URL"
+          },
+          {
+            "type": "color",
+            "id": "cta_2_bg_color",
+            "label": "CTA 2 Background Color",
+            "default": "#232828"
+          },
+          {
+            "type": "color",
+            "id": "cta_2_text_color",
+            "label": "CTA 2 Text Color",
+            "default": "#FFFFFF"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Hero Banner",
+      "category": "Content"
+    }]
+  }
+{% endschema %}

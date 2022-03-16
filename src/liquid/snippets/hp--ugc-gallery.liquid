@@ -1,0 +1,44 @@
+{% capture props %}
+{
+  {% if block_data_from_metafields %}
+    "modsettings": {{ mod_settings }}
+  {% elsif block_data_from_collections %}
+    "modsettings": {{ mod_settings | json }}
+  {% else %}
+    "modsettings": {{ mod_settings | json }}
+  {% endif %}
+}
+{% endcapture %}
+
+
+<div  data-aos="fade-up" style="background-color: {{ mod_settings.background_color }};" class="flex flex-wrap w-full bg-gray-200 px-e18 md:px-10 py-e80" data-vue-component="UGCGallery" data-props="{{ props | escape | strip_newlines }}">
+  <div class="flex flex-wrap w-full max-w-lg mx-auto">
+    <p 
+      style="color: {{ mod_settings.preheader_text_color }}; border-color: {{ mod_settings.preheader_border_color }};"
+      class="font-primary font-bold text-md uppercase tracking-header border-b border-t border-transparent mb-2 px-e10 mx-auto md:mx-0 max-w-lg">
+      {{ mod_settings.preheader }}
+    </p>
+    <div class="flex items-center md:justify-between flex-col md:flex-row w-full px-e10 max-w-lg mx-auto">
+      <div class="flex justify-center md:justify-start items-center flex-col md:flex-row w-full md:w-1/2">
+        <p style="color: {{ mod_settings.body_copy_color }};" class="font-primary font-extrabold text-e36 tracking-header mr-5">{{ mod_settings.instagram_handle }}</p>  
+        <div style="color: {{ mod_settings.body_copy_color }};" class="font-body text-md text-center md:text-left mt-2 md:mt-0 body-copy">{{ mod_settings.description }}</div>
+      </div>
+      <a style="color: {{ mod_settings.link_color }};" class="link--secondary mt-4 md:mt-0 underline md:no-underline text-lg px-0" href="{{ mod_settings.link_url }}">{{ mod_settings.link_text }}</a>
+    </div>
+  </div>
+  <div
+      class="yotpo yotpo-pictures-widget w-full max-w-lg mx-auto"
+      data-gallery-id="{{ mod_settings.gallery_id }}">
+      {%- assign yotpo_offload_content = shop.metafields.yotpo.yotpo_offload_content %}
+      {%- assign time_now = 'now' | date: '%s' %}
+      {%- assign yotpo_live_time = shop.metafields.yotpo.yotpo_live | date: '%s' %}
+      {%- assign diff_seconds_from_live = time_now | minus: yotpo_live_time %}
+      {%- assign yotpo_pictures_widget_last_updated = product.metafields.yotpo.pictures_widget_update_time | date: '%s' %}
+      {%- assign diff_seconds_from_last_pictures_widget_update = time_now | minus: yotpo_pictures_widget_last_updated %}
+      {%- if yotpo_live_time and diff_seconds_from_live < 86400 or yotpo_pictures_widget_last_updated and diff_seconds_from_last_pictures_widget_update < 86400 -%}
+        {%- assign yotpo_pictures_widget_obsolete = false %}
+      {%- else %}
+        {%- assign yotpo_pictures_widget_obsolete = true %}
+      {%- endif %}
+  </div>
+</div>

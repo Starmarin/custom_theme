@@ -1,0 +1,32 @@
+{% if collection.metafields.custom_fields["order-promo_banner"] != blank %}
+  <div style="order: {{ collection.metafields.custom_fields['order-promo_banner'] | json }}">
+    {% capture promo_bar_settings %}
+      {
+        "top_margin": "40",
+        "bottom_margin": "40",
+        "heading_text": {{ collection.metafields.custom_fields["super_promo-header"] | json }},
+        "desktop_background_image": {{ collection.metafields.custom_fields["super_promo-background_image"] | json }},
+        "mobile_background_image": {{ collection.metafields.custom_fields["super_promo-background_image"] | json }},
+        "left_image": "",
+        "right_image": "",
+        "background_color": {{ collection.metafields.custom_fields["super_promo-background_color"] | json }},
+        "heading_text_color": {{ collection.metafields.custom_fields["super_promo-header_text_color"] | json }},
+        "link_color": {{ collection.metafields.custom_fields["super_promo-header_text_color"] | json }}
+      }
+    {% endcapture %}
+    {% capture promo_bar_blocks %}
+      [
+        {% for item in collection.metafields.custom_fields["super_promo-links"] %}
+          {
+            "settings": {
+              "link_text": {{ item["super_promo-link_text"] | json }},
+              "link_url": {{ item["super_promo-link_url"] | json }}  
+            }
+          }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    {% endcapture %}
+    {% assign promo_bar_settings = promo_bar_settings %}
+    {%- render 'hp--promo-banner', mod_settings: promo_bar_settings, mod_blocks: promo_bar_blocks, block_data_from_metafields: true -%}
+  </div>
+{% endif %}

@@ -1,0 +1,183 @@
+{% capture props %}
+{
+  {% if block_data_from_metafields %}
+    "modsettings": {{ mod_settings }},
+    "blocks": {{ mod_blocks }}
+  {% elsif block_data_from_collections %}
+    "modsettings": {{ mod_settings | json }},
+    "blocks": {{ mod_blocks }}
+  {% else %}
+    "modsettings": {{ mod_settings | json }},
+    "blocks": [
+    {% for block in mod_blocks %}
+      {
+        "settings": {{ block.settings | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    ]
+  {% endif %}
+}
+{% endcapture %}
+
+{% if block_data_from_metafields %}
+  {% assign block_count = column_block_count %}
+  {% assign vertical_align_styles = 'bottom_center' %}
+  {% assign block_layout = column_block_layout %}
+{% elsif block_data_from_collections %}
+  {% if mod_settings.column_desktop_image_1 != blank and mod_settings.column_desktop_image_2 != blank and mod_settings.column_desktop_image_3 != blank %}
+    {% assign block_count = 3 %}
+  {% elsif mod_settings.column_desktop_image_1 != blank and mod_settings.column_desktop_image_2 != blank %}
+    {% assign block_count = 2 %}
+  {% elsif mod_settings.column_desktop_image_1 != blank %}
+    {% assign block_count = 1 %}
+  {% else %}
+    {% assign block_count = 0 %}
+  {% endif %}
+  {% assign vertical_align_styles = mod_settings.column_section_block_vertical_align %}
+  {% assign block_layout = mod_settings.column_section_block_layout %}
+{% else %}
+  {% assign block_count = section.blocks | size %}
+  {% assign vertical_align_styles = mod_settings.column_section_block_vertical_align %}
+  {% assign block_layout = mod_settings.column_section_block_layout %}
+{% endif %}
+
+{%- capture grid_class -%}
+  {%- if block_count == 3 -%}
+    sm:grid-cols-3 gap-e8 sm:gap-e35  
+  {%- elsif block_count == 2 -%}
+    sm:grid-cols-2 gap-e8 sm:gap-e40 
+  {%- else -%}
+    sm:grid-cols-1 gap-e8 
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture column_vertical_align_styles -%}
+  {% render 'util--flex-position', flex_direction: 'col', position: vertical_align_styles %}
+{%- endcapture -%}
+{%- capture button_wrapper_classes -%}
+  {%- if block_count == 1 -%}
+    mb-e16 lg:inline-block lg:px-e8 lg:mb-0
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture buttons_containers_classes -%}
+  {%- if block_count != 1 -%}
+    space-y-e16 
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture text_container_width_classes -%}
+  {%- if block_count == 1 -%}
+    max-w-3/4 md:max-w-1/2
+  {%- elsif block_count == 2 -%}
+    max-w-3/4 md:max-w-2/3
+  {% else %}
+    max-w-7/8 md:max-w-4/5
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture single_column -%}
+  {%- if block_count == 1 -%}
+    h-auto md:h-auto object-cover
+  {%- endif -%}
+{%- endcapture -%}
+{% capture text_container_classes %}
+  {%- if block_layout contains 'over' -%}
+    py-e20 md:py-e40 px-e20 md:px-e40
+  {% else %}
+    py-e20 md:py-e24 
+  {%- endif -%}
+{% endcapture %}
+{%- capture caption_classes_type -%}
+  {%- if block_layout contains 'over' -%}
+    absolute top-0 left-0 min-w-full min-h-full
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture img_classes_type -%}
+  {%- if block_layout contains 'over' -%}
+      md:h-auto
+  {%- else -%}  
+    {%- if block_count == 1 -%}
+      md:h-auto
+    {%- elsif block_count == 2 -%}
+      md:h-auto
+    {%- else -%} 
+      md:h-auto
+    {%- endif -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{% comment %} 
+  This hidden element is here to whitelist classes used in the capture statements
+
+  <span style="display: none;" class="sm:grid-cols-3 sm:gap-e35 sm:grid-cols-2 sm:gap-e40 sm:grid-cols-1 mb-e16 lg:inline-block lg:px-e8 lg:mb-0 space-y-e16 md:max-w-5/8 md:max-w-2/3 max-w-7/8 md:max-w-4/5 py-e20 md:py-e40 px-e20 md:px-e40 absolute top-0 left-0 min-w-full min-h-full"></span>
+{% endcomment %}
+<section 
+  data-vue-component="HpColumns"
+  data-props="{{ props | escape | strip_newlines }}"
+  class="hp-columns py-5 px-e16 md:py-10 md:px-e40"
+  :style="sectionStyle">
+  <h1 
+    v-if="modsettings.column_section_title !== ''" 
+    v-html="modsettings.column_section_title" 
+    class="h2 text-center mb-e24 md:mb-e40">
+  </h1>
+  <div class="max-w-lg mx-auto grid {{ grid_class }}">
+    <figure 
+      v-for="(column, columnIndex) in blocks"
+      v-if="blocks[columnIndex].settings.column_desktop_image != null"
+      class="relative" 
+      data-aos="fade-up" 
+      :data-aos-duration="aosDuration(columnIndex)">
+      <a :href="blocks[columnIndex].settings.column_url_cta1">
+        <picture>
+          <source 
+            :data-srcset="imageSized(blocks[columnIndex].settings.column_mobile_image, '_600x600.$1', '_1000x1000.$1')"
+            media="(max-width: 649px)">
+          <source 
+            :data-srcset="imageSized(blocks[columnIndex].settings.column_desktop_image, '_600x600.$1', '_1000x1000.$1')"
+            media="(min-width: 650px)">
+          <img 
+            class="lazy {{ img_classes_type }} min-h-e184 object-cover object-top w-full {{ single_column }}"
+            :data-src="imageSized(blocks[columnIndex].settings.column_desktop_image, '_600x600.$1', '_1000x1000.$1')" 
+            :alt="blocks[columnIndex].settings.column_heading" />
+        </picture>
+      </a>
+      <figcaption 
+        class="flex flex-col {{ caption_classes_type }}"
+        :style="captionStyle(columnIndex)"
+        style="{{ column_vertical_align_styles }}">
+        <div class="flex flex-col w-full" :style="textContainerStyle(columnIndex)" style="{{ column_vertical_align_styles }}">
+          <div class="{{ text_container_width_classes }} {{ text_container_classes }} md:w-full">
+            <h2 v-if="blocks[columnIndex].settings.column_heading != ''" class="h4 text-current" v-html="blocks[columnIndex].settings.column_heading"></h2>
+            <p v-if="blocks[columnIndex].settings.column_body_copy != ''" class="font-body text-e14 md:text-e16 text-current mt-e16 leading-8" v-html="blocks[columnIndex].settings.column_body_copy"></p>
+            <fieldset class="{{ buttons_containers_classes }} mt-e24">
+              <div 
+                v-if="blocks[columnIndex].settings.column_url_cta1 != '' && blocks[columnIndex].settings.column_text_cta1 != ''"
+                class="{{ button_wrapper_classes }}">
+                <a 
+                  v-cloak
+                  :aria-label="`${blocks[columnIndex].settings.column_text_cta1} ${blocks[columnIndex].settings.column_body_copy}`"
+                  :style="ctaColor1(columnIndex)"
+                  is="BtnPrimaryLink"
+                  :href="blocks[columnIndex].settings.column_url_cta1" 
+                  v-html="blocks[columnIndex].settings.column_text_cta1"
+                  class="btn btn--primary transition-all duration-200 hover:filter-brightness">
+                </a>
+              </div>
+              <div 
+                v-if="blocks[columnIndex].column_url_cta2 != '' && blocks[columnIndex].settings.column_text_cta2 != ''"
+                class="{{ button_wrapper_classes }}">
+                <a 
+                  v-cloak
+                  :style="ctaColor2(columnIndex)"
+                  is="BtnPrimaryLink"
+                  :aria-label="`${blocks[columnIndex].settings.column_text_cta2} and ${blocks[columnIndex].settings.column_body_copy}`"
+                  :href="blocks[columnIndex].settings.column_url_cta2" 
+                  v-html="blocks[columnIndex].settings.column_text_cta2"
+                  class="btn btn--primary transition-all duration-200 hover:filter-brightness">
+                </a>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </figcaption>
+    </figure>
+  </div>
+</section>

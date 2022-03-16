@@ -1,0 +1,56 @@
+<div is="AccountRecoverForm" inline-template>
+  <div v-show="active" class="fixed z-100 inset-0 top-0 left-0" v-cloak>
+    <div class="bg-black opacity-50 absolute inset-0"></div>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div @submit="validate" class="w-11/12 md:w-1/2 max-w-e650 bg-white py-e40 px-4 md:px-e100 md:py-e65 shadow-card text-center relative">
+        <button @click="$parent.changeForm('login')" class="text-black inline-flex items-center justify-center w-e30 h-e30 absolute right-0 top-0 -mt-e48 sm:right-20 sm:mt-e20 bg-white">
+          <icon name="close" size="15px"></icon>
+        </button>
+        <div class="max-w-e410 mx-auto">
+          {%- form 'recover_customer_password', class: 'mha' -%}
+            {%- if form['posted_successfully?'] -%}       
+              <div ref="success" id="reset-pass-submit"></div>
+                <h1 class="font-primary font-extrabold text-xl md:text-e36 uppercase tracking-header mb-4 text-black">{{ 'customer.login.email_sent' | t }}</h1>
+                <p class="font-body font-normal text-megamenu_sub md:text-md mb-6">{{ 'customer.login.sent_content' | t }}</p>
+              </div>
+              <div class="form-row">
+                <a class="flex w-full py-4 justify-center items-center rounded-e2 bg-btn-primary_main text-white font-primary font-bold uppercase tracking-header text-md" href="{{ routes.root_url }}">{{ 'customer.login.start_shopping' | t }}</a>
+              </div>
+            {%- else -%}
+              <h1 class="font-primary font-extrabold text-xl md:text-e36 uppercase tracking-header mb-4 text-black">{{ 'customer.login.reset_password' | t }}</h1>
+              <p class="font-body font-normal text-megamenu_sub md:text-md mb-6">{{ 'customer.login.reset_content' | t }}</p>
+              {%- assign mod_errors = form.errors | default: false -%}
+              {%- if mod_errors -%}
+                {%- for field in mod_errors -%}
+                  {%- if field == 'form' -%}
+                    <p class="p bg-white font-body p-4 text-e14 my-e10 text-red-700">{{- mod_errors.messages[field] -}}</p>
+                  {%- else -%}
+                    <p class="p bg-white font-body p-4 text-e14 my-e10 text-red-700">{{ mod_errors.translated_fields[field] | capitalize }} {{ mod_errors.messages[field] }}.</p>
+                  {%- endif -%}
+                  {%- assign error_text = mod_errors.messages[field] -%}
+                {%- endfor -%}
+              {%- endif -%}
+              {%- assign mod_errors = nil -%}
+      
+              <div class="max-w-e410 mx-auto mb-4">
+                {%- assign placeholder = 'customer.recover_password.email' | t -%}
+                {%- render 'text-input' with
+                    mod_name: 'email',
+                    mod_type: 'email',
+                    mod_label:  placeholder,
+                    mod_required: true -%}
+                {%- assign placeholder = nil -%}
+              </div>
+      
+              <div class="form-row">
+                {%- assign mod_value = 'customer.recover_password.submit' | t -%}
+                  <button is="BtnPrimary" class="w-full" type="submit">{{ mod_value }}</button>
+                {%- assign mod_value = nil -%}
+              </div>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

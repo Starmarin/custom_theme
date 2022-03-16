@@ -1,0 +1,30 @@
+<div class="overflow-hidden py-8 md:py-e60" data-vue-component="SimpleCarousel">
+  <div data-aos="fade-up" class="container mx-auto px-4 text-left">
+    <h3 class="text-h2 highlight-text font-bold w-10/12 sm:w-full mb-e32 md:w-auto">{{ mod_title }}</h3>
+  </div>
+  <div class="relative">
+    <div class="container mx-auto px-4 md:px-0" data-aos="fade-left">
+      <div v-swiper:swiper="swiperOptions" class="overflow-visible">
+        <div class="swiper-wrapper">
+          {%- for mod_card in mod_blocks -%}
+            <div class="swiper-slide w-10/12 px-2">
+              <div class="w-full">
+                <div class="ratio ro-62">
+                  <img src="{{- mod_card.settings.image | img_url: '950x' -}}" alt="{{ mod_card.settings.image }}" class="w-full h-full absolute object-cover">
+                </div>
+                {%- if mod_card.settings.cta != blank -%}
+                <div class="absolute top-30 right-30 hidden md:block">
+                  <a is="BtnPillLink" class="uppercase font-medium" href="{{- mod_card.settings.cta_link -}}" icon-size="12px">{{- mod_card.settings.cta -}}</a>
+                </div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+        {% render 'swiper-arrow' with 'prev', mod_class: '-ml-4 sm:hidden' %}
+        {% render 'swiper-arrow' with 'next', mod_class: '-mr-4 sm:hidden' %}
+        <div class="swiper-scrollbar mt-e40 md:mt-e80"></div>
+      </div>
+    </div>
+  </div>
+</div>

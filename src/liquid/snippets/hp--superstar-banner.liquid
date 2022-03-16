@@ -1,0 +1,123 @@
+{% capture props %}
+{
+  {% if block_data_from_metafields %}
+    "modsettings": {{ mod_settings }},
+    "blocks": {{ mod_blocks }}
+  {% elsif block_data_from_collections %}
+    "modsettings": {{ mod_settings | json }}
+  {% else %}
+    "modsettings": {{ mod_settings | json }}
+  {% endif %}
+}
+{% endcapture %}
+
+<div :style="mainBackground" class="flex flex-wrap md:flex-no-wrap w-full px-0 md:px-e160 h-e420 md:h-e576 items-end justify-between bg-cover" data-vue-component="SuperstarBanner" data-props="{{ props | escape | strip_newlines }}">
+
+  <div class="p-3 w-e100 h-e100 absolute right-0 -mt-e250 mb-e250 flex items-center md:hidden" :style="brandBackground">
+    <img :alt="modsettings.superstar_brand" class="object-contain" :src="brandImage" />
+  </div>
+
+  <div :style="textboxCSS" class="mb-10 mt-15 mr-4 ml-e100 pt-10 pb-4 w-1/2 md:max-w-e680 hidden md:flex flex-wrap content-start">
+    <div class="p-3 w-e100 h-e100 absolute -mt-10 -ml-e100 flex items-center" :style="brandBackground">
+      <img :alt="modsettings.superstar_brand" class="object-contain" :src="brandImage" />
+    </div>
+    <p 
+      :style="preHeaderColors"
+      class="font-primary font-bold text-md uppercase tracking-header border-b border-t border-transparent mb-3 mx-6" 
+      v-html="preHeaderText">
+    </p>
+    <h2 
+      :style="titleColor" 
+      class="font-primary font-extrabold text-e28 md:text-hero uppercase tracking-header w-full mb-2 mx-6" 
+      v-html="modsettings.superstar_title !== null ? modsettings.superstar_title : modsettings.superstar_name">
+    </h2>
+    <div 
+      :style="bodyCopyColor" 
+      class="font-body text-md w-full mb-8 superstar-body-copy mx-6" 
+      v-html="modsettings.superstar_body_copy">
+    </div>
+    <div class="flex w-full mx-6 mb-15">
+      <a 
+        v-for="(cta, ctaIndex) in blocks" 
+        :style="ctaStyle(ctaIndex)" 
+        :href="blocks[ctaIndex].settings.cta_url" 
+        class="w-2/3 py-3 px-6 flex justify-center text-center font-primary font-bold uppercase text-md tracking-header transition-all duration-200 focus:underline hover:filter-brightness"
+        v-html="blocks[ctaIndex].settings.cta_text">
+      </a>
+    </div>
+    <div v-if="modsettings.superstar_featured_product_url !== ''" class="w-full border-t border-transparent mb-6" :style="preHeaderColors"></div>
+    <div v-if="modsettings.superstar_featured_product_url !== ''" class="flex w-full px-1">
+      <div class="w-1/2 h-e125">
+        <img alt="modsettings.superstar_featured_product_title" class="w-full object-contain h-e125" :src="modsettings.superstar_featured_product_image" />
+      </div>
+      <div class="w-1/2 flex flex-wrap items-center content-center">
+        <p class="w-full font-primary font-bold uppercase tracking-header text-e22 mb-3" v-html="modsettings.superstar_featured_product_title"></p>
+        <a 
+          :style="buyNowColors" 
+          class="px-4 font-primary font-bold uppercase focus:underline tracking-header text-megamenu_sub flex items-center h-10 transition-all duration-200 hover:filter-brightness" 
+          :href="modsettings.superstar_featured_product_url">
+          {{ 'products.product.buy_now' | t }}
+          <svg 
+            class="w-4 h-4 ml-2">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#look-arrow"></use>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="h-full w-full md:w-1/2 md:max-w-e680">
+    <img :alt="modsettings.superstar_title" class="w-full h-full object-contain superstar-photo" :src="modsettings.superstar_image" />
+  </div>
+
+</div>
+
+<div :style="mainBackground" class="" data-vue-component="SuperstarBanner" data-props="{{ props | escape | strip_newlines }}">
+  <div :style="textboxCSS" class="pt-10 pb-4 w-full mr-4 flex md:hidden flex-wrap content-start">
+    <div class="p-3 w-e100 h-e100 absolute -mt-10 -ml-e100" :style="brandBackground">
+      <img :alt="modsettings.superstar_brand" class="object-contain" :src="brandImage" />
+    </div>
+    <p 
+      :style="brandBackground"
+      class="font-primary font-bold text-md uppercase tracking-header border-b border-t border-transparent mb-3 mx-4 px-4 py-2" 
+      v-html="preHeaderText">
+    </p>
+    <h3 
+      :style="titleColor" 
+      class="font-primary font-extrabold text-e36 uppercase tracking-header w-full mb-2 mx-4" 
+      v-html="modsettings.superstar_title">
+    </h3>
+    <div 
+      :style="bodyCopyColor" 
+      class="font-body text-megamenu_sub w-full mb-8 superstar-body-copy mx-4" 
+      v-html="modsettings.superstar_body_copy">
+    </div>
+    <div class="flex w-full mx-4 mb-8">
+      <a 
+        v-for="(cta, ctaIndex) in blocks" 
+        :style="ctaStyle(ctaIndex)" 
+        :href="blocks[ctaIndex].settings.cta_url" 
+        class="w-2/3 py-3 flex justify-center text-center items-center font-primary font-bold uppercase text-md tracking-header transition-all duration-200 hover:filter-brightness"
+        v-html="blocks[ctaIndex].settings.cta_text">
+      </a>
+    </div>
+    <div v-if="modsettings.superstar_featured_product_url !== ''" class="w-full border-t border-transparent mb-6" :style="preHeaderColors"></div>
+    <div v-if="modsettings.superstar_featured_product_url !== ''" class="flex w-full items-center px-1">
+      <div class="w-1/2 h-e125">
+        <img alt="modsettings.superstar_featured_product_title" class="w-full object-contain h-e125" :src="modsettings.superstar_featured_product_image" />
+      </div>
+      <div class="w-1/2 flex flex-wrap items-center content-center">
+        <p class="w-full font-primary font-bold uppercase tracking-header text-megamenu_top mb-3" v-html="modsettings.superstar_featured_product_title"></p>
+        <a 
+          :style="buyNowColors" 
+          class="px-4 font-primary font-bold uppercase tracking-header text-megamenu_sub flex items-center h-10 transition-all duration-200 hover:filter-brightness" 
+          :href="modsettings.superstar_featured_product_url">
+          {{ 'products.product.buy_now' | t }}
+          <svg 
+            class="w-4 h-4 ml-2">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#look-arrow"></use>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>  
+</div>

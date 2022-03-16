@@ -1,0 +1,97 @@
+{%- render 'global-countdown' mod_settings: section.settings -%}
+
+{% schema %}
+{
+    "name": "Global Countdown Timer",
+    "settings": [
+      {
+        "type": "checkbox",
+        "label": "Enable Global Countdown",
+        "id": "enable_global_countdown",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "label": "Global countdown Background Image",
+        "id": "global_countdown_bg_image"
+      },
+      {
+        "type": "image_picker",
+        "label": "Global countdown mobile Background Image",
+        "id": "global_countdown_mobile_bg_image"
+      },
+      {
+        "type": "color",
+        "label": "Global countdown Background Color",
+        "id": "global_countdown_bg_color"
+      },
+      {
+        "type": "color",
+        "label": "Global countdown Timer Background ",
+        "id": "global_countdown_timer_bg",
+        "default": "#3B30FE"
+      },
+      {
+        "type": "text",
+        "id": "global_countdown_title",
+        "label": "Global countdown Title"
+      },
+      {
+        "type": "color",
+        "label": "Global countdown Text Color",
+        "id": "global_countdown_text_color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "richtext",
+        "id": "global_countdown_text",
+        "label": "Global countdown Text"
+      },
+      {
+        "type": "header",
+        "content": "Global Countdown End Date"
+      },
+      {
+        "type": "paragraph",
+        "content": "Please use 'dd mmm yyyy hh:mm:ss' date format (e.g. 10 Oct 2021 14:00:00)"
+      },
+      {
+        "type": "text",
+        "id": "global_countdown_date",
+        "label": "Type End Date below"
+      },
+    {
+      "type": "header", 
+      "content": "CTAs"
+    },
+    {
+        "type": "checkbox",
+        "label": "Enable CTA",
+        "id": "cta_countdown_enable",
+        "default": true
+    },
+    {
+        "type": "text",
+        "id": "cta_countdown_text",
+        "label": "CTA Text"
+    },
+    {
+        "type": "url",
+        "id": "cta_countdown_url",
+        "label": "CTA  URL"
+    },
+    {
+        "type": "color",
+        "id": "cta_countdown_bg_color",
+        "label": "CTA  Background Color",
+        "default": "#DA1221"
+    },
+    {
+        "type": "color",
+        "id": "cta_countdown_text_color",
+        "label": "CTA  Text Color",
+        "default": "#FFFFFF"
+    }
+    ]
+  }
+{% endschema %}

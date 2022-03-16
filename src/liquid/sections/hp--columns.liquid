@@ -1,0 +1,246 @@
+{% render 'hp--columns', mod_settings: section.settings, mod_blocks: section.blocks %}
+
+{% schema %}
+{
+  "name": "Column Section",
+  "presets": [
+    {
+      "name": "Column Section",
+      "category": "Content"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "column_section_title",
+      "label": "Section Title",
+      "default": "Section Title",
+      "info": "optional",
+      "placeholder": "Title"
+    },
+    {
+      "type": "header",
+      "content": "Margins"
+    },
+    {
+      "type": "range",
+      "id": "column_section_margin_top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "column_section_margin_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Design"
+    },
+    {
+      "type": "color",
+      "id": "column_section_background_color",
+      "label": "Section Background Color",
+      "default": "#EEEEEE"
+    },
+    {
+      "type": "select",
+      "id": "column_section_block_layout",
+      "label": "Block Content Layout",
+      "options": [
+        {
+          "value": "overlayed",
+          "label": "Overlayed"
+        },
+        {
+          "value": "below",
+          "label": "Below"
+        }
+      ],
+      "default": "overlayed"
+    },
+    {
+      "type": "select",
+      "id": "column_section_block_text_align",
+      "label": "Block Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "column_section_block_vertical_align",
+      "label": "Block Vertical Alignment",
+      "options": [
+        {
+          "value": "top_left",
+          "label": "Top Left"
+        },
+        {
+          "value": "top_center",
+          "label": "Top Center"
+        },
+        {
+          "value": "top_right",
+          "label": "Top Right"
+        },
+        {
+          "value": "center_left",
+          "label": "Center Left"
+        },
+        {
+          "value": "center_center",
+          "label": "Center Center"
+        },
+        {
+          "value": "center_right",
+          "label": "Center Right"
+        },
+        {
+          "value": "bottom_left",
+          "label": "Bottom Left"
+        },
+        {
+          "value": "bottom_center",
+          "label": "Bottom Center"
+        },
+        {
+          "value": "bottom_right",
+          "label": "Bottom Right"
+        }
+      ],
+      "default": "center_center"
+    }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "column_image_column",
+      "name": "Image Block",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "column_desktop_image",
+          "label": "Desktop Image",
+          "info": "Dimensions 430 x 360"
+        },
+        {
+          "type": "image_picker",
+          "id": "column_mobile_image",
+          "label": "Mobile Image",
+          "info": "Dimensions 343 x 343"
+        },
+        {
+          "type": "text",
+          "id": "column_heading",
+          "label": "Heading",
+          "placeholder": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "column_body_copy",
+          "label": "Body Copy",
+          "info": "Optional",
+          "placeholder": "Optional body copy"
+        },
+        {
+          "type": "header",
+          "content": "Buttons"
+        },
+        {
+          "type": "text",
+          "id": "column_text_cta1",
+          "label": "CTA 1 Text",
+          "placeholder": "Text"
+        },
+        {
+          "type": "url",
+          "id": "column_url_cta1",
+          "label": "CTA 1 Link"
+        },
+        {
+          "type": "text",
+          "id": "column_text_cta2",
+          "label": "CTA 2 Text",
+          "placeholder": "Text"
+        },
+        {
+          "type": "url",
+          "id": "column_url_cta2",
+          "label": "CTA 2 Link"
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color",
+          "id": "column_color_text",
+          "label": "Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "column_color_text_container_bg",
+          "label": "Text Container Background Color",
+          "default": "transparent",
+          "info": "If section’s layout is “Overlaid with Background”, this color will appear behind the text and CTAs"
+        },
+        {
+          "type": "color",
+          "id": "column_color_cta1",
+          "label": "CTA 1 Background Color",
+          "default": "#DA1221"
+        },
+        {
+          "type": "color",
+          "id": "column_text_color_cta1",
+          "label": "CTA 1 Text Color",
+          "default": "#DA1221"
+        },
+        {
+          "type": "color",
+          "id": "column_color_cta2",
+          "label": "CTA 2 Color",
+          "default": "#003250"
+        },
+        {
+          "type": "color",
+          "id": "column_text_color_cta2",
+          "label": "CTA 2 Text Color",
+          "default": "#DA1221"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Column Section",
+    "category": "Content"
+  }]
+}
+{% endschema %}

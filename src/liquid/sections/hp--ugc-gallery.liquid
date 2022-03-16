@@ -1,0 +1,73 @@
+{%- render 'hp--ugc-gallery', mod_settings: section.settings, mod_blocks: section.blocks -%}
+{% schema %}
+  {
+    "name": "Instagram",
+    "class": "hp-instagram",
+    "settings": [
+      {"type": "paragraph", "content": "The images in this section are curated within Yotpo."},
+      {"type": "header", "content": "Content"},
+      {
+        "type": "text",
+        "id": "preheader",
+        "label": "Preheader"
+      },
+      {
+        "type": "text",
+        "id": "gallery_id",
+        "label": "Yotpo Gallery ID",
+        "default": "6018512bf1b6081033bea572"
+      },
+      {
+        "type": "text",
+        "id": "instagram_handle",
+        "label": "Instagram Handle",
+        "info": "Include the @ symbol"
+      },
+      {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description"
+      },
+      {
+        "type": "text",
+        "id": "link_text",
+        "label": "Link Text"
+      },
+      {
+        "type": "url",
+        "id": "link_url",
+        "label": "Link URL"
+      },
+      {"type": "header", "content": "Colors"},
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color"
+      },
+      {
+        "type": "color",
+        "id": "preheader_text_color",
+        "label": "Preheader Text Color"
+      },
+      {
+        "type": "color",
+        "id": "preheader_border_color",
+        "label": "Preheader Top/Bottom Border"
+      },
+      {
+        "type": "color",
+        "id": "body_copy_color",
+        "label": "Body Copy Color"
+      },
+      {
+        "type": "color",
+        "id": "link_color",
+        "label": "Link Color"
+      }
+    ],
+    "presets": [{
+      "name": "Instagram",
+      "category": "Instagram"
+    }]
+  }
+{% endschema %}

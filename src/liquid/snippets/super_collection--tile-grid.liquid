@@ -1,0 +1,58 @@
+{% if collection.metafields.custom_fields["order-tile_grid"] != blank %}
+  <div style="order: {{ collection.metafields.custom_fields['order-tile_grid'] | json }}">
+    {% capture tile_grid_settings %}
+      {
+        "optional_header": "",
+        "optional_header_text_color": "",
+        "background_color": {{ collection.metafields.custom_fields["super_tile-background_color"] | json }},
+        "large_desktop_image": {{ collection.metafields.custom_fields["super_tile-large_image"] | json }},
+        "large_mobile_image": {{ collection.metafields.custom_fields["super_tile-large_image"] | json }},
+        "youtube_video_url": "",
+        "shopify_video_url": "",
+        "large_preheader": "",
+        "large_header": {{ collection.metafields.custom_fields["super_tile-large_image_header"] | json }},
+        "large_body_copy": {{ collection.metafields.custom_fields["super_tile-large_body_copy"] | json }},
+        "enable_large_textbox": true,
+        "textbox_alignment": "bottom",
+        "large_textbox_background_color": {{ collection.metafields.custom_fields["super_tile-text_background"] | json }},
+        "large_preheader_text_color": {{ collection.metafields.custom_fields["super_tile-text_box_text_color"] | json }},
+        "large_preheader_border_color": {{ collection.metafields.custom_fields["super_tile-text_box_text_color"] | json }},
+        "large_header_text_color": {{ collection.metafields.custom_fields["super_tile-text_box_text_color"] | json }},
+        "large_body_text_color": {{ collection.metafields.custom_fields["super_tile-text_box_text_color"] | json }},
+        "large_cta_1_link_text": {{ collection.metafields.custom_fields["super_tile-large_cta_text"] | json }},
+        "large_cta_1_link_url": {{ collection.metafields.custom_fields["super_tile-large_cta_url"] | json }},
+        "large_cta_1_text_color": {{ collection.metafields.custom_fields["super_tile-large_cta_textcolor"] | json }},
+        "large_cta_1_background_color": {{ collection.metafields.custom_fields["super_tile-large_cta_bg_color"] | json }},
+        "large_cta_2_link_text": "",
+        "large_cta_2_link_url": null,
+        "large_cta_2_text_color": "",
+        "large_cta_2_background_color": "",
+        "small_desktop_image_1": {{ collection.metafields.custom_fields["super_tile-small_image_1"] | json }},
+        "small_mobile_image_1": {{ collection.metafields.custom_fields["super_tile-small_image_1"] | json }},
+        "small_header_1": {{ collection.metafields.custom_fields["super_tile-small_1_header"] | json }},
+        "small_textbox_background_color_1": {{ collection.metafields.custom_fields["super_tile-text_background"] | json }},
+        "small_header_text_color_1": {{ collection.metafields.custom_fields["super_tile-text_box_text_color"] | json }},
+        "small_link_1_text_1": {{ collection.metafields.custom_fields["super_tile-small_1_link_1_text"] | json }},
+        "small_link_1_url_1": {{ collection.metafields.custom_fields["super_tile-small_1_link_1_url"] | json }},
+        "small_link_2_text_1": {{ collection.metafields.custom_fields["super_tile-small_1_link_2_text"] | json }},
+        "small_link_2_url_1": {{ collection.metafields.custom_fields["super_tile-small_1_link_2_url"] | json }},
+        "small_link_3_text_1": "",
+        "small_link_3_url_1": null,
+        "small_desktop_image_2": {{ collection.metafields.custom_fields["super_tile-small_image_2"] | json }},
+        "small_mobile_image_2": {{ collection.metafields.custom_fields["super_tile-small_image_2"] | json }},
+        "small_header_2": {{ collection.metafields.custom_fields["super_tile-small_2_header"] | json }},
+        "small_textbox_background_color_2": {{ collection.metafields.custom_fields["super_tile-text_background"] | json }},
+        "small_header_text_color_2": {{ collection.metafields.custom_fields["super_tile-text_box_text_color"] | json }},
+        "small_link_1_text_2": {{ collection.metafields.custom_fields["super_tile-small_2_link_1_text"] | json }},
+        "small_link_1_url_2": {{ collection.metafields.custom_fields["super_tile-small_2_link_1_url"] | json }},
+        "small_link_2_text_2": {{ collection.metafields.custom_fields["super_tile-small_2_link_2_text"] | json }},
+        "small_link_2_url_2": {{ collection.metafields.custom_fields["super_tile-small_2_link_2_url"] | json }},
+        "small_link_3_text_2": "",
+        "small_link_3_url_2": null,
+        "superstar_name": {{ collection.metafields.custom_fields["superstar_name"] | json }},
+        "superstar_brand": {{ collection.metafields.custom_fields["sub-brand"] | downcase | json }}
+      }
+    {% endcapture %}
+    {%- render 'hp--tile-grid', mod_settings: tile_grid_settings, block_data_from_metafields: true -%}
+  </div>
+{% endif %}

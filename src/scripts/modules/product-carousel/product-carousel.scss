@@ -1,0 +1,22 @@
+.generic-swiper-button-prev {
+  margin-top: -95px;
+  background-color: rgba(0, 0, 0, 0.6);
+  @apply rounded-none w-10 p-2 left-0 -ml-4 h-e144 hidden items-center;
+  @screen md {
+    @apply flex;
+  }
+}
+
+.generic-swiper-button-next {
+  margin-top: -95px;
+  background-color: rgba(0, 0, 0, 0.6);
+  @apply rounded-none w-10 p-2 right-0 -mr-4 h-e144 hidden items-center;
+  @screen md {
+    @apply flex;
+  }
+}
+
+.generic-swiper-button-next > svg,
+.generic-swiper-button-prev > svg {
+  color: white !important;
+}

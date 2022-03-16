@@ -1,0 +1,15 @@
+.superstar-body-copy p {
+  @apply font-body text-md;
+}
+
+.superstar-body-copy strong {
+  @apply font-body font-bold text-md;
+}
+
+.superstar-body-copy a {
+  @apply font-body text-md underline;
+}
+
+.superstar-photo {
+  object-position: bottom;
+}

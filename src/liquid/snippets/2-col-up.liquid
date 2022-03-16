@@ -1,0 +1,23 @@
+<div class="container px-4 mx-auto py-e40 md:py-e80" data-vue-component="BasicBlock">
+  <div class="grid grid-cols-1 sm:grid-cols-12 sm:gap-e40 lg:gap-e125 sm:items-center">
+    <div class="sm:col-span-6 lg:col-span-7 {% if mod_settings.is_reverse %}order-2{% endif %}">
+      <div class="ratio ro-58 mb-4 sm:mb-0">
+        {%- assign mod_src = mod_settings.image | img_url: '650x' -%}
+        {% render 'picture', mod_src: mod_src %}
+      </div>
+    </div>
+
+    <div class="sm:col-span-6 lg:col-span-5 {% if mod_settings.is_reverse %}order-1{% endif %}">
+      {%- if mod_settings.title -%}
+        <h3 class="text-h3 font-bold mb-2 sm:mb-e16">{{ mod_settings.title }}</h3>
+      {%- endif -%}
+      {%- if mod_settings.subheader -%}
+        <p class="text-h6 font-medium mb-4 sm:text-body-lg sm:mb-e16">{{ mod_settings.subheader }}</p>
+      {%- endif -%}
+      <p class="text-body-md tracking-wide">{{ mod_settings.content }}</p>
+      {%- if mod_settings.cta != blank -%}
+      <a is="BtnPrimaryLink" class="mt-4 uppercase font-medium" href="{{ mod_settings.cta_url }}">{{ mod_settings.cta }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+.product-card:hover .quickshop-btn {
+  @apply opacity-100;
+}
+
+.card-image {
+  @apply blend-darken;
+}
+
+.product-card a:hover .card-primary {
+  opacity: 0;
+}
+
+.product-card a:hover .card-hover {
+  opacity: 1;
+}
+
+.active-color {
+  color: #0e1111;
+
+  @apply w-full font-body text-modal mb-2 flex;
+
+  span {
+    @apply uppercase font-secondary font-bold mr-2;
+  }
+
+  p {
+    @apply w-full font-body text-modal mb-0;
+  }
+}
+
+.product-card .variant-swatch.is-active,
+.product-card .variant-swatch:hover {
+  border-color: var(--color-primary-500) !important;
+}
+
+.product-card:hover .swatches {
+  @apply scale-100 opacity-100;
+}
+
+.yotpo-display-wrapper .text-m {
+  display: none !important;
+}
+
+.yotpo-display-wrapper .yotpo-icon::before {
+  @apply text-primary-500;
+}

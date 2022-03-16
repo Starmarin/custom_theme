@@ -1,0 +1,20 @@
+// Promo Content
+.promo-content p {
+  @apply font-body font-normal text-xs pr-e26;
+}
+
+.promo-content em {
+  @apply font-body font-normal italic text-xs;
+}
+
+.promo-content a {
+  @apply font-body font-semibold underline text-xs;
+
+  &:hover {
+    @apply no-underline;
+  }
+}
+
+.promo-content strong {
+  @apply font-body font-bold text-xs;
+}

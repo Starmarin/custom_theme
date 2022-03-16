@@ -1,0 +1,22 @@
+{
+    "sections": {
+        "all-superstars-banner": {
+            "type": "global__all-superstars-banner"
+        },
+        "superstar-carousel": {
+            "type": "global__superstar-carousel",
+            "settings": {
+            }
+        },
+        "superstar-grid": {
+            "type": "global__superstar-grid",
+            "settings": {
+            }
+        }
+    },
+    "order": [
+        "all-superstars-banner",
+        "superstar-carousel",
+        "superstar-grid"
+    ]
+}

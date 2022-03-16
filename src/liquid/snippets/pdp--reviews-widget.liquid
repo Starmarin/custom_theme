@@ -1,0 +1,8 @@
+<div id="yotpo-widget" class="yotpo yotpo-main-widget container"
+  data-aos="fade"
+  data-product-id="{{ product.id }}"
+  data-name="{{ product.title | escape }}"
+  data-url="{{ shop.url }}{{ product.url }}"
+  data-image-url="{{ product.featured_image | product_img_url: "large" | url_encode }}"
+  data-description="{{ product.description | escape }}">
+</div>

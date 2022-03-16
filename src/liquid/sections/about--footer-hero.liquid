@@ -1,0 +1,95 @@
+{%- render 'global--hero', mod_settings: section.settings, mod_no_arrow: true -%}
+{% schema %}
+  {
+    "name": "About Footer Hero",
+    "class": "hero",
+    "settings": [
+      {
+        "id": "theme",
+        "type": "select",
+        "label": "Theme",
+        "options": [
+          {
+            "value": "dark",
+            "label": "Dark"
+          },
+          {
+            "value": "light",
+            "label": "Light"
+          }
+        ],
+        "default": "light"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "content",
+        "label": "Content"
+      },
+      {
+        "type": "text",
+        "id": "cta_1",
+        "label": "CTA 1"
+      },
+      {
+        "type": "url",
+        "id": "cta_1_url",
+        "label": "CTA 1 Link"
+      },
+      {
+        "type": "text",
+        "id": "cta_2",
+        "label": "CTA 2"
+      },
+      {
+        "type": "url",
+        "id": "cta_2_url",
+        "label": "CTA 2 Link"
+      },
+      {
+        "type": "select",
+        "id": "align",
+        "label": "Align",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "label": "Overlay Opacity",
+        "min": 0,
+        "max": 75,
+        "default": 30
+      },
+      {
+        "id": "image",
+        "label": "Image",
+        "type": "image_picker",
+        "info": "Image Dimensions: Width: 1920px, Height: 720px"
+      },
+      {
+        "id": "mobile_image",
+        "label": "Mobile Image",
+        "type": "image_picker",
+        "info": "Image Dimensions: Width: 400px, Height: 562px"
+      }
+    ]
+  }
+{% endschema %}

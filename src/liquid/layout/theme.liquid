@@ -1,0 +1,179 @@
+<!doctype html>
+<html class="no-js supports-no-cookies" lang="{{ shop.locale }}">
+  <head>
+    {%- render 'gtm-head' -%}
+    {%- render 'adswerve-head' -%}
+    {%- render 'boost-pfs-style' -%}
+    {%- render 'borderfree-head' -%}
+    {%- render 'template-head' -%}
+    {{ content_for_header }}
+    <script type="text/javascript" src="{{ 'jquery-3.6.0.min.js' | asset_url }}"></script>
+    {%- render 'klarna' -%}
+  
+    {% for locale in shop.published_locales %}
+      {% if locale.primary %}
+        {% assign primary_locale = locale.iso_code %}
+      {% endif %}
+    {% endfor %}
+  
+    
+    <script>
+      let storage = sessionStorage.getItem("pb-ms-4424");
+      let storageCountry;
+      try {
+        storage = JSON.parse(storage);
+        storageCountry = storage && storage.country && storage.country.code;
+      } catch (error) {
+        console.log(error);
+      }
+      const country = window.Cookies.get('_shopify_country') || window.Cookies.get('zCountry') || storageCountry;
+      window.__BVA__ = {
+        cart: {% include 'json--cart', cart: cart %},
+        cart_errors: undefined,
+        primary_language: {{ primary_locale | json }},
+        current_language: {{ shop.locale | json }},
+        current_currency: Shopify.currency.active,
+        current_store: {{ shop.metafields.custom_fields["store_country"] | json }},
+        subscriptions_modal_headline:  {{ shop.metafields.custom_fields["subscription_modal_headline"] | json }},
+        subscriptions_modal_title:  {{ shop.metafields.custom_fields["subscription_modal_title"] | json }},
+        subscriptions_modal_text:  {{ shop.metafields.custom_fields["subscription_modal_text"] | json }},
+        subscriptions_modal_btn_link:  {{ shop.metafields.custom_fields["subscription_modal__btn_link"] | json }},
+        subscription_modal_btn_text:  {{ shop.metafields.custom_fields["subscription_modal_btn_text"] | json }},
+        cart_modal: false,
+        free_shipping_visible: true,
+        borderfree: '',
+        shopify_country: country,
+        customer_discount_codes_used: {%- render 'json--discount-codes-used' -%},
+        sidecart_settings: {
+          cart_gift_message_enable: {{ settings.cart_gift_message_enable | json }},
+          cart_free_shipping_enable: {{ settings.cart_free_shipping_enable | json }},
+          cart_free_shipping_threshold: {{ settings.cart_free_shipping_threshold }} * 100, // convert dollars to cents
+          cart_donation_enable: {{ settings.cart_donation_enable | json }},
+          cart_donation_product: {{ settings.cart_donation_product | json }}
+        },
+        customer: {{ customer.id  | json}},
+        valid_printful_user: {{ shop.metafields.custom_fields["store_country"] | json }} === 'eu' && country !== 'UK' && country !== 'GB' && country !== 'United+Kingdom' && country !== 'US' && country !== 'United+States',
+        language: {
+          login_redeem: {{ 'cart.general.login_to_redeem_rewards' | t | json }},
+          add_to_cart: {{ 'products.product.add_to_cart' | t | json }},
+          not_available: {{ 'products.product.not_available' | t | json }},
+          select_option: {{ 'products.product.select_option' | t | json }},
+          shipping_by_text: {{ 'products.product.shipping_by_text' | t | json }},
+          personalization_btn: {{ 'products.product.personalization_btn' | t | json }},
+          subscription: {{'products.product.subscription' | t | json }},
+          subscription_btn: {{'products.product.subscription_btn' | t | json }},
+          whats_this_text: {{'products.product.whats_this_text' | t | json }},
+          quantity: {{ 'products.product.quantity' | t | json }},
+          close: {{ 'cart.general.gift_note_close' | t | json }},
+          add: {{ 'products.product.add' | t | json }},
+          added: {{ 'products.product.added' | t | json }},
+          return: {{ 'products.product.return' | t | json }},
+          out_of_stock: {{ 'products.product.out_of_stock' | t | json }},
+          promo: {{ 'products.product.promo' | t | json }},
+          preorder: {{ 'products.product.preorder' | t | json }},
+          backorder: {{ 'products.product.backorder' | t | json }},
+          sale: {{ 'products.product.sale' | t | json }},
+          limited: {{ 'products.product.limited' | t | json }},
+          bestseller: {{ 'products.product.bestseller' | t | json }},
+          new: {{ 'products.product.new' | t | json }},
+          youth: {{ 'products.product.youth' | t | json }},
+          customizable: {{ 'products.product.customizable' | t | json }},
+          customized: {{ 'products.product.customized' | t | json }},
+          personalized: {{ 'products.product.personalized' | t | json }},
+          special_offer: {{ 'products.product.special_offer' | t | json }},
+          available: {{ 'products.product.available' | t | json }},
+          only: {{ 'products.product.only' | t | json }},
+          left: {{ 'products.product.left' | t | json }},
+          buy_now: {{ 'products.product.buy_now' | t | json }},
+          details: {{ 'products.product.details' | t | json }},
+          quick_shop: {{ 'products.product.quick_shop' | t | json }},
+          ymal: {{ 'products.product.ymal' | t | json }},
+          home: {{ 'products.product.home' | t | json }},
+          apply_now: {{ 'layout.international.apply_btn' | t | json }},
+          product_type: {{ 'products.product.product_type' | t | json }},
+          size_chart: {{ 'products.product.size_chart' | t | json }},
+          rotate_belt: {{ 'products.product.rotate_belt' | t | json }},
+          subcategories: {{ 'collections.general.subcategories' | t | json }},
+          shop_now: {{ 'collections.general.shop_now' | t | json }},
+          complete_look: {{ 'products.product.complete_look' | t | json }},
+          fits: {{ 'products.product.fits' | t | json }},
+          order_history: {{ 'customer.navigation.order_history' | t | json }},
+          address_book: {{ 'customer.navigation.address_book' | t | json }},
+          subscriptions: {{ 'customer.navigation.subscriptions' | t | json }},
+          rewards: {{ 'customer.navigation.rewards' | t  | json }},
+          confirm_delete: {{ 'customer.addresses.confirm_delete' | t | json }},
+          countdown_days: {{ 'general.countdown.days' | t | json }},
+          countdown_hours: {{ 'general.countdown.hours' | t | json }},
+          countdown_minutes: {{ 'general.countdown.minutes' | t | json }},
+          countdown_seconds: {{ 'general.countdown.seconds' | t | json }},
+          countdown_minutes_short: {{ 'general.countdown.minutes_short' | t | json }},
+          countdown_seconds_short: {{ 'general.countdown.seconds_short' | t | json }},
+          product_exclusion_text: {{ settings.product_exclusion_text | json }}
+        },
+        settings: {
+          oos_text_color: {{ settings.oos_text_color | json }},
+          oos_bg_color: {{ settings.oos_bg_color | json }},
+          promo_text_color: {{ settings.promo_text_color | json }},
+          promo_bg_color: {{ settings.promo_bg_color | json }},
+          preorder_text_color: {{ settings.preorder_text_color | json }},
+          preorder_bg_color: {{ settings.preorder_bg_color | json }},
+          backorder_text_color: {{ settings.backorder_text_color | json }},
+          backorder_bg_color: {{ settings.backorder_bg_color | json }},
+          sale_text_color: {{ settings.sale_text_color | json }},
+          sale_bg_color: {{ settings.sale_bg_color | json }},
+          limited_text_color: {{ settings.limited_text_color | json }},
+          limited_bg_color: {{ settings.limited_bg_color | json }},
+          bestseller_text_color: {{ settings.bestseller_text_color | json }},
+          bestseller_bg_color: {{ settings.bestseller_bg_color | json }},
+          new_text_color: {{ settings.new_text_color | json }},
+          new_bg_color: {{ settings.new_bg_color | json }},
+          youth_text_color: {{ settings.youth_text_color | json }},
+          youth_bg_color: {{ settings.youth_bg_color | json }},
+          customizable_text_color: {{ settings.customizable_text_color | json }},
+          customizable_bg_color: {{ settings.customizable_bg_color | json }},
+          customizable_btn_text_color: {{ settings.customizable_btn_text_color | json }},
+          customizable_btn_bg_color: {{ settings.customizable_btn_bg_color | json }},
+          customizable_atc_disable: {{ settings.customizable_atc_disable | json }},
+          enable_subscription_tab: {{ settings.enable_subscription_tab | json }},
+        },
+      }
+
+    </script>
+
+    <script>
+      window.localStorage.setItem('carrier_product_id', '{{ all_products[settings.upsell_dummy_product].id }}');
+    </script>
+    {% if settings.gdpr_link %}
+      <script async="async" src=//consent.trustarc.com/notice?domain=wwe.com&c=teconsent&js=nj&noticeType=bb&&gtm=1 crossorigin=""></script>
+    {% endif %}
+    {% if shop.metafields.custom_fields["store_country"] == "usa" %}
+      <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/yPCNIQYabQr5Z-pJ6kF0NA" async></script>
+    {% else %}
+      <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/mEkZN6LAsJ6r1hG7aoHF4w" async></script>
+    {% endif %}
+    {% if template contains 'refer' or template contains 'rewards' or template contains 'account' %}
+      {{ 'swell.rewards.scss.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+  </head>
+
+  <body class="template-{{ template.name | handle }} layout--default bfx-price-container" id="top">
+    {%- render 'gtm-body' -%}
+    {%- render 'icon-store' -%}
+    {% render 'nav--root' %}
+    <div id="MainContentWrapper">
+      <main role="main" id="MainContent" class="bfx-price-container">
+        {{ content_for_layout }}
+      </main>
+      {% section 'footer' %}
+    </div>
+    {%- section 'global-superstar-list' -%}
+    {%- section 'gwp--params' -%}
+    {%- render 'template-scripts' -%}
+    {% unless template == 'cart' %}
+      {%- render 'sidecart--root' -%}
+    {% endunless %}
+    {%- render 'boost-pfs' -%}
+    {%- render 'borderfree' -%}
+
+  </body>
+</html>

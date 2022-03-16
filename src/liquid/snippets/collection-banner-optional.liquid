@@ -1,0 +1,59 @@
+{% if collection.metafields.custom_fields["optional_promo_desktop_image"] != blank %}
+  {% assign promo_bg_desktop  = 'url(' | append: collection.metafields.custom_fields["optional_promo_desktop_image"] | append: ')' %}
+  {% assign promo_bg_mobile  = 'url(' | append: collection.metafields.custom_fields["optional_promo_mobile_image"] | append: ')' %}
+
+  <div class="flex flex-col items-start optional-banner-bg p-6 h-e320">
+    {% if collection.metafields.custom_fields["optional_promo_header"] != blank %}
+      <p class="font-primary font-extrabold text-white text-lg md:text-e36 uppercase tracking-wider">{{ collection.metafields.custom_fields["optional_promo_header"] }}</p>
+    {% endif %}
+    <div class="flex mt-4">
+      {% if collection.metafields.custom_fields["link_1_url"] != blank %}
+        <a 
+          style="color: {{ collection.metafields.custom_fields['optional_promo_text_color'] }}" 
+          class="font-body md:font-primary font-normal md:font-bold text-megamenu_sub md:tracking-wider md:uppercase link--secondary-reverse mr-4 md:mr-e18 px-0" 
+          href="{{ collection.metafields.custom_fields["link_1_url"] }}">
+          {{ collection.metafields.custom_fields["link_1_text"] }} 
+        </a>
+      {% endif %}
+      {% if collection.metafields.custom_fields["link_2_url"] != blank %}
+        <a 
+          style="color: {{ collection.metafields.custom_fields['optional_promo_text_color'] }}" 
+          class="font-body md:font-primary font-normal md:font-bold text-megamenu_sub md:tracking-wider md:uppercase link--secondary-reverse mr-4 md:mr-e18 px-0" 
+          href="{{ collection.metafields.custom_fields["link_2_url"] }}">
+          {{ collection.metafields.custom_fields["link_2_text"] }}
+        </a>
+      {% endif %}
+      {% if collection.metafields.custom_fields["link_3_url"] != blank %}
+        <a 
+          style="color: {{ collection.metafields.custom_fields['optional_promo_text_color'] }}" 
+          class="font-body md:font-primary font-normal md:font-bold text-megamenu_sub md:tracking-wider md:uppercase link--secondary-reverse mr-4 md:mr-e18 px-0" 
+          href="{{ collection.metafields.custom_fields["link_3_url"] }}">
+          {{ collection.metafields.custom_fields["link_3_text"] }}
+        </a>
+      {% endif %}
+      {% if collection.metafields.custom_fields["link_4_url"] != blank %}
+          <a 
+            style="color: {{ collection.metafields.custom_fields['optional_promo_text_color'] }}" 
+            class="font-body md:font-primary font-normal md:font-bold text-megamenu_sub md:tracking-wider md:uppercase link--secondary-reverse px-0" 
+            href="{{ collection.metafields.custom_fields["link_4_url"] }}">
+            {{ collection.metafields.custom_fields["link_4_text"] }}
+          </a>
+      {% endif %}
+    </div>
+
+  </div>
+
+
+  <style>
+    .optional-banner-bg {
+      background: {{ promo_bg_desktop }};
+      background-size: cover;
+    }
+    @media screen and (max-width:650px) {
+      .optional-banner-bg{
+        background: {{ promo_bg_mobile }};
+        background-size: cover;
+      }      
+    }
+  </style>
+{% endif %}

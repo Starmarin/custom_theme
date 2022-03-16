@@ -1,0 +1,15 @@
+window.__BVA__ = window.__BVA__ || {}; 
+window.__BVA__.global_superstar_data = {
+  "superstars": 
+  [
+    {% for block in section.blocks %}
+    {
+      "superstar_collection": {{ block.settings.collection | json }},
+      "superstar_collection_link": {{ collections[block.settings.collection].url | json }},
+      "superstar_title": {{ block.settings.title | downcase | json }},
+      "superstar_image": {{ block.settings.superstar_name | img_url: '500x' | json }},
+      "superstar_brand": {{ block.settings.brand | json }}      
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}

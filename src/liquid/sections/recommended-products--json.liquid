@@ -1,0 +1,10 @@
+{% layout none %}
+{
+  "products": [
+    {%- for product in recommendations.products -%}
+      {% if product.id != blank and product.id %}
+        {% render 'json--product', product: product %}{%- unless forloop.last -%},{%- endunless -%}
+      {% endif %}
+    {%- endfor -%}
+  ]
+}

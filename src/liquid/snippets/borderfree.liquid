@@ -1,0 +1,240 @@
+<script>
+  function listen(eventName, eventHandler) {
+    console.log('Listening for ' + eventName + ' event.');
+    if (window.addEventListener) {
+        window.addEventListener(eventName, eventHandler, false);
+    } else if (window.attachEvent) { //IE 8 and older
+        if (eventName.indexOf('bfx') > -1) { //custom bfx events
+          window.attachEvent("onpropertychange", function (event) {
+              if (event.propertyName == eventName) {
+                eventHandler(eventHandler);
+              }
+          });
+        } else { //standard js events
+          window.attachEvent(eventName, eventHandler);
+        }
+    }
+  }
+
+  (function(BorderFree, $) {
+    'use strict';
+
+    BorderFree.isInternational = Cookies.get('bfx.isInternational');
+    
+    var borderFree = function () {
+      var currentCountry = $('#bfx-cc-countries-select option:selected').text();
+      var currentCountryFlag = $('.bfx-cc-flag img').clone().addClass('current-country-image');
+      var currentCountryCurrency = $('#bfx-cc-currencies-select option:selected').val();
+      var $currentCountryContainer = $('<span />', {
+        'class': 'current-country-container hidden',
+        'html': [currentCountryFlag, currentCountryCurrency, currentCountry]
+      });
+
+      $('.current-country').append($currentCountryContainer).show();
+
+      $('#bfx-cc-countries-select option').each(function () {
+        $(this).clone().appendTo('.js-change-bfx-country');
+      });
+
+      $('#bfx-cc-currencies-select option').each(function () {
+        $(this).clone().appendTo('.js-change-bfx-currency');
+      });
+
+      let currentCountryImage = document.querySelector('.current-country-image').getAttribute('src');
+      document.querySelector('.current-country-image-desktop').setAttribute('src', currentCountryImage);
+      document.querySelector('.current-country-image-mobile').setAttribute('src', currentCountryImage);
+      document.querySelector('.current-country-image-mobile-expand').setAttribute('src', currentCountryImage);
+
+      if(document.location.href.includes('/cart')){
+        let metaElement = document.createElement('meta');
+        metaElement.setAttribute('name', 'format-detection');
+        metaElement.setAttribute('content', 'telephone=no');
+        document.head?.appendChild(metaElement);
+      }
+
+    };
+
+    var borderFreeCheck = function () {
+      var borderFreeLoaded = false;
+      var checkBf = setInterval(function () {
+        if ($('#bfx-cc-wrapper').length && borderFreeLoaded === false) {
+          borderFreeLoaded = true;
+          borderFree();
+          clearInterval(checkBf);
+        }
+      }, 50);
+    };
+
+    var forceBorderFreeUS = function () {
+      var source = Helpers.getUrlParameterByName('source');
+      if (source === 'no-bf') {
+        // Cookies.set('bfx.isInternational', 'false', { domain: '{{ shop.permanent_domain }}' });
+        // Cookies.set('bfx.countryName', ' United States', { domain: '{{ shop.permanent_domain }}' });
+        // Cookies.set('bfx.country', 'US', { domain: '{{ shop.permanent_domain }}' });
+        // Cookies.set('bfx.currency', 'USD' , { domain: '{{ shop.permanent_domain }}' });
+      }
+    };
+
+    var disableBorderFree = function () {
+      if (!window.borderFreeActive) {
+        Cookies.remove('bfx.isInternational');
+        Cookies.remove('bfx.countryName');
+        Cookies.remove('bfx.country');
+        Cookies.remove('bfx.currency');
+      }
+    };
+
+    var changeBFXSelect = function (typeOfSelector, valueSelected) {
+      $('#bfx-cc-'+ typeOfSelector.replace('y', '').toLowerCase() +'ies-select option:selected').prop('selected', false);
+      $('#bfx-cc-'+ typeOfSelector.replace('y', '').toLowerCase() +'ies-select option[value="' + valueSelected + '"]').prop('selected', true);
+
+      // Google Analytics Tracking
+      if ( typeof ga === 'function' ) {
+        ga('send', 'event', 'Currency Picker', typeOfSelector, valueSelected);
+      }
+    };
+
+    var bindUIActions = function () {
+      if (BorderFree.isInternational === 'true') {
+        $('body').addClass('js-bfx-international');
+      } else {
+        $('body').removeClass('js-bfx-international');
+      }
+        
+      $(document).on('change', '.js-change-bfx-country', function () {
+        var val = $(this).val();
+
+        $('#bfx-cc-countries-select option:selected').prop('selected', false);
+        $('#bfx-cc-countries-select option[value="' + val + '"]').prop('selected', true);
+
+      });
+
+      $(document).on('change', '.js-change-bfx-currency', function () {
+        changeBFXSelect('Currency', $(this).val())
+      });
+
+      $(document).on('click', '.js-update-borderfree', function () {
+        var country = $(this).closest('.bva.borderfree-inside-container').find('.js-change-bfx-country').val();
+        var countryName = $(this).closest('.bva.borderfree-inside-container').find('.js-change-bfx-country option:selected').text();
+        var currency = $(this).closest('.bva.borderfree-inside-container').find('.js-change-bfx-currency').val();
+        
+
+        if (country === 'US') {
+          // Cookies.set('bfx.isInternational', 'false', { domain: '{{ shop.permanent_domain }}' });
+        } else {
+          // Cookies.set('bfx.isInternational', 'true', { domain: '{{ shop.permanent_domain }}' });
+        }
+
+        // Cookies.set('bfx.countryName', countryName, { domain: '{{ shop.permanent_domain }}' });
+        // Cookies.set('bfx.country', country, { domain: '{{ shop.permanent_domain }}' });
+        // Cookies.set('bfx.currency', currency, { domain: '{{ shop.permanent_domain }}' });
+
+        // Google Analytics Tracking
+        if ( typeof ga === 'function' ) {
+          ga('send', 'event', 'Global Header - Desktop', 'Currency Picker', currency);
+          ga('send', 'event', 'Currency Picker', 'Shop Now');
+        }
+
+        window.location.reload(true);
+      });
+    };
+
+    $(document).on('change', '#bfx-cc-countries-select', function () {
+      // console.log('country select triggered');
+
+      window.setTimeout(function(){
+        // var country = $('#bfx-cc-countries-select option:selected').val();
+        // var countryName = $('#bfx-cc-countries-select option:selected').text().replace(" ","");
+        // var currency = $('#bfx-cc-currencies-select option:selected').val();          
+
+        // if (country === 'US') {
+        //   Cookies.set('bfx.isInternational', 'false', { domain: '{{ shop.permanent_domain }}' });
+        // } else {
+        //   Cookies.set('bfx.isInternational', 'true', { domain: '{{ shop.permanent_domain }}' });
+        // }
+
+        // Cookies.set('bfx.countryName', countryName, { domain: '{{ shop.permanent_domain }}' });
+        // Cookies.set('bfx.country', country, { domain: '{{ shop.permanent_domain }}' });
+        // Cookies.set('bfx.currency', currency, { domain: '{{ shop.permanent_domain }}' });
+      }, 500)
+    });
+
+    // inits postOrder function from GTM -- injects checkout envoy
+    BorderFree.postOrder = function() {
+      $(window).on('load', function() {
+        var status = Helpers.getUrlParameterByName('ppStatus');
+        if (status !== undefined) {
+          // console.log('status:', status);
+          // postOrder();
+        }
+      });
+    };
+
+    BorderFree.init = function () {
+      listen('bfx-contextChooser-loadEnd', function() {
+        // disableBorderFree();
+        // forceBorderFreeUS();
+        bindUIActions();
+        borderFreeCheck();
+      });
+    };
+
+  }(window.BorderFree = window.BorderFree || {}, jQuery));
+
+  (function (Helpers, $) {
+    'use strict';
+
+    /**
+     * Debounce
+     *
+     * Returns a function, that, as long as it continues to be invoked, will not
+     * be triggered. The function will be called after it stops being called for
+     * N milliseconds. If `immediate` is passed, trigger the function on the
+     * leading edge, instead of the trailing.
+     *
+     * Usage:
+     * var lazyLayout = Helpers.debounce(calculateLayout, 300);
+     * $(window).resize(lazyLayout);
+     */
+
+    Helpers.debounce = function (func, wait, immediate) {
+      var timeout;
+      return function () {
+        var self = this;
+        var args = arguments;
+        var later = function () {
+          timeout = null;
+          if (!immediate) func.apply(self, args);
+        };
+
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(self, args);
+      };
+    };
+
+    /**
+     * Get URL Parameter By Name
+     *
+     * Returns value of the named url parameter
+     */
+    Helpers.getUrlParameterByName = function (name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+      var results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    };
+
+  }(window.Helpers = window.Helpers || {}, jQuery));
+
+  {% if shop.metafields.custom_fields["store_country"] == 'usa' %}
+    // window.addEventListener('DOMContentLoaded', () => {
+      window.BorderFree.init();
+    // })
+  {% endif %}
+
+</script>

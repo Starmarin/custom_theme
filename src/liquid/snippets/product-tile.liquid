@@ -1,0 +1,6 @@
+
+{%- capture product_json -%}
+  {%- include 'json--product' -%}
+{%- endcapture -%}
+
+<product-tile :product="{{ product_json | escape }}"></product-tile>

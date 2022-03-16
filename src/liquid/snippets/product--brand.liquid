@@ -1,0 +1,15 @@
+{%- assign brand = 'WWE' -%}
+{%- for tag in product.tags -%}
+  {%- if tag contains "Superstar:" -%}
+    {%- assign brand = tag | split: "Superstar:" | last -%}
+    {%- break -%}
+  {%- elsif tag contains 'Brand:' -%}
+    {%- assign brand = tag | split: "Brand:" | last -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if json != false -%}
+  {{- brand | json -}}
+{%- else -%}
+  {{- brand | escape -}}
+{%- endif -%}

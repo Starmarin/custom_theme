@@ -1,0 +1,82 @@
+{%- assign is_modal = modal -%}
+
+<section is="AccountLoginForm" inline-template>
+  <div @submit="validate" class="text-center sm:w-10/12 mx-auto w-full max-w-e410">
+    {%- unless is_modal -%}
+      <h1 class="font-primary font-extrabold text-xl md:text-e36 uppercase tracking-header mb-4 text-black">{{ 'customer.login.login' | t }}</h1>
+      <p class="font-body font-normal text-megamenu_sub md:text-md mb-6">{{ 'customer.login.content' | t }}</p>
+    {%- endunless -%}
+    {%- form 'customer_login' -%}
+      {%- assign mod_errors = form.errors | default: false -%}
+      {%- if mod_errors -%}
+        {%- for field in mod_errors -%}
+          {%- if field == 'form' -%}
+            <p class="p bg-white font-body p-4 text-e14 my-e10 text-red-700">{{- mod_errors.messages[field] -}}</p>
+          {%- else -%}
+            <p class="p bg-white font-body p-4 text-e14 my-e10 text-red-700">{{ mod_errors.translated_fields[field] | capitalize }} {{ mod_errors.messages[field] }}.</p>
+          {%- endif -%}
+          {%- assign error_text = mod_errors.messages[field] -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- assign mod_errors = nil -%}
+      <div class="flex items-center justify-center mb-6">
+        <div class="{%- if is_modal -%}text-e28 tracking-header {% else %} text-md tracking-wider {% endif %} font-bold font-primary uppercase px-e10 pt-2 border-b-2 border-primary-500">{{ 'customer.login.login' | t }}</div>
+        {%- unless is_modal -%}
+          <a class="font-primary font-bold uppercase text-md px-e10 pt-2 border-b-2 border-gray-300 tracking-wider focus:shadow-outline" href="{{ routes.account_register_url }}">{{ 'customer.login.create_account' | t }}</a>
+        {%- endunless -%}
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 mb-4">
+        <div>
+          {%- assign placeholder = 'customer.login.email' | t -%}
+          {%- render 'text-input' with
+            mod_name: 'customer[email]',
+            mod_type: 'email',
+            mod_label: placeholder,
+            mod_required: true -%}
+          {%- assign placeholder = nil -%}
+        </div>
+
+        <div>
+          {%- assign placeholder = 'customer.login.password' | t -%}
+          {%- render 'text-input' with
+            mod_name: 'customer[password]',
+            mod_type: 'password',
+            mod_label: placeholder,
+            mod_required: true -%}
+          {%- assign placeholder = nil -%}
+        </div>
+      </div>
+
+      <button is="BtnPrimary" @click="loginAttempt" class="w-full uppercase mb-4" type="submit">{{ 'customer.login.login' | t }}</button>
+
+      {% if form.errors %}
+        <span class="hidden" :adswerve="loginFail"></span>
+      {% endif %}
+
+      <div class="form-row flex justify-center">
+        <a class="link--secondary-reverse px-0 uppercase text-md tracking-wider font-bold text-primary-500" href="javascript:void(0)" @click="$parent.changeForm('recover')">{{ 'customer.login.forgot_password' | t }}</a>
+      </div>
+      {% if is_modal %}
+        <div class="form-row flex justify-center mt-e16">
+          <span class="pt-e2 mr-e3 uppercase text-md tracking-wider font-bold"> {{ settings.preheader_create_account }} </span> <a class="link--secondary-reverse px-0 uppercase text-md tracking-wider font-bold text-primary-500" href="{{ routes.account_register_url }}">{{ 'customer.login.create_account' | t }}</a>
+        </div>
+      {% endif %}
+    {%- endform -%}
+    </form>
+    
+    <div class="{%- unless is_modal -%}md:hidden {% endunless %} pt-e16 border-t border-gray-300 mt-e32">
+      {%- if settings.account_footer_title -%}
+        <p class="text-e24 tracking-header font-bold text-center uppercase" style="color: {{settings.account_footer_title_color}}">{{settings.account_footer_title}}</p>
+      {%- endif -%}
+      {%- if settings.account_footer_description -%}
+        <p class="text-e14 font-body my-e8 text-center" style="color: {{settings.account_footer_description_color}}">{{settings.account_footer_description}}</p>
+      {%- endif -%}
+      {%- if settings.account_footer_cta_text and settings.account_footer_cta_url -%}
+        <div class="flex justify-center">
+          <a class="link--secondary-reverse py-e12 px-e8 uppercase tracking-wider font-bold text-e16 font-bold inline-block text-center" style="color: {{settings.account_footer_cta_text_color}}; background: {{settings.account_footer_cta_bg_color}}" href="{{settings.account_footer_cta_url}}">{{settings.account_footer_cta_text}}</a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,47 @@
+{% for item in collection.metafields.custom_fields["super_column_section"] %}
+  {% assign column_key = 'order-column_section_' | append: forloop.index %}
+  {% if collection.metafields.custom_fields[column_key] != blank %}
+    <div style="order: {{ collection.metafields.custom_fields[column_key] | json }}">
+      {% assign block_count = item['super_column-images'] | size %}
+      {% assign block_layout = item['super_column-layout'] | downcase %}
+      {% capture column_section_settings %}
+        {
+          "column_section_title": {{ item["super_column-header"] | json }},
+          "column_section_margin_top": {{ item["super_fifty-background_color"] | json }},
+          "column_section_margin_bottom": {{ item["super_fifty-image"] | json }},
+          "column_section_background_color": {{ item["super_column-section_bg"] | json }},
+          "column_section_block_layout": {{ item["super_column-layout"] | downcase | json }},
+          "column_section_block_text_align": "center",
+          "column_section_block_vertical_align": "bottom",
+          "superstar_name": {{ collection.metafields.custom_fields["superstar_name"] | json }},
+          "superstar_brand": {{ collection.metafields.custom_fields["sub-brand"] | downcase | json }}
+        }
+      {% endcapture %}
+      {% capture column_section_blocks %}
+        [
+          {% for block in item["super_column-images"] %}
+            {
+              "settings": {
+                "column_desktop_image": {{ block["super_column-image"] | json }},
+                "column_mobile_image": {{ block["super_column-image"] | json }},
+                "column_heading": {{ block["super_column-header"] | json }},
+                "column_body_copy": {{ block["super_column-body_copy"] | json }},
+                "column_color_text": {{ block["super_column-text_color"] | json }},
+                "column_color_text_container_bg": {{ block["super_column-header"] | json }},
+                "column_text_cta1": {{ block["super_column-cta_1_text"] | json }},
+                "column_url_cta1": {{ block["super_column-cta_1_url"] | json }},
+                "column_text_color_cta1": {{ block["super_column-cta_1_text_color"] | json }},
+                "column_color_cta1": {{ block["super_column-cta_1_bg_color"] | json }},
+                "column_text_cta2": {{ block["super_column-cta_2_text"] | json }},
+                "column_url_cta2": {{ block["super_column-header"] | json }},
+                "column_text_color_cta2": {{ block["super_column-cta_2_text_color"] | json }},
+                "column_color_cta2": {{ block["super_column-cta_2_bg_color"] | json }}
+              }
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      {% endcapture %}
+      {%- render 'hp--columns', mod_settings: column_section_settings, mod_blocks: column_section_blocks, column_block_count: block_count, column_block_layout: block_layout, block_data_from_metafields: true -%}
+    </div>
+  {% endif %}
+{% endfor %}

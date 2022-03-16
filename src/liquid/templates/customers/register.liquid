@@ -1,0 +1,9 @@
+{%- layout 'theme' -%}
+<div data-vue-component="AccountBase" class="grid grid-cols-1 sm:grid-cols-2">
+  <div class="ratio ro-56-5 h-e320 sm:h-full">
+    <img src="{{ 'account-page-image.jpg' | file_img_url: '900x' }}" alt="Account Image" class="object-cover w-full h-full absolute top-0 left-0">
+  </div>
+  <div class="bg-white px-4 pb-e80 md:pb-e125 pt-6 md:pt-e125 md:px-15 lg:px-e120">
+    {%- include 'account-forms' with view: 'register' -%}
+  </div>
+</div>

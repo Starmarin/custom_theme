@@ -1,0 +1,131 @@
+{%- render 'hp--collection-blocks', mod_settings: section.settings, mod_blocks: section.blocks -%}
+{% schema %}
+  {
+    "name": "Collection Blocks",
+    "class": "collection-blocks",
+    "max_blocks": 6,
+    "settings": [
+      {"type": "header", "content": "Content"},
+      {
+        "type": "range",
+        "id": "number_of_blocks",
+        "min": 2,
+        "max": 6,
+        "step": 2,
+        "label": "Number of Blocks",
+        "default": 4
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "Text alignment",
+        "default": "center",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "text",
+        "id": "preheader",
+        "label": "Preheader"
+      },
+      {
+        "type": "text",
+        "id": "header",
+        "label": "Header"
+      },
+      {
+        "type": "text",
+        "id": "shop_all_link_text",
+        "label": "Shop All Link Text"
+      },
+      {
+        "type": "url",
+        "id": "shop_all_link_url",
+        "label": "Shop All Link URL"
+      },
+      {"type": "header", "content": "Colors"},
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color"
+      },
+      {
+        "type": "color",
+        "id": "preheader_text_color",
+        "label": "Preheader Text Color"
+      },
+      {
+        "type": "color",
+        "id": "preheader_border_color",
+        "label": "Preheader Top/Bottom Border"
+      },
+      {
+        "type": "color",
+        "id": "header_text_color",
+        "label": "Header Text Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "shop_all_text_color",
+        "label": "Shop All Text Color"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "block",
+        "name": "Block",
+        "settings": [
+          {"type": "header", "content": "Content"},
+          {
+            "type": "image_picker",
+            "id": "desktop_image",
+            "label": "Desktop Image",
+            "info": "Suggested dimensions: 1322 x 624"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_image",
+            "label": "Mobile Image",
+            "info": "Suggested dimensions: 688 x 480"
+          },
+          {
+            "type": "url",
+            "id": "block_link",
+            "label": "Block Link"
+          },
+          {
+            "type": "text",
+            "id": "block_header",
+            "label": "Block Header"
+          },
+          {"type": "header", "content": "Colors"},
+          {
+            "type": "color",
+            "id": "block_header_color",
+            "label": "Block Header Color",
+            "default": "#000000"
+          },
+          {
+            "type": "color",
+            "id": "block_header_background_color",
+            "label": "Block Header Background Color"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Collection Blocks",
+      "category": "Collections"
+    }]
+  }
+{% endschema %}

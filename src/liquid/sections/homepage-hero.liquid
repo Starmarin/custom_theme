@@ -1,0 +1,165 @@
+
+<hero 
+  text-position-vertical="{{ section.settings.text_position_vertical }}"
+  text-position-horizontal="{{ section.settings.text_position_horizontal }}"
+  text-align="{{ section.settings.text_align }}"
+  min-height="{{ section.settings.min_height }}vh"
+  image="{{ section.settings.background_image | img_url: '1920x1080' }}"
+  text-color="{{ section.settings.text_color }}"
+  overlay-color="{{ section.settings.overlay_color }}"
+  overlay-opacity="{{ section.settings.overlay_opacity }}">
+  <h1>{{ section.settings.title }}</h1>
+  {%- if section.settings.description != blank -%}
+    <p>{{ section.settings.description }}</p>
+  {%- endif -%}
+  {%- if section.settings.cta_label != blank -%}
+    <link-button label="{{ section.settings.cta_label }}" href="{{ section.settings.cta_link }}"></link-button>
+  {%- endif -%}
+</hero>
+
+{% schema %}
+  {
+    "name": "Hero",
+    "class": "homepage-hero-section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "range",
+        "id": "min_height",
+        "label": "Minimum Height",
+        "info": "vh units = % height of the viewport",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "vh",
+        "default": 50
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description"
+      },
+      {
+        "type": "header",
+        "content": "CTA"
+      },
+      {
+        "type": "text",
+        "id": "cta_label",
+        "label": "Label"
+      },
+      {
+        "type": "url",
+        "id": "cta_link",
+        "label": "Link"
+      },
+      {
+        "type": "header",
+        "content": "Text Settings"
+      },
+      {
+        "type": "select",
+        "id": "text_position_vertical",
+        "label": "Text Vertical Position",
+        "options": [
+          {
+            "value": "flex-start",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "flex-end",
+            "label": "Bottom"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "text_position_horizontal",
+        "label": "Text Horizonatal Position",
+        "options": [
+          {
+            "value": "flex-start",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "flex-end",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text Align",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Overlay Settings"
+      },
+      {
+        "type": "color",
+        "id": "overlay_color",
+        "label": "Overlay Color"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "label": "Overlay Opacity",
+        "min": 0,
+        "max": 1,
+        "step": 0.1,
+        "default": 0
+      }
+    ],
+    "presets": [
+      {
+        "name": "Hero",
+        "category": "Generic"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    {%- render 'gtm-head' -%}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+    <meta name="referrer" content="origin">
+
+    {{ 'theme.entry.css' | asset_url | stylesheet_tag }}
+    {{ 'checkout-styles.scss' | asset_url | stylesheet_tag }}
+
+    {%- if settings.favicon != blank -%}
+      <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+    {%- endif -%}
+
+    <title>{{ page_title }}</title>
+
+    {{ content_for_header }}
+
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+
+    {% comment %} Custom styling {% endcomment %}
+    {{ 'custom-checkout.css' | asset_url | stylesheet_tag }}
+    {% if shop.metafields.custom_fields["store_country"] == "usa" %}
+      <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/yPCNIQYabQr5Z-pJ6kF0NA" async></script>
+    {% else %}
+      <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/mEkZN6LAsJ6r1hG7aoHF4w" async></script>
+    {% endif %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% render 'gwp--checkout' %}
+    {% if shop.metafields.custom_fields["store_country"] != "usa" %}
+      {% render 'zonos_shopifyplus_features' %}
+    {% else %}
+      <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/yPCNIQYabQr5Z-pJ6kF0NA" async></script>
+    {% endif %}
+  </head>
+  <body>
+    <div id="yotpo-referral-widget"></div>
+    {%- render 'gtm-body' -%}
+    {{ skip_to_content_link }}
+
+    <div class="flex w-full py-4 bg-gray-700">
+      <div class="max-w-e1100 mx-auto flex w-full justify-start px-p5">
+        <img class="h-e50 md:h-e80 object-contain" src="{{ 'WWE_Shop_Logo.svg' | file_url }}" />
+      </div>
+    </div>
+
+    {{ order_summary_toggle }}
+
+    <div class="content" data-content>
+      {%- if settings.show_cc_banner and settings.cc_banner_image_desktop != blank and settings.cc_banner_image_mobile != blank -%}
+      {%- if settings.cc_link_url != blank -%}
+        <a class="order_confirmation_banner hidden" href="{{ settings.cc_link_url }}">
+      {% else %}
+        <div class="order_confirmation_banner hidden">
+      {% endif %}
+          <picture>
+            <source 
+              srcset="{{ settings.cc_banner_image_mobile | img_url: '375x150' }}"
+              media="(max-width: 649px)">
+            <source 
+              srcset="{{ settings.cc_banner_image_desktop | img_url: '1440x150' }}"
+              media="(min-width: 650px)">
+            <img 
+              class="lazy w-full"
+              src="{{ settings.cc_banner_image_desktop | img_url: '120x120' }}" 
+              alt="{{ settings.cc_banner_image_desktop.alt }}" />
+          </picture>
+      {%- if settings.cc_link_url != blank -%}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+      {%- endif -%}
+
+      {%- if settings.show_banner -%}
+        <div class="confirmation__banner hidden flex-col md:flex-row justify-center items-center">
+          <p class="confirmation__title text-gray-900 font-semibold uppercase text-md md:text-lg leading-3 md:leading-4">{{ settings.checkout_banner_text }}</p>
+          <a class="confirmation__link text-primary-500 font-semibold underline uppercase text-md md:text-lg leading-3 md:leading-4" target="_blank" href="{{ settings.checkout_banner_url }}">{{ settings.checkout_banner_link_text }}</a>
+        </div>
+      {%- endif -%}
+      <div class="wrap">
+        <div class="main" role="main">
+          <div class="main__header">
+            {{ breadcrumb }}
+            {{ alternative_payment_methods }}
+          </div>
+          <div class="main__content">
+            {{ content_for_layout }}
+          </div>
+          <div class="main__footer">
+            <div class="flex justify-start mt-4 checkout-link">
+              <a class="font-body font-semibold underline text-xs mr-5 color-black" target="_blank" href="https://www.wwe.com/page/terms-and-conditions">{{ 'general.checkout.terms_conditions' | t }}</a>
+              <a class="font-body font-semibold underline text-xs color-black" target="_blank" href="https://www.wwe.com/page/privacy-policy">{{ 'general.checkout.privacy_policy' | t }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{ tracking_code }}
+    {% if shop.metafields.custom_fields["store_country"] == "usa" %}
+      {% include 'smsbump_checkout_marketing_subscription' %}
+    {% endif %}
+  </body>
+</html>
+{% if shop.metafields.custom_fields["store_country"] == "usa" %}
+  <div class="yotpo-widget-instance" data-yotpo-instance-id="20241"></div>
+{% else %}
+  <div class="yotpo-widget-instance" data-yotpo-instance-id="34236"></div>
+{% endif %}
+
+{% if settings.radial_url != blank %}
+  <script type="text/javascript" src="{{ settings.radial_url }}" async defer></script>
+  <input type="hidden" name="checkout[attributes][_rdf_uid]" id="RDFUID" />
+  <script>
+    const rdfEl = document.querySelector('#RDFUID');
+    const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+    if(rdfEl){
+      const observer = new MutationObserver(function(mutations, observer) {
+        if(mutations[0].attributeName == "value") {
+          if (window.Shopify.Checkout.step === 'contact_information') {
+            const stepSections = document.getElementsByClassName('step__sections');
+            if(stepSections.length){
+              stepSections[stepSections.length - 1].insertAdjacentElement('beforeend', rdfEl);
+            }
+            else {
+              console.error('Radial RDF: Cannot find Shopify section for RDF injection');
+            }
+          }
+        }
+      });
+      observer.observe(rdfEl, {
+        attributes: true
+      });
+    }
+  </script>
+{% endif %}
+
+{% render 'checkout-scripts' store_type: shop.metafields.custom_fields["store_country"] %}
+
+<style>
+  tr.product[data-product-id="6535342522495"] {
+    display: none !important;
+  }
+  tr.product[data-product-type="GWP"] {
+    display: none !important;
+  }
+</style>
+
+{% if shop.metafields.custom_fields["store_country"] == "usa" %}
+  <style>
+    div[data-buyer-accepts-marketing] {
+      display: none !important;
+    }
+    @media screen and (max-width: 650px) {
+      .payment_info .step__footer .step__footer__previous-link {
+        position: absolute;
+        margin-top: 115px;
+        width: 100%;
+      }
+    }
+  </style>
+{% else %}
+  <style>
+    .terms-conditions-text {
+      display: flex;
+      align-items: center;
+    }
+    @media screen and (max-width: 650px) {
+      .payment_info .step__footer .step__footer__previous-link {
+        position: absolute;
+        margin-top: 105px;
+        width: 100%;
+      }
+    }
+    @media screen and (max-width: 500px) {
+      .payment_info .step__footer .step__footer__previous-link {
+        margin-top: 120px;
+      }
+    }
+  </style>
+{% endif %}
+
+<style>
+  .confirmation__banner {
+    background: #F9F9F9 !important;
+    padding: 20px 0;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .confirmation__banner {
+      padding: 30px 0;
+    }
+  }
+
+  .confirmation__title {
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .confirmation__title {
+      margin: 0 16px 0 0;
+    }
+  }
+
+  .confirmation__link {
+    letter-spacing: 0.5px;
+  }
+</style>

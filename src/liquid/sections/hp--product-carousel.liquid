@@ -1,0 +1,73 @@
+{%- render 'hp--product-carousel', mod_settings: section.settings, mod_blocks: section.blocks -%}
+{% schema %}
+  {
+    "name": "Product Carousel",
+    "class": "product-carousel",
+    "settings": [
+      {"type": "header", "content": "Content"},
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      },
+      {
+        "id": "text_alignment",
+        "type": "select",
+        "label": "Text Alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "center"
+          }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "text",
+        "id": "header",
+        "label": "Header"
+      },
+      {
+        "type": "text",
+        "id": "shop_all_link_text",
+        "label": "Shop All Text"
+      },
+      {
+        "type": "url",
+        "id": "shop_all_link_url",
+        "label": "Shop All Link"
+      },
+      {
+        "type": "number",
+        "id": "product_limit",
+        "label": "Maximum number of products in the carousel",
+        "default": 10
+      },
+
+      {"type": "header", "content": "Colors"},
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color"
+      },
+      {
+        "type": "color",
+        "id": "header_text_color",
+        "label": "Header Text Color"
+      },
+      {
+        "type": "color",
+        "id": "shop_all_link_color",
+        "label": "Shop All Link Color"
+      }
+    ],
+    "presets": [{
+      "name": "Product Carousel",
+      "category": "Products"
+    }]
+  }
+{% endschema %}

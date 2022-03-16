@@ -1,0 +1,92 @@
+<div data-vue-component="Article">
+    {%- if article.image -%}
+      <div class="block relative md:h-e400">
+        <img class="block md:object-cover md:h-full md:w-full md:absolute md:top-0 md:left-0" 
+          src="{{ article.image | img_url: '1400x' }}" 
+          srcset="{{ article.image | img_url: '768x' }} 768w,
+                  {{ article.image | img_url: '1024x' }} 1024w,
+                  {{ article.image | img_url: '1400x' }} 1400w"
+          alt="{{ article.image.alt }}" />
+      </div>
+    {%- endif -%}
+  
+    {%- capture lower_label -%}
+    {%- if mod_article.metafields.global.card_lower_label != blank -%}
+        {{ article.metafields.global.card_lower_label }}
+      {%- else -%}
+        {{ blog.title }}
+      {%- endif -%}
+    {%- endcapture -%}
+  
+    <article role="article" class="container mx-auto md:px-4">
+      <div class="text-center py-e20 md:py-e40 bg-white rounded-e4 md:-mt-e60 relative z-10 md:px-e125">
+        {%- if article.metafields.global.card_upper_label != blank -%}
+        <p class="tracking-wide text-red-700 text-e14 md:text-e24 font-medium">{{ article.metafields.global.card_upper_label }}</p>  
+        {%- else -%}
+        <time class="tracking-wide text-red-700 text-e14 md:text-e24 font-medium">{{ article.published_at | date: format: 'abbreviated_date' }}</time>
+        {%- endif -%}
+        <h1 class="text-h2 font-bold mt-e8 mb-e16 md:my-e24">{{ article.title }}</h1>
+        <p class="text-e18 md:text-e20 text-gray-700 font-medium">{{ lower_label | strip_html }}</p>
+      </div>
+  
+      <div class="px-4 wysiwyg py-e40 md:px-e100">
+        <div class="article-social-share hidden md:inline-block -ml-e45 sticky top-120 left-20 mb-e20">
+          {%- include 'social-sharing', scope: "article", share_title: article.title, share_permalink: article.url, share_image: article.image -%}
+        </div>
+  
+        <div class="article-contents">
+          {{ article.content }}
+        </div>
+      </div>
+    </article>
+  
+    {%- if article.metafields.global.shop_the_article != blank-%}
+      {%- render 'shop-the-article', mod_article: article -%}  
+    {%- endif -%}
+  
+    <div class="md:hidden">
+      {%- include 'social-sharing', scope: "article", share_title: article.title, share_permalink: article.url, share_image: article.image -%}
+    </div>
+    <div class="container mx-auto px-4 md:px-e100 mb-e50">
+      <div class="py-e24 md:pt-e40 grid grid-cols-2 border-b border-solid border-gray-200">
+        <div class="text-left">
+          <a is="LinkPrimaryLeft" href="{{ blog.previous_article.url }}" class="text-h6" icon-size="12px">Previous Article</a>
+        </div>
+  
+        <div class="text-right">
+          <a is="LinkPrimary" href="{{ blog.next_article.url }}" class="text-h6" icon-size="12px">Next Article</a>
+        </div>
+      </div>  
+    </div>
+  
+    {%- assign card_count = 0 -%}
+    {%- capture cards -%}
+    {%- for item in blog.articles -%}
+      {%- unless item.handle == article.handle -%}
+        <div class="swiper-slide w-8/12 md:w-4/12 px-2">
+          <div class="bg-white shadow-card rounded-e4 border-solid border-gray-200 border mb-e40">
+            {%- render 'article-card', mod_article: item -%}
+          </div>
+        </div>
+        {%- assign card_count = card_count | plus: 1 -%}
+      {%- endunless -%}
+  
+      {%- if card_count == 3 -%}
+        {% break %}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- endcapture -%}
+  
+    <div class="relative py-e40">
+      <div class="container mx-auto px-4 md:px-0 overflow-hidden">
+        <h3 class="text-h3 text-center font-bold mb-e40">More Articles</h3>
+        <div v-swiper:articleSwiper="articleSwiperOptions" class="overflow-visible">
+          <div class="swiper-wrapper">
+            {{ cards }}
+          </div>
+          {% render 'swiper-arrow' with 'prev', mod_class: '-ml-4 sm:hidden' %}
+          {% render 'swiper-arrow' with 'next', mod_class: '-mr-4 sm:hidden' %}
+        </div>
+      </div>
+    </div>
+  </div>

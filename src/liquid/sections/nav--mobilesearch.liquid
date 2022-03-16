@@ -1,0 +1,21 @@
+
+<div class="navbar-search flex items-center text-black w-full py-4 px-e8 bg-white md:hidden" data-vue-component="NavBar">
+  <button class="flex items-center text-black hover:translate-up btn--icon text-white relative z-1 left-0" @click="desktopSearchOpen = !desktopSearchOpen" aria-label="{{ 'general.search.title' | t }}">
+    <svg is="icon" name="search" size="16px" class="w-4 h-4 ml-e8 absolute"></svg>
+  </button>
+  <form class="inline-block bg-white w-full -ml-2"
+    style="height: 40px;"
+    method="get"
+    action="/search">
+    <input type="search"
+      aria-label="{{ 'general.search.title' | t }}"
+      :tabindex="desktopSearchOpen ? '0' : '-1'"
+      class="w-full appearance-none rounded-none text-gray-400 bg-gray-200 text-e16 placeholder-gray-400 h-full px-e12 pl-e40 font-body"
+      placeholder="{{ 'general.search.placeholder' | t }}"
+      name="q"
+      value="{{ search.terms | escape }}">
+      <input type="submit" class="u-sr-only" />
+  </form>
+  <div class="navbar-search__form hidden-until-loaded items-center space-x-e8 bg-black inline-flex">
+  </div>
+</div>

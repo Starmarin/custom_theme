@@ -1,0 +1,10 @@
+<picture class="inset-0 absolute">
+  {%- if mod_src_sm != blank -%}
+  <source media="(max-width: 650px)" srcset="{{- mod_src_sm -}}">
+  {%- endif -%}
+  {%- if mod_src_md != blank -%} 
+  <source media="(max-width: 991px)" srcset="{{- mod_src_md -}}">
+  {%- endif -%}
+  <source media="(min-width: 992px)" srcset="{{- mod_src -}}">
+  <img class="inset-0 absolute w-full h-full {{ mod_fit | default: 'object-cover' }} {{ mod_position | default: 'object-center'}}" src="{{ mod_src }}" alt="{{ mod_alt }}">
+</picture>

@@ -1,0 +1,30 @@
+{%- render 'global--all-superstars-banner', mod_settings: section.settings -%}
+{% schema %}
+  {
+    "name": "Superstars Banner",
+    "class": "superstar-banner",
+    "settings": [
+      {"type": "header", "content": "Content"},
+      {
+        "type": "text",
+        "id": "preheader",
+        "label": "Preheader"
+      }, 
+      {
+        "type": "text",
+        "id": "header",
+        "label": "Header"
+      },
+      {
+        "type": "image_picker",
+        "id": "desktop_background_image",
+        "label": "Desktop Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_background_image",
+        "label": "Mobile Image"
+      }
+    ]
+  }
+{% endschema %}

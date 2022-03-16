@@ -1,0 +1,6 @@
+<div class="container justify-center items-center flex space-x-e20 mx-auto py-e24 md:py-e32 md:space-x-e40">
+  {%- for link in linklists['blogs-menu'].links -%}
+  <a href="{{ link.url }}"
+    class="text-e20 font-medium {% if link.active %}text-red-700 underline{% else %}text-black text-opacity-50{% endif %}">{{- link.title -}}</a>
+  {%- endfor -%}
+</div>

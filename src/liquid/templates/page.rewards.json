@@ -1,0 +1,11 @@
+{
+    "sections": {
+        "page-rewards": {
+            "type": "page__rewards",
+            "settings": {}
+        }
+    },
+    "order": [
+        "page-rewards"        
+    ]
+}

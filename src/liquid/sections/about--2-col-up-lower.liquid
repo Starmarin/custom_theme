@@ -1,0 +1,45 @@
+{%- render '2-col-up', mod_settings: section.settings -%}
+{% schema %}
+{
+  "name": "About: 50/50 Lower",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "subheader",
+      "label": "Subheader"
+    },
+    {
+      "type": "textarea",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "text",
+      "id": "cta",
+      "label": "CTA"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Width: 740px, Height: 480px"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_reverse",
+      "label": "Reversed",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

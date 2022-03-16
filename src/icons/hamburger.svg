@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>menu-24px (4)</title>
+    <g id="Main-User-Flow-Mobile" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.969999969">
+        <g id="Userflow1_1-/-HP" transform="translate(-19.000000, -67.000000)">
+            <g id="Group-2" transform="translate(0.000000, 48.000000)">
+                <g id="menu-24px-(4)" transform="translate(19.000000, 19.000000)">
+                    <polygon id="Path" points="0 0 42 0 42 42 0 42"></polygon>
+                    <path d="M5,31 L37,31 L37,27.5 L5,27.5 L5,31 Z M5,23.25 L37,23.25 L37,19.75 L5,19.75 L5,23.25 Z M5,12 L5,15.5 L37,15.5 L37,12 L5,12 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

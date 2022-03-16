@@ -1,0 +1,39 @@
+{%- layout none -%}
+{%- paginate collection.products by 50 -%}
+{
+"collection": "{%- include 'json--plp', mod_encode: true -%}",
+"menu":[
+{%- for level1 in linklists.plp-sidebar.links -%}
+  {
+  "url": "{{ level1.url }}",
+  "title": "{{ level1.title }}",
+  "handle": "{{ level1.object.handle | default: 'all'  }}",
+  "links": [
+  {%- if level1.links.size > 0 -%}
+    {%- for level2 in level1.links -%}
+      {
+        "url": "{{ level2.url }}",
+        "title": "{{ level2.title }}",
+        "handle": "{{ level2.object.handle | default: 'all'  }}"
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  {%- endif -%}
+  ]
+  }{%- unless forloop.last -%},{%- endunless -%}
+{%- endfor -%}
+],
+"products":[
+{%- for product in collection.products -%}
+{%- assign mod_featured = false -%}
+{%- if forloop.index == 1 -%}
+  {%- assign mod_featured = true -%}
+{%- endif -%}
+{%- render 'json--product',
+  product: product 
+-%}{%- unless forloop.last -%},{%- endunless -%}
+{%- endfor -%}
+],
+"pages":{{ paginate.pages }},
+"page":{{ current_page | minus: 1 }}
+}
+{%- endpaginate -%}

@@ -1,0 +1,34 @@
+{% capture props %}
+{
+  {% if block_data_from_metafields %}
+    "modsettings": {{ mod_settings }}
+  {% elsif block_data_from_collections %}
+    "modsettings": {{ mod_settings | json }}
+  {% else %}
+    "modsettings": {{ mod_settings | json }}
+  {% endif %}
+}
+{% endcapture %}
+
+<div :style="mainBackgroundColor" class="flex flex-wrap md:flex-no-wrap w-full px-4 md:px-e160 py-5 md:py-10 justify-center" data-vue-component="FiftyFifty" data-props="{{ props | escape | strip_newlines }}">
+
+  <p :style="preHeaderColors" class="font-primary font-bold text-md uppercase tracking-header border-b border-t border-transparent mb-4 block md:hidden" v-html="modsettings.preheader"></p>
+  <div :class="imageColumnClasses" class="mb-6 md:mb-0">
+    <a tabindex="0" v-if="modsettings.cta_1_link_url" :href="modsettings.cta_1_link_url" class="focus:shadow-outline">
+      <img :alt="modsettings.header" class="w-full" :src="modsettings.image" />
+    </a>
+    <img v-else :alt="modsettings.header" class="w-full" :src="modsettings.image" />
+  </div>
+  <div :class="textColumnClasses" class="flex flex-wrap items-center content-center w-full">
+    <p :style="preHeaderColors" class="font-primary font-bold text-md uppercase tracking-header border-b border-t border-transparent mb-2 hidden md:block" v-html="modsettings.preheader"></p>
+    <h3 :style="titleColor" class="font-primary font-extrabold text-e28 md:text-hero uppercase tracking-header w-full mb-2 md:mb-e18" v-html="modsettings.header"></h3>
+    <div :style="bodyCopyColor" class="font-body text-md w-full mb-6 fiftyfifty-body-copy" v-html="modsettings.body_copy"></div>
+    <div :class="ctaStacking" class="flex w-full md:w-3/4">
+      <a tabindex="0" v-if="modsettings.cta_1_link_url" :style="cta1Colors" :class="ctaClasses" class="font-primary font-bold text-md text-center tracking-header uppercase py-3 px-10 transition-all duration-200 hover:filter-brightness focus:underline" :href="modsettings.cta_1_link_url" v-html="modsettings.cta_1_link_text"></a>  
+      <a tabindex="0" v-if="modsettings.cta_2_link_url" :style="cta2Colors" :class="ctaClasses" class="font-primary font-bold text-md text-center tracking-header uppercase py-3 px-10 transition-all duration-200 hover:filter-brightness focus:underline" :href="modsettings.cta_2_link_url" v-html="modsettings.cta_2_link_text"></a>  
+      <a tabindex="0" v-if="modsettings.cta_3_link_url" :style="cta3Colors" :class="ctaClasses" class="font-primary font-bold text-md text-center tracking-header uppercase py-3 px-10 transition-all duration-200 hover:filter-brightness focus:underline" :href="modsettings.cta_3_link_url" v-html="modsettings.cta_3_link_text"></a>  
+    </div>
+  </div>
+
+
+</div>

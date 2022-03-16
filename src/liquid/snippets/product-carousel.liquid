@@ -1,0 +1,32 @@
+
+<section class="featured-collection">
+  {%- if title != blank -%}
+    <h2 class="carousel__title">{{ title | escape }}</h2>
+  {%- endif -%}
+
+  {%- assign collection = collections[collection_handle] -%}
+
+  <div class="carousel__nav">
+    <icon-button class="carousel__nav__prev" 
+      label="Previous Slide" 
+      icon="arrow-left"
+      @click="$refs.productCarousel.slidePrev()">
+    </icon-button>
+    <icon-button class="carousel__nav__next"
+      label="Next Slide" 
+      icon="arrow-right"
+      @click="$refs.productCarousel.slideNext()">
+    </icon-button>
+  </div>
+
+  <div class="featured-collection__slider">
+    <carousel ref="productCarousel"
+      :infinite="($mq === 'mobile') ? true : false"
+      :slides-to-show="featuredProductSlidesToShow"
+      :center-mode="($mq === 'mobile')">
+      {%- for product in collection.products -%}
+        <slide>{%- include 'product-tile', product: product -%}</slide>
+      {%- endfor -%}
+    </carousel>
+  </div>
+</section>

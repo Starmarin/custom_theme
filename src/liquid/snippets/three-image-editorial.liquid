@@ -1,0 +1,31 @@
+<div class="bg-black px-4 relative">
+  <div class="container text-center mx-auto py-e40 md:py-e80">
+    <h3 class="text-e34 font-bold text-white highlight-text light md:text-e48 tracking-wide">{{ mod_title }}</h3>
+  </div>
+
+  <div class="container mx-auto grid grid-cols-12 gap-x-e20 gap-y-e40 md:gap-y-e80 relative z-20">
+    {%- for block in mod_blocks -%}
+    {%- assign size_class = 'col-span-12 md:col-span-6' -%}
+    {%- assign text_class = 'text-white' -%}
+    {% if forloop.index == 3 or mod_blocks.size == 1 %}
+      {%- assign size_class = 'col-span-12 mb-e40' -%}
+      {%- assign text_class = 'text-black md:mb-e20' -%}
+    {% endif %}
+    
+    <a href="{{ block.settings.link }}" class="block {{size_class}}">
+      <div class="ratio ro-56-5">
+        {%- assign mod_src = block.settings.image | img_url: '950x' -%}
+        {%- assign mod_src_sm = block.settings.image | img_url: '450x' -%}
+        {%- render 'picture', mod_src: mod_src, mod_src_sm: mod_src_sm -%}
+      </div>
+
+      <div class="mt-e16 md:mt-e32">
+        <p class="{{text_class}} text-w18 md:text-e24 font-medium">{{ block.settings.text }}</p>
+      </div>
+    </a>
+    {%- endfor -%}
+  </div>
+  {%- if mod_blocks.size == 1 or mod_blocks.size >= 3 -%}
+    <div class="bg-white absolute left-0 right-0 bottom-0 z-10 ratio ro-35 md:ro-24"></div>
+  {%- endif -%}
+</div>

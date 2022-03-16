@@ -1,0 +1,176 @@
+
+.global-countdown {
+  .global-countdown_text {
+    p {
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+
+      a {
+        font-weight: 600;
+        color: var(--color-btn-primary-main);
+      }
+    }
+  }
+    
+
+  .flip-clock {
+    text-align: center;
+    perspective: 200px;
+    margin: 0 auto;
+
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    *,
+    *:before,
+    *:after { box-sizing: border-box; }
+  }
+
+  .flip-clock__slot {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-white);
+  }
+
+  .card {
+    display: block;
+    position: relative; 
+    padding-bottom: 0.72em;
+    font-size: 15px;
+    line-height: 0.95;
+  }
+
+  .card__top,
+  .card__bottom,
+  .card__back::before,
+  .card__back::after {
+    display: block;
+    height: 1em;
+    color: var(--color-white);
+    padding: 0.42em 0.2em;
+    transform-style: preserve-3d;
+    width: 1.2em;
+    transform: translateZ(0);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+  }
+
+  .card__bottom { 
+    color: var(--color-white);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    padding-top: 0.28em;
+    pointer-events: none;
+    overflow: hidden;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+
+  .card__bottom::after {
+    display: block;
+    margin-top: -0.72em;
+  }
+
+
+  .card__back::before,
+  .card__bottom::after {
+    content: attr(data-value);
+  }
+
+  .card__back {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    left: 0%;
+    pointer-events: none;
+  }
+
+  .card__back::before {
+    position: relative;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .flip .card__back::before {
+    animation: flipTop 0.2s cubic-bezier(0.37,0.01,0.94,0.35);
+    animation-fill-mode: both;
+    transform-origin: center bottom;
+  }
+
+  .flip .card__back .card__bottom {
+    transform-origin: center top;
+    animation-fill-mode: both;
+    animation: flipBottom 0.4s cubic-bezier(0.15,0.45,0.28,1);
+  }
+}
+
+.global-countdown {
+  @screen md {
+    .flip-clock__slot {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .card__top,
+    .card__bottom,
+    .card__back::before,
+    .card__back::after {
+      height: 1.2em;
+      padding: 0.5em 0.25em;
+      width: 1.4em;
+      font-size: 25px;
+    }
+
+    .card__bottom { 
+      padding-top: 0.7em;
+    }
+
+    .card__bottom::after {
+      margin-top: -1em;
+    }
+  }
+}
+
+@keyframes flipTop {
+  0% {
+    transform: rotateX(0deg);
+    z-index: 2;
+  }
+
+  0%,
+  99% {
+    opacity: 0.99;
+  }
+
+  100% {
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+}
+@keyframes flipBottom {
+  0%,
+  50% {
+    z-index: -1;
+    transform: rotateX(90deg);
+    opacity: 0;
+  }
+
+  51% {
+    opacity: 0.99;
+  }
+
+  100% {
+    opacity: 0.99;
+    transform: rotateX(0deg);
+    z-index: 5;
+  }
+}

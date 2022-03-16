@@ -1,0 +1,96 @@
+{%- paginate customer.addresses by 50 -%}
+<div is="AccountAddress" inline-template>
+  <div class="mb-e32">
+  
+    {%- if customer.addresses.size != 0 -%}
+      <div v-cloak>
+      {%- for address in customer.addresses -%}
+        {%- assign default = '' -%}
+        {%- if address == customer.default_address -%}
+          {%- assign default = 1 -%}
+        {%- endif %}
+        <div 
+          is="AccountAddressItem" 
+          first-name="{{- address.first_name -}}"
+          last-name="{{- address.last_name -}}"
+          company="{{- address.company -}}"
+          address1="{{- address.address1 -}}"
+          address2="{{- address.address2 -}}"
+          city="{{- address.city -}}"
+          province="{{- address.province_code -}}"
+          zip="{{- address.zip -}}"
+          country="{{- address.country_code -}}"
+          phone="{{- address.phone -}}"
+          is-default="{{- default -}}"
+          key="address-{{- address.id -}}"
+          id="{{- address.id -}}"
+          @update="populateAddressForm"
+          @remove="remove"
+          inline-template 
+          class="bg-white mb-4">
+          <div class="">
+            <div class="p-6 bg-gray-200 ">
+              <div class="flex justify-between">
+                <div class="text-e18 text-gray-700">
+                  <p v-if="isDefault" class="font-primary font-bold uppercase text-md tracking-wider mb-2">{{ 'customer.addresses.default_address' | t }}</p>
+                  <p v-else class="font-primary font-bold uppercase text-md tracking-wider mb-2">{{ 'customer.addresses.address' | t }}</p>
+
+                  <span class="font-body text-md">{{  address.first_name }} {{ address.last_name }}</span>
+                  <br>
+                  <span class="font-body text-md" v-if="company" v-text="company"></span>
+                  <br v-if="company">
+                  <span class="font-body text-md" v-text="address1 + ' ' + address2"></span>
+                  <br>
+                  <span class="font-body text-md" v-text="city"></span>
+                  <span class="font-body text-md" v-if="province" class="uppercase" v-text="' ' + province"></span>
+                  <span  class="uppercase font-body text-md" v-text="' ' + zip"></span>
+                  <span class="uppercase font-body text-md" v-text="' ' + country"></span>
+                  <br>
+                  <span  class="font-body text-md" v-text="phone"></span>
+                </div>
+                <div class="flex flex-col items-end">
+                  <a @click.prevent="update" href="#" class="font-primary font-bold text-md text-primary-500 uppercase tracking-wider underline mb-1">{{ 'customer.addresses.edit' | t }}</a>
+                  <a @click.prevent="remove" href="#" class="font-primary font-bold text-md text-primary-500 uppercase tracking-wider underline mb-1">{{ 'customer.addresses.delete' | t }}</a>    
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%- assign default = nil -%}
+      {%- endfor -%}
+      </div>
+      {%- assign mod_value = 'customer.addresses.add' | t -%}
+      <div class="align-c account-adddress__add-address">
+        <a is="BtnSecondary" @click="showEmptyForm" class="w-full">
+          <svg style="width: 12px; height: 12px;" v-cloak
+            class="text-white mr-2">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#plus"></use>
+          </svg>
+          {{ mod_value }}
+        </a>
+        {%- assign mod_value = nil -%}
+      </div>
+    {%- else -%}
+      {%- assign mod_value = 'customer.addresses.add' | t -%}
+      <div class="text-center text-gray-700 py-e80">
+        <p class="font-body text-md mb-e24">{{ 'customer.addresses.no_addresses' | t }}</p>
+        <a is="BtnSecondary" @click="showEmptyForm" icon-size="12px" class="text-e16">
+          <svg style="width: 12px; height: 12px;" v-cloak
+            class="text-white mr-2">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#plus"></use>
+          </svg>
+          {{ mod_value }}
+        </a>
+      </div>
+      {%- assign mod_value = nil -%}
+    {%- endif -%}
+
+    <transition name="fade">
+      <div v-if="showNewAddressForm" ref="newAddressForm" v-cloak class="mt-4">
+        {% include 'account-new-address' %}
+      </div>
+    </transition>
+
+  </div>    
+</div>
+{%- endpaginate -%}

@@ -1,0 +1,27 @@
+
+<div class="flex flex-wrap w-full bg-gray-200 px-10 py-10 md:py-e80">
+  <div class="flex items-center md:justify-between flex-col md:flex-row w-full">
+    <div class="flex justify-center md:justify-start items-center flex-col md:flex-row w-full md:w-1/2">
+      <p class="font-primary font-extrabold text-xl md:text-e36 tracking-header md:mr-5">{{ 'products.product.social_tag' | t }}</p>
+      <p class="font-body text-md text-black text-center md:text-left mt-2 md:mt-0">{{ 'products.product.ugc_text' | t }}</p>
+    </div>
+    <a class="link--secondary-reverse font-primary font-bold text-primary-500 uppercase tracking-header px-0 mt-4 md:mt-0 underline md:no-underline text-lg" href="#">{{ 'products.product.follow_us' | t }}</a>
+  </div>
+  <div
+     class="yotpo yotpo-pictures-widget w-full"
+     data-gallery-id="6042899a25ff481fe4d1498d"
+     data-product-id="{{ product.id }}">
+     {%- assign yotpo_offload_content = shop.metafields.yotpo.yotpo_offload_content %}
+      {%- assign time_now = 'now' | date: '%s' %}
+      {%- assign yotpo_live_time = shop.metafields.yotpo.yotpo_live | date: '%s' %}
+      {%- assign diff_seconds_from_live = time_now | minus: yotpo_live_time %}
+      {%- assign yotpo_pictures_widget_last_updated = product.metafields.yotpo.pictures_widget_update_time | date: '%s' %}
+      {%- assign diff_seconds_from_last_pictures_widget_update = time_now | minus: yotpo_pictures_widget_last_updated %}
+      {%- if yotpo_live_time and diff_seconds_from_live < 86400 or yotpo_pictures_widget_last_updated and diff_seconds_from_last_pictures_widget_update < 86400 -%}
+        {%- assign yotpo_pictures_widget_obsolete = false %}
+      {%- else %}
+        {%- assign yotpo_pictures_widget_obsolete = true %}
+      {%- endif %}
+  </div>
+</div>
+

@@ -1,0 +1,38 @@
+  {% for item in collection.metafields.custom_fields["super_fifty-fifty"] %}
+    {% assign button_collection_key = 'order-fiftyfifty_' | append: forloop.index %}
+    {% if collection.metafields.custom_fields[button_collection_key] != blank %}
+      <div style="order: {{ collection.metafields.custom_fields[button_collection_key] | json }}">
+        {% capture fifty_fifty_settings %}
+          {
+            "layout": "50/50",
+            "image_location": {{ item["super_fifty-layout"] | json }},
+            "background_color": {{ item["super_fifty-background_color"] | json }},
+            "image": {{ item["super_fifty-image"] | json }},
+            "alignment": {{ item["super_fifty-text_alignment"] | downcase | json }},
+            "preheader": {{ item["super_fifty-pre-header"] | json }},
+            "header": {{ item["super_fifty-header"] | json }},
+            "body_copy": {{ item["super_fifty-body_copy"] | json }},
+            "preheader_text_color": "",
+            "preheader_border_color": {{ item["super_fifty-text_color"] | json }},
+            "header_text_color": {{ item["super_fifty-text_color"] | json }},
+            "body_text_color": {{ item["super_fifty-text_color"] | json }},
+            "cta_1_link_text": {{ item["super_fifty-cta_text"] | json }},
+            "cta_1_link_url": {{ item["super_fifty-cta_url"] | json }},
+            "cta_1_text_color": {{ item["super_fifty-cta_text_color"] | json }},
+            "cta_1_background_color": {{ item["super_fifty-cta_color"] | json }},
+            "cta_2_link_text": "",
+            "cta_2_link_url": "",
+            "cta_2_text_color": "",
+            "cta_2_background_color": "",
+            "cta_3_link_text": "",
+            "cta_3_link_url": "",
+            "cta_3_text_color": "",
+            "cta_3_background_color": "",
+            "superstar_name": {{ collection.metafields.custom_fields["superstar_name"] | json }},
+            "superstar_brand": {{ collection.metafields.custom_fields["sub-brand"] | downcase | json }}
+          }
+        {% endcapture %}
+        {%- render 'hp--fifty-fifty', mod_settings: fifty_fifty_settings, block_data_from_metafields: true -%}
+      </div>
+    {% endif %}
+  {% endfor %}

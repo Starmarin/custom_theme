@@ -1,0 +1,21 @@
+<div class="container mx-auto">
+    {%- paginate blog.articles by 13 -%}
+    {%- if paginate.current_page == 1 -%}
+      <div class="px-4 mb-e40">
+        {%- render 'article-card', mod_article: blog.articles[0], mod_highlight: true -%}
+      </div>
+    {%- endif -%}
+    <div class="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-e24 gap-y-e40">
+      {%- for item in blog.articles -%}
+        {%- if paginate.current_page == 1 and forloop.index == 1 -%}
+          {%- continue -%}
+        {%- else -%}
+          {%- render 'article-card', mod_article: item -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if paginate.pages > 1 -%}
+      {%- include 'pagination' -%}
+    {%- endif -%}
+    {%- endpaginate -%}
+  </div>

@@ -1,0 +1,72 @@
+{% if section.settings.enable and section.settings.promo_content != blank %}
+
+  {% capture props %}
+    {
+      "promoContent": "{{ section.settings.promo_content | escape }}"
+    }
+  {% endcapture %}
+
+
+  <article 
+    data-vue-component="PromoBar"
+    data-props="{{ props | escape }}"
+    class="px-e16 xl:px-0 bg-black relative z-50 top-promo-bar"
+    v-show="promoStatus"
+    v-cloak
+    style="background-color:{{ section.settings.bg_color }};"
+    >
+    <div class="flex justify-center items-center max-w-lg mx-auto">
+      <div class="flex items-center w-full">
+        <ul class="inline-block py-2 md:py-e15 w-full">
+          <li class="">
+            <div 
+              class="font-body font-normal text-white tracking-normal promo-content flex justify-center w-full text-center md:pl-5"
+              style="color:{{ section.settings.text_color }};"
+              >
+              {{ section.settings.promo_content }} 
+            </div>
+          </li>
+        </ul>
+        <button aria-label="{{ 'cart.general.gift_note_close' | t }}" class="absolute right-20 md:relative md:right-0 cursor-pointer" @click="hidePromo()">
+          <svg is="icon" name="box-close" size="20px" class="text-white transition-colors duration-300 hover:text-primary-500"></svg>
+        </button>
+      </div>
+    </div>
+  </article>
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Top Promo Bar",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Top Promo Bar"
+      },
+      {
+        "id": "enable",
+        "type": "checkbox",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "id": "bg_color",
+        "type": "color",
+        "label": "Background Color",
+        "default": "#000000"
+      },
+      {
+        "id": "text_color",
+        "type": "color",
+        "label": "Text Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "id": "promo_content",
+        "type": "richtext",
+        "label": "Promo Content"
+      }
+    ]
+  }
+{% endschema %}

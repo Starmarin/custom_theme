@@ -1,0 +1,78 @@
+{%- render 'global--hero', 
+  mod_settings: section.settings, 
+  mod_collection: page 
+-%}
+
+{% schema %}
+{
+  "name": "About Us Hero",
+  "settings": [
+    {
+      "id": "theme",
+      "type": "select",
+      "label": "Theme",
+      "options": [
+        {
+          "value": "dark",
+          "label": "Dark"
+        },
+        {
+          "value": "light",
+          "label": "Light"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "select",
+      "id": "align",
+      "label": "Align",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 75,
+      "default": 30
+    },
+    {
+      "id": "image",
+      "label": "Image",
+      "type": "image_picker",
+      "info": "Image Dimensions: Width: 1920px, Height: 720px"
+    },
+    {
+      "id": "mobile_image",
+      "label": "Mobile Image",
+      "type": "image_picker",
+      "info": "Image Dimensions: Width: 400px, Height: 562px"
+    }
+  ]
+}
+{% endschema %}

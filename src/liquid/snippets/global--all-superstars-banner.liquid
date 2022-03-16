@@ -1,0 +1,21 @@
+{% capture props %}
+  {
+    "mod_settings": {{ mod_settings | json }}
+  }
+{% endcapture %}
+
+<div :style="singleBackgroundImage($mq)" class="w-full flex flex-wrap items-center justify-start h-e320 bg-cover" data-vue-component="AllSuperstarsBanner" data-props="{{ props | escape | strip_newlines }}">
+  <div class="w-full max-w-lg py-e100 px-9 flex flex-col items-center md:items-start">
+  <p 
+    :class="[$mq === 'sm' ? 'bg-brands-nxt_old text-black px-4 py-2' : 'border-b border-t border-brands-nxt_old text-brands-nxt_old']"
+    class="font-primary font-bold text-md uppercase tracking-header" 
+    v-html="mod_settings.preheader">
+    {{ mod_settings.preheader }}
+  </p>
+  <h2 
+    class="w-full font-primary font-extrabold text-center md:text-left text-e28 md:text-hero uppercase tracking-header text-white" 
+    v-html="mod_settings.header">
+    {{ mod_settings.preheader }}
+  </h2>
+  </div>
+</div>

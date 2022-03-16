@@ -1,0 +1,8 @@
+<script>
+  window.__COLLECTION__DEFAULT_SORT__ = {{ collection.default_sort_by | json }};
+  window.__COLLECTION__SUPER__ = false;
+</script>
+
+{% paginate collection.products by 12 %}
+  {%- include 'plp', mod_items: collection.products -%}
+{% endpaginate %}

@@ -1,0 +1,84 @@
+{% assign discount_code = false %}
+{% assign discount_code_value = '' %}  
+window.__BVA__ = window.__BVA__ || {}; 
+window.__BVA__.gwp_data = {
+  "upsell_heading": {{ section.settings.upsell_heading | json }},
+  "upsell_subheading": {{ section.settings.upsell_subheading | json }},
+  "upsell_dummy_product_variant_id": {{ all_products[settings.upsell_dummy_product].selected_or_first_available_variant.id | json }},
+  "items": [
+    {% for block in section.blocks %}
+      {% if block.settings.toggle %}
+      {
+        "trigger": {
+          "type": {{  block.type  | json }},
+          "id": {{ block.id | json }},
+          "settings": {
+            {% case block.type %}
+            {% when "atc_collections" %}
+              "collections": [
+              {% if block.settings.collection_1 != blank %}
+                {{  block.settings.collection_1  | json }}
+                {% endif %}
+                 {% if block.settings.collection_2 != blank %}
+                 ,{{  block.settings.collection_2  | json }}
+                 {% endif %}
+                 {% if block.settings.collection_3 != blank %}
+                 ,{{  block.settings.collection_3  | json }}
+                 {% endif %}
+              ],
+            {% when "atc_same_collection" %}
+              "collection": {{ block.settings.collection | json }},
+              "product_count": {{ block.settings.product_count | json }},
+            {% when "order_threshold" %}
+              "value": {{ block.settings.order_threshold | times: 100 | json }},
+            {% when "product_threshold" %}
+              "value": {{ block.settings.product_threshold | json }},
+            {% when "atc_products" %}
+              "products": [
+                {{  block.settings.product_1  | json }}
+                {% if block.settings.product_2 != blank %}
+                ,{{  block.settings.product_2  | json }}
+                {% endif %}
+                {% if block.settings.product_3 != blank %}
+                ,{{  block.settings.product_3  | json }}
+                {% endif %}
+              ],
+            {% when "atc_any" %}
+              "value": true
+            {% endcase %}
+          }
+          
+        },
+        "benefit": {
+          "type": {{  block.settings.benefit_type  | json }},
+          "id": {{ block.id | json }},
+          "settings": {
+            {% case block.settings.benefit_type %}
+            {% when "gwp" %}
+            {% assign product = all_products[block.settings.gwp_product] %}
+              "product": {% render 'json--product', product: product, include_product_collections: true %},
+            {% when "full_price_product" %}
+            {% assign product = all_products[block.settings.full_price_product_object] %}
+              "product": {% render 'json--product', product: product, include_product_collections: true %},
+            {% when "free_ship" %}
+              "shipping_type": {{  block.settings.shipping_type  | json }},
+            {% when "discount" %}
+              "discount": {{ block.settings.discount_amount | times:1 }},
+            {% when "dollar_discount" %}
+              "discount": {{ block.settings.dollar_discount_amount | times:1 }},
+            {% when "discounted_product" %}
+              {% assign product = all_products[block.settings.discounted_product] %}
+              "product": {% render 'json--product', product: product, include_product_collections: true %},
+              "discount": {{  block.settings.product_discount_amount  | json }},
+            {% endcase %}
+            "text": {{ block.settings.benefit_text | json }},
+            "image": {{ block.settings.benefit_image | img_url: '200x' | json }},
+            "image_alt": {{ block.settings.benefit_image.alt | json }},
+            "icon": {{ block.settings.benefit_icon | json }}
+          }
+        }
+      }{% unless forloop.last %},{% endunless %}
+      {% endif %}
+    {% endfor %}
+  ]
+}

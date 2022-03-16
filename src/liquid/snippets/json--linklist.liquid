@@ -1,0 +1,16 @@
+
+[
+  {%- for link in linklist -%}
+    {%- assign list_handle = link.title | handleize -%}
+    {%- assign child_list = linklists[list_handle] -%}
+    { 
+      "title": "{{ link.title }}",
+      "url": "{{ link.url }}",
+      "handle": "{{ list_handle }}"
+      {%- if child_list != blank -%}
+        ,
+        "children": {%- include 'json--linklist', linklist: child_list.links -%}
+      {%- endif -%}
+    }{%- unless forloop.last -%},{%- endunless -%}
+  {%- endfor -%}
+]

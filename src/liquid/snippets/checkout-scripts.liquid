@@ -1,0 +1,114 @@
+<script>
+  function addMultipleListeners(element, events, appendScript, useCapture, args) {
+    if (!(events instanceof Array)){
+      throw 'addMultipleListeners: '+
+        'please supply an array of eventstrings '+
+        '(like ["click","mouseover"])';
+    }
+
+    //Create a wrapper to be able to use additional arguments
+    var appendScriptWrapper = function(e){
+        appendScript.apply(this, args && args instanceof Array ? args : []);
+    }
+
+    for (var i=0; i<events.length; i+=1){
+        element.addEventListener(events[i],appendScriptWrapper,useCapture);
+    }
+
+  }
+
+
+  function appendScript(e) { 
+    {% if store_type == 'eu'%}
+      if (Shopify.Checkout.step === "contact_information") {
+        let consentTextContent = `
+          {{ 'general.checkout.checkout_email_intro' | t }} 
+          <a target='_blank' href='https://www.wwe.com/page/privacy-policy'>{{ 'general.checkout.checkout_email_privacy' | t }}</a>
+          {{ 'general.checkout.checkout_email_outtro' | t }}
+        `;
+        let consentTextLabel = document.querySelector('label[for="checkout_buyer_accepts_marketing"]');
+        consentTextLabel.innerHTML = consentTextContent;
+      }
+      if (Shopify.Checkout.isOrderStatusPage || Shopify.Checkout.step === 'thank_you') {
+        try{
+          document.getElementById('yotpo-referral-widget').innerHTML='<div class="yotpo-widget-instance" data-yotpo-instance-id="70198" height="450px"></div>'
+          document.querySelector(".confirmation__banner").setAttribute('style', 'display: flex !important');
+          document.querySelector(".order_confirmation_banner").setAttribute('style', 'display: block !important');
+        }catch(e){}
+      }
+    {% endif %}
+
+    {% if store_type == 'eu'%}
+      if(Shopify.Checkout.step == 'payment_method'){
+        window.addEventListener('DOMContentLoaded', () => {
+          checkFooter();
+          document.querySelector('.step__footer__continue-btn').classList.add('consent-disable');
+        })
+        function checkFooter(){
+          if (document.querySelector(".step__footer")){
+            document.querySelector(".main__content").classList.add('payment_info');
+            let termsConditionsText = document.createElement('div');
+            termsConditionsText.innerHTML = `
+              <input type='checkbox' id='terms-conditions-checkbox' />
+              <p>
+                {{ 'general.checkout.checkout_terms_consent' | t }} 
+                <a target='_blank' href='https://www.wwe.com/page/terms-and-conditions'>{{ 'general.checkout.checkout_terms_use' | t }}</a>
+                {{ 'general.checkout.checkout_terms_required' | t }} 
+                <a target='_blank' href='https://www.wwe.com/page/privacy-policy'>{{ 'general.checkout.checkout_email_privacy' | t }}</a>
+                {{ 'general.checkout.checkout_terms_end' | t }} 
+              </p>
+            `;
+            termsConditionsText.classList.add('terms-conditions-text');
+            document.querySelector(".step__footer").appendChild(termsConditionsText);
+            document.querySelector('#terms-conditions-checkbox').addEventListener('click', function(){
+              if (document.querySelector('#terms-conditions-checkbox').checked) {
+                document.querySelector('.step__footer__continue-btn').classList.remove('consent-disable');
+              } else {
+                document.querySelector('.step__footer__continue-btn').classList.add('consent-disable');                
+              }
+            })
+          }else {
+            window.setTimeout(function(){
+              checkFooter();
+            }, 300)
+          }
+        }
+      }
+    {% endif %}
+
+    {% if store_type == 'usa'%}
+      if(Shopify.Checkout.step == 'payment_method'){
+        window.addEventListener('DOMContentLoaded', () => {
+          checkFooter();
+        })
+        function checkFooter(){
+          if (document.querySelector(".step__footer")){
+            document.querySelector(".main__content").classList.add('payment_info');
+            let termsConditionsText = document.createElement('p');
+            termsConditionsText.innerHTML = "*By placing your order, you affirm that you agree to our <a target='_blank' href='https://www.wwe.com/page/privacy-policy'>Privacy Policy</a> and <a target='_blank' href='https://www.wwe.com/page/terms-and-conditions'>Terms of Use</a>";
+            termsConditionsText.classList.add('terms-conditions-text');
+            document.querySelector(".step__footer").appendChild(termsConditionsText)
+          }else {
+            window.setTimeout(function(){
+              checkFooter();
+            }, 300)
+          }
+        }
+      }
+      if (Shopify.Checkout.isOrderStatusPage || Shopify.Checkout.step === 'thank_you') {
+        try{
+          document.getElementById('yotpo-referral-widget').innerHTML='<div class="yotpo-widget-instance" data-yotpo-instance-id="67582" height="450px"></div>'
+          document.querySelector(".confirmation__banner").setAttribute('style', 'display: flex !important');
+          document.querySelector(".order_confirmation_banner").setAttribute('style', 'display: block !important');
+        }catch(e){}
+      }
+    {% endif %}
+  };
+
+  // Usage
+  addMultipleListeners(
+    document,
+    ['page:change','page:load'],
+    appendScript,
+    false);
+</script> 

@@ -1,0 +1,29 @@
+{%- assign mod_products = article.metafields.global.shop_the_article | split: "|" -%}
+<div class="bg-white-100 py-e24 md:py-e56 overflow-hidden">
+  <div class="container mx-auto">    
+    <div class="px-4 text-h3 text-center mb-e16 md:mb-e56 font-bold">Shop This Article</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 md:gap-e40 ls:gap-e100 items-center">
+      <div class="px-4 mb-e16 md:px-0 md:mb-0">
+        <div class="ratio ro-1 z-10">
+          <img class="absolute w-full h-full top-0 left-0 object-cover"
+            src="{{ article.metafields.global.shop_the_article_image[0].src }}"
+            alt="{{ article.metafields.global.shop_the_article_image[0].alt }}">
+        </div>
+      </div>
+
+      <div class="px-2">
+        <div v-swiper:swiper="swiperOptions" class="overflow-visible lg:overflow-hidden">
+          <div class="swiper-wrapper">
+            {%- for mod_product in mod_products limit: 2 -%}
+            <div class="swiper-slide w-10/12 lg:w-8/12 px-2">
+              {%- assign mod_item = all_products[mod_product] -%}
+              {%- render 'product-card', mod_product: mod_item -%}
+            </div>
+            {%- endfor -%}
+          </div>
+          <div class="swiper-scrollbar mt-e20"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

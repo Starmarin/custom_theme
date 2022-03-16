@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="16px" viewBox="0 0 10 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icons / Arrow</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Atoms/Text-Links/Primary/Centered/Default" transform="translate(-144.000000, -4.000000)">
+            <g id="Primary-Link" transform="translate(7.000000, 0.000000)">
+                <g id="Icons-/-Arrow" transform="translate(130.000000, 0.000000)">
+                    <polygon id="Path" points="0 0 24 0 24 23.8907601 0 23.8907601"></polygon>
+                    <polygon id="Path" fill="currentColor" fill-rule="nonzero" points="7 18.12 13.1345892 12 7 5.88 8.88859625 4 16.925176 12 8.88859625 20"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

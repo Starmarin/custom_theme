@@ -1,0 +1,404 @@
+{%- assign mod_is_collection = mod_is_collection | default: true -%}
+{%- assign mod_items = mod_items | default: false -%}
+{%- assign mod_disable_featured_product = mod_disable_featured_product | default: false -%}
+{%- assign mod_super = mod_super | default: false, allow_false: true -%}
+
+{%- if mod_is_collection == false -%}
+{%- assign mod_disable_featured_product = 1 -%} 
+{%- endif -%}
+
+
+{%- assign products_per_page = section.settings.products_per_page -%}
+{%- paginate collection.products by products_per_page -%}
+
+{% capture props %}
+  {
+    "plpsettings": {
+      "metafields": { 
+        "promo_tile_1_preheader": {{ collection.metafields.custom_fields['promo_tile_1_pre-header'] | json }},
+        "promo_tile_1_header": {{ collection.metafields.custom_fields['promo_tile_1_header'] | json }},
+        "promo_tile_1_text_color": {{ collection.metafields.custom_fields['promo_tile_1_text_color'] | json }},
+        "promo_tile_1_image": {{ collection.metafields.custom_fields["promo_tile_1_image"] | json }},
+        "promo_tile_1_link": {{ collection.metafields.custom_fields["promo_tile_1_link"] | json }},
+        "promo_tile_1_cta_text": {{ collection.metafields.custom_fields["promo_tile_1_cta_text"] | json }},
+        "promo_tile_1_size": {{ collection.metafields.custom_fields["promo_tile_1_size"] | json }},
+        "promo_tile_1_location": {{ collection.metafields.custom_fields["promo_tile_1_location"] | json }},
+        "promo_tile_2_preheader": {{ collection.metafields.custom_fields["promo_tile_2_pre-header"] | json }},
+        "promo_tile_2_header": {{ collection.metafields.custom_fields["promo_tile_2_header"] | json }},
+        "promo_tile_2_text_color": {{ collection.metafields.custom_fields["promo_tile_2_text_color"] | json }},
+        "promo_tile_2_image": {{ collection.metafields.custom_fields["promo_tile_2_image"] | json }},
+        "promo_tile_2_link": {{ collection.metafields.custom_fields["promo_tile_2_link"] | json }},
+        "promo_tile_2_cta_text": {{ collection.metafields.custom_fields["promo_tile_2_cta_text"] | json }},
+        "promo_tile_2_size": {{ collection.metafields.custom_fields["promo_tile_2_size"] | json }},
+        "promo_tile_2_location": {{ collection.metafields.custom_fields["promo_tile_2_location"] | json }}
+      }  
+    },
+    "collectionProducts": {{ collection.products | json }}
+  }
+{% endcapture %}
+
+{% if section.settings.collection_image_text_color != blank %}
+  <style>
+    .boost-pfs-filter-collection-header-wrapper.boost-pfs-filter-collection-has-image .boost-pfs-filter-collection-description,
+    .boost-pfs-filter-collection-header-wrapper.boost-pfs-filter-collection-has-image .boost-pfs-filter-collection-description p,
+    .boost-pfs-filter-collection-header-wrapper.boost-pfs-filter-collection-has-image .boost-pfs-filter-collection-header {
+      color: {{ section.settings.collection_image_text_color }};
+    }
+  </style>
+{% endif %}
+
+{% render 'collection-banner' %}
+
+{% assign product_limit = settings.plp_products_limit %}
+
+{% assign carousel_1 = collections[collection.metafields.custom_fields["carousel_1_collection"]] %}
+
+{% capture carousel_1_props %}
+  {
+    "selectedProducts": {{ carousel_1.products | json }},
+    "limit": {{ product_limit }}
+  }
+{% endcapture %}
+
+
+{%- comment -%} PRODUCT CAROUSELS {%- endcomment -%}
+
+{% if carousel_1.products.size > 0 %}
+  <div data-vue-component="ProductCarousel" data-props="{{ carousel_1_props | escape | strip_newlines }}" class="plp-product-carousel">
+    <section class="bg-white py-4 md:pt-10 px-e12 lg:px-0 overflow-hidden" data-aos="fade">
+      <div class="max-w-lg mx-auto">
+        <p class="md:ml-10 font-primary font-bold uppercase text-util-sale text-md py-e6 border-t border-b border-util-sale w-auto mb-3 float-left">{{ collection.metafields.custom_fields["carousel_1_title"] }}</p>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-7 md:px-10 clear-both">
+          <h2 class="h3 text-left">{{ carousel_1.title }}</h2>
+          <a class="link--secondary-reverse font-primary uppercase font-bold text-primary-500 px-0" href="{{ carousel_1.url }}">{{ 'general.megamenu.shop_all' | t }}</a>
+        </div>
+        <slider :swiperConfig="swiperConfig" class="px-0 sm:px-10">
+          {%- for carousel_product in carousel_1.products limit: product_limit -%}
+            {% capture carousel_product_json %}
+              {%- render 'json--product', product: carousel_product -%}
+            {% endcapture %}
+            <product-card class="swiper-slide w-full sm:w-1/2 md:w-1/3 mr-2 max-w-e180 md:max-w-e250 min-w-e180 md:min-w-e250" :product="{{ carousel_product_json | escape | strip }}"></product-card>
+          {%- endfor -%}            
+        </slider>
+      </div>
+    </section>
+  </div>
+{% endif %} 
+
+{% assign carousel_2 = collections[collection.metafields.custom_fields["carousel_2_collection"]] %}
+
+{% capture carousel_2_props %}
+  {
+    "selectedProducts": {{ carousel_2.products | json}},
+    "limit": {{ product_limit }}
+  }
+{% endcapture %}
+
+{% if carousel_2.products.size > 0 %}
+  <div data-vue-component="ProductCarousel" data-props="{{ carousel_2_props | escape | strip_newlines }}" class="plp-product-carousel" >
+    <section class="bg-white py-4 md:pt-10 px-e12 lg:px-0 overflow-hidden" data-aos="fade" >
+      <div class="max-w-lg mx-auto">
+        <p class="md:ml-10 font-primary font-bold uppercase text-util-sale text-md py-e6 border-t border-b border-util-sale w-auto mb-3 float-left">{{ collection.metafields.custom_fields["carousel_2_title"] }}</p>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-7 md:px-10 clear-both">
+          <h2 class="h3 text-left">{{ carousel_2.title }}</h2>
+          <a class="link--secondary-reverse font-primary uppercase font-bold text-primary-500 px-0" href="{{ carousel_2.url }}">{{ 'general.megamenu.shop_all' | t }}</a>
+        </div>
+        <slider :swiperConfig="swiperConfig" class="px-0 sm:px-10">
+          {%- for carousel_product in carousel_2.products limit: product_limit -%}
+            {% capture carousel_product_json %}
+              {%- render 'json--product', product: carousel_product -%}
+            {% endcapture %}
+            <product-card class="swiper-slide w-full sm:w-1/2 md:w-1/3 mr-2 max-w-e180 md:max-w-e250 min-w-e180 md:min-w-e250" :product="{{ carousel_product_json | escape | strip }}"></product-card>
+          {%- endfor -%}            
+        </slider>
+      </div>
+    </section>
+  </div>
+{% endif %}
+{%- comment -%} END PRODUCT CAROUSELS {%- endcomment -%}
+
+
+
+<div class="boost-pfs-container-default boost-pfs-filter-wrapper-page mt-10 max-w-lg">
+  <div class="boost-pfs-filter-wrapper">
+    <div class="boost-pfs-filter-left-col md:sticky top-120">
+      <h2 class="font-primary font-bold uppercase tracking-header text-e28">
+        {{ collection.title }}
+      </h2>
+      <div class="font-body font-normal text-md mt-4">
+        {{ collection.description | strip_html }}
+      </div>
+
+      {% if collection.metafields.custom_fields["sub-category_link_list"] != blank %}
+        <div class="mt-6 w-full">
+          <div class="w-full" data-vue-component="Plp" data-props="{{ props | escape | strip_newlines }}" data-initial='{%- include 'json--plp', mod_encode: true -%}'>
+            <button tabindex="0" @click="showSubCat = !showSubCat" class="flex justify-between bg-gray-breadcrumbs w-full">
+              <div class="font-primary font-bold text-megamenu_sub uppercase tracking-wider py-3 px-4" v-html="state.language.subcategories"></div>
+              <div class="bg-gray-700 p-4 flex justify-center items-center">
+                <span is="Icon" name="chevron-up" class="text-white transition-all duration-300" :class="[showSubCat ? 'transform rotate-180' : 'transform']" size="14px"></span>
+              </div>
+            </button>
+            <transition-expand :duration="300" v-cloak v-show="showSubCat">
+              <section class="flex flex-col items-start bg-gray-breadcrumbs py-4">
+                {% for link in linklists[collection.metafields.custom_fields["sub-category_link_list"]].links %}
+                  <a class="mx-4 font-body font-semibold text-megamenu_sub mb-2 link--secondary-reverse" href="{{ link.url }}">{{ link.title }}</a>
+                {% endfor %}
+              </section>
+            </transition-expand>  
+          </div>
+        </div>
+      {% endif %}
+
+        <div class="w-full flex md:hidden mt-3">
+          {%- comment -%} SUB CATEGORIES {%- endcomment -%}
+          <div class="w-2/3 md:w-full" data-vue-component="Plp" data-props="{{ props | escape | strip_newlines }}" data-initial='{%- include 'json--plp', mod_encode: true -%}'>
+            <div class="boost-pfs-filter-toolbar-item boost-pfs-filter-custom-sorting boost-pfs-filter-top-sorting w-full sorting-mobile">
+              {%- include 'boost-pfs-filter-skeleton', width: 100 -%}
+            </div>
+          </div>
+          {%- comment -%} END SUB CATEGORIES {%- endcomment -%}
+
+          {%- comment -%} TOOLBAR TOP MOBILE {%- endcomment -%}
+          <div class="boost-pfs-filter-toolbar-top-mobile pl-2 w-1/3 block h-e46 border-0 md:hidden">
+            <div class="boost-pfs-filter-top-sorting boost-pfs-filter-top-sorting-mobile boost-pfs-filter-custom-sorting">{%- include 'boost-pfs-filter-skeleton', type: 'button' -%}</div>
+            <div class="boost-pfs-filter-tree-mobile-button">{%- include 'boost-pfs-filter-skeleton', type: 'button' -%}</div>
+          </div>
+          {%- comment -%} END TOOLBAR TOP MOBILE {%- endcomment -%}
+        </div>
+      
+      
+      <div class="boost-pfs-filter-refine-by-wrapper-v mt-6"></div>
+      <div class="boost-pfs-filter-tree boost-pfs-filter-tree-v">
+        {%- include 'boost-pfs-filter-skeleton', type: 'filter-tree' -%}
+      </div>
+    </div>
+    <div class="boost-pfs-filter-right-col">
+    {%- comment -%} TOOLBAR {%- endcomment -%}
+
+      <div class="flex flex-col">
+        {% render 'collection-categories' %}
+
+        <div class="order-1 md:order-2">
+          {%- comment -%} PROMO BAR {%- endcomment -%}
+          {% assign promo_bg = collection.metafields.custom_fields["promo_background_color"] %}
+          {% case promo_bg %}
+            {% when "Red (Raw)" %}
+              {% assign promo_bg_class = 'bg-brands-raw' %}
+              {% assign promo_text_class = 'text-white' %}
+            {% when "Blue (Smackdown)" %}
+              {% assign promo_bg_class = 'bg-brands-smackdown' %}
+              {% assign promo_text_class = 'text-white' %}
+            {% when "Yellow (NXT)" %}
+              {% assign promo_bg_class = 'bg-brands-nxt' %}
+              {% assign promo_text_class = 'text-black' %}
+            {% when "Teal (Legends)" %}
+              {% assign promo_bg_class = 'bg-brands-legends' %}
+              {% assign promo_text_class = 'text-black' %}
+            {% else %}
+              {% assign promo_bg_class = 'bg-brands-smackdown' %}
+              {% assign promo_text_class = 'text-white' %}
+          {% endcase %}
+
+          {% if collection.metafields.custom_fields['enable_banner'] == 1 %}
+            <a class="cursor-pointer md:cursor-default" href="{{ collection.metafields.custom_fields['promo_link'] }}">
+              <div class="mt-e14 md:mt-0 flex justify-between items-center px-6 py-3 {{ promo_bg_class }}">
+                <p class="font-body font-semibold text-megamenu_sub {{ promo_text_class }}">{{ collection.metafields.custom_fields['promo_text'] }}</p>
+                {% if collection.metafields.custom_fields['promo_link'] != blank %}
+                  <a class="hidden md:block font-primary font-bold uppercase tracking-header underline hover:no-underline min-w-e90 {{ promo_text_class }}" href="{{ collection.metafields.custom_fields['promo_link'] }}">{{ 'collections.general.shop_now' | t }}</a>
+                {% endif %}
+              </div>  
+            </a>
+
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              window.dataLayer.push({
+                'event': 'promotion-impression',
+                'ecommerce': {
+                  'promoView': {
+                    'promotions': [
+                      {
+                        'id': '',
+                        'name': 'collection-promo-bar',
+                        'promoText': {{ collection.metafields.custom_fields['promo_text'] | json }},
+                        'promoLink': {{ collection.metafields.custom_fields['promo_link'] | json }},
+                        'creative': '',
+                        'position': '',
+                        'start': ''
+                      }
+                    ]
+                  }
+                } 
+              });
+            </script>
+          {% endif %}
+          {%- comment -%} END PROMO BAR {%- endcomment -%}
+
+        </div>
+
+      </div>
+
+      <div class="boost-pfs-filter-default-toolbar my-4 border-0">
+        <div class="boost-pfs-container-default boost-pfs-filter-default-toolbar-inner flex justify-between px-0">
+          <div class="boost-pfs-filter-toolbar-item boost-pfs-filter-toolbar-count border-t border-b border-gray-breadcrumbs w-2/3 h-e44">
+            <span class="boost-pfs-filter-total-product flex font-body text-xs md:py-3">
+              {%- include 'boost-pfs-filter-skeleton', width: 100 -%}
+            </span>
+          </div>
+          <div class="boost-pfs-filter-toolbar-item boost-pfs-filter-custom-sorting boost-pfs-filter-top-sorting w-1/3">
+            {%- include 'boost-pfs-filter-skeleton', width: 100 -%}
+          </div>
+        </div>
+      </div>
+      {%- comment -%} END TOOLBAR {%- endcomment -%}
+
+      {% render 'collection-banner-optional' %}
+
+      <div class="mt-6 flex flex-wrap boost-pfs-filter-products boost-pfs-filter-swatch-shape-{{ section.settings.swatches_color_shape}} boost-pfs-filter-product-item-text-alignment-{{ section.settings.text_alignment}}" data-bc-sort="{{ collection.default_sort_by }}">
+        {% comment %}
+          {%- for product in collection.products -%}
+            {%- include 'boost-pfs-filter-product-item', product: product -%}
+          {%- endfor -%}
+        {% endcomment %}
+      </div>
+      <div class="boost-pfs-filter-bottom-pagination boost-pfs-filter-bottom-pagination-default">
+        {%- if paginate.pages > 1 -%}
+          {%- include 'boost-pfs-filter-pagination' -%}
+        {%- endif -%}
+      </div>
+      <div class="boost-pfs-filter-load-more"></div>
+    </div>
+  </div>
+
+  {%- comment -%} start-bc-most-popular-template {%- endcomment -%}
+    <div class="boost-pfs-most-popular-products-wrapper boost-pfs-widget-slider-wrapper">
+      <div class="boost-pfs-most-popular-products boost-pfs-widget-products owl-carousel"></div>
+    </div>
+  {%- comment -%} end-bc-most-popular-template {%- endcomment -%}
+
+  {%- comment -%} start-bc-recently-viewed-template {%- endcomment -%}
+    <div class="boost-pfs-recent-products-wrapper boost-pfs-widget-slider-wrapper">
+      <div class="boost-pfs-recent-products boost-pfs-widget-products owl-carousel"></div>
+    </div>
+  {%- comment -%} end-bc-recently-viewed-template {%- endcomment -%}
+</div>
+{%- endpaginate -%}
+
+<script>
+  // Declare boostPFSThemeConfig variable
+  var boostPFSThemeConfig = {
+    label: {
+      sorting_heading: {%- assign temp = 'collections.sorting.title' | t  -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Sorting" {%- endunless -%},
+      sorting_best_selling: {%- assign temp = 'collections.sorting.best_selling' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Best Selling" {%- endunless -%},
+      sorting_featured: {%- assign temp = 'collections.sorting.featured' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Featured" {%- endunless -%},
+      sorting_manual: {%- assign temp = 'collections.sorting.manual' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Featured" {%- endunless -%},
+      sorting_title_ascending: {%- assign temp = 'collections.sorting.az' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Alphabetically, A-Z" {%- endunless -%},
+      sorting_title_descending: {%- assign temp = 'collections.sorting.za' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Alphabetically, Z-A" {%- endunless -%},
+      sorting_price_ascending: {%- assign temp = 'collections.sorting.price_ascending' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Lowest Price" {%- endunless -%},
+      sorting_price_descending: {%- assign temp = 'collections.sorting.price_descending' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Highest Price" {%- endunless -%},
+      sorting_created_ascending: {%- assign temp = 'collections.sorting.created_ascending' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Date, Old to New" {%- endunless -%},
+      sorting_created_descending: {%- assign temp = 'collections.sorting.created_descending' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Date, New to Old" {%- endunless -%},
+      sorting_date_ascending: {%- assign temp = 'collections.sorting.date_ascending' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Date, Old to New" {%- endunless -%},
+      sorting_date_descending: {%- assign temp = 'collections.sorting.date_descending' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Date, New to Old" {%- endunless -%},
+      sorting_sale_descending: {%- assign temp = 'collections.sorting.sale_descending' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "% Off" {%- endunless -%},
+      sorting_relevance: {%- assign temp = 'collections.sorting.relevance' | t -%} {%- unless temp contains 'translation missing'  -%} "{{ temp }}" {%- else -%} "Relevance" {%- endunless -%},
+      toolbar_viewas: "View As",
+      items_with_count_one: "product",
+      items_with_count_other: "Products",
+    },
+    label_basic: {
+      sale: {{ section.settings.sale_label | json }},
+      sold_out: {{ section.settings.soldout_label | json }},
+      from: {{ section.settings.from | json }}, 
+    },
+    custom: {
+      products_per_page: {{ settings.products_per_page }}, 
+      products_per_row: {{ settings.products_per_row }},
+      products_per_row_mobile: {{ settings.products_per_row_mobile }},
+      show_vendor: {{ settings.show_vendor }},
+      show_price: {{ settings.show_price }},
+      show_sale_label: {{ settings.show_sale_label }},
+      show_sold_out_label: {{ settings.show_sold_out_label }},
+      active_image_swap: {{ settings.active_image_swap }},
+      show_sorting: {{ settings.show_sorting }},
+      show_product_review: {{ settings.show_product_review }},
+
+      display_item_swatch: {{ settings.display_item_swatch }},
+      swatch_color_display_type: "{{ settings.swatch_color_display_type }}",
+      swatch_color_event_change_image: "{{ settings.swatch_color_event_change_image }}",
+      swatches_color_shape: "{{ settings.swatches_color_shape }}",
+
+      equal_height: {{ settings.equal_height }},
+      ratio_width_height_other: "{{ settings.ratio_width_height_other }}",
+      equal_height_crop_image_position: "{{ settings.equal_height_crop_image_position }}",
+      show_label_by_tag: {{ settings.show_label_by_tag }}
+    }
+  };
+
+  // Declare Templates
+  var boostPFSTemplate = {
+      'soldOutClass': ' sold-out',
+      'saleClass': ' on-sale',
+      'soldOutLabelHtml': {%- render 'boost-pfs-filter-html', layout: 'soldOutLabelHtml' -%},
+      'saleLabelHtml': {%- render 'boost-pfs-filter-html', layout: 'saleLabelHtml' -%},
+      'tagLabelHtml': {%- render 'boost-pfs-filter-html', layout: 'tagLabelHtml' -%},
+      'vendorHtml': {%- render 'boost-pfs-filter-html', layout: 'vendorHtml' -%},
+      // Grid Template
+      'productGridItemHtml': {%- render 'boost-pfs-filter-html', layout: 'productGridItemHtml' -%},
+      // For List View
+      // List Template
+      'productListItemHtml': {%- render 'boost-pfs-filter-html', layout: 'productListItemHtml' -%},
+      // End For List View
+      'productListPlaceholderHtml': {%- render 'boost-pfs-filter-html', layout: 'productListPlaceholderHtml' -%},
+      // Pagination Template
+      'previousActiveHtml': {%- render 'boost-pfs-filter-html', layout: 'previousActiveHtml' -%},
+      'previousDisabledHtml': {%- render 'boost-pfs-filter-html', layout: 'previousDisabledHtml' -%},
+      'nextActiveHtml': {%- render 'boost-pfs-filter-html', layout: 'nextActiveHtml' -%},
+      'nextDisabledHtml': {%- render 'boost-pfs-filter-html', layout: 'nextDisabledHtml' -%},
+      'pageItemHtml': {%- render 'boost-pfs-filter-html', layout: 'pageItemHtml' -%},
+      'pageItemSelectedHtml': {%- render 'boost-pfs-filter-html', layout: 'pageItemSelectedHtml' -%},
+      'pageItemRemainHtml': {%- render 'boost-pfs-filter-html', layout: 'pageItemRemainHtml' -%},
+      'paginateHtml': {%- render 'boost-pfs-filter-html', layout: 'paginateHtml' -%},
+      // Sorting Template
+      'sortingHtml': {%- render 'boost-pfs-filter-html', layout: 'sortingHtml' -%},
+      // Show Limit Template
+      'showLimitHtml': {%- render 'boost-pfs-filter-html', layout: 'showLimitHtml' -%},
+      // Breadcrumb Template
+      'breadcrumbHtml': {%- render 'boost-pfs-filter-html', layout: 'breadcrumbHtml' -%},
+      'breadcrumbDivider': {%- render 'boost-pfs-filter-html', layout: 'breadcrumbDivider' -%},
+      'breadcrumbItemLink': {%- render 'boost-pfs-filter-html', layout: 'breadcrumbItemLink' -%},
+      'breadcrumbItemSelected': {%- render 'boost-pfs-filter-html', layout: 'breadcrumbItemSelected' -%},
+  };
+
+
+  let stateCheck = setInterval(() => {
+    if (document.readyState === 'complete') {
+      clearInterval(stateCheck);
+
+      var alreadyLazyloaded = document.querySelectorAll('.lazyloaded');
+      alreadyLazyloaded.forEach(function(image) {
+        boostRemoveImageLoadingAnimation(image);
+      });
+
+    }
+  }, 100);
+
+
+  // Build Placeholder for the first load
+  function boostRemoveImageLoadingAnimation(image) {
+    // Remove loading animation
+    var imageWrapper = image.hasAttribute('data-boost-image-loading-animation')
+      ? image
+      : image.closest('[data-boost-image-loading-animation]');
+
+    if (imageWrapper) {
+      imageWrapper.removeAttribute('data-boost-image-loading-animation');
+    }
+  }
+</script>
+
+
+{%- assign mod_disable_featured_product = nil -%}
+{%- assign mod_is_collection = nil -%}
+{%- assign mod_items = nil -%}
+{%- assign mod_excerpt = nil -%}
+

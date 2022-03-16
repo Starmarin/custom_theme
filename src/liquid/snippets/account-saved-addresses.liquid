@@ -1,0 +1,134 @@
+{%- for address in customer.addresses -%}
+  <account-saved-address ref="address-{{ forloop.index }}" id="{{ address.id }}">
+    <template slot="info">
+      <p class="address-info__summary">
+        <strong class="address-info__summary-name">{{ address.name }} {% if address == customer.default_address %}(default){% endif %}</strong>
+        {%- unless address.company == blank -%}{{ address.company }}<br>{%- endunless -%}
+        {{ address.address1 }}{%- unless address.address2 == blank -%}, {{ address.address2 }}{%- endunless -%}<br>
+        {{ address.city }}, {{ address.province_code }}, {{ address.zip }}
+      <primary-button text label="Edit" class="address-info__edit" @click.native="$refs['address-{{forloop.index}}'].showForm"></primary-button>
+    </template>
+
+    <template slot="form">
+      {%- form 'customer_address', address -%}
+        <primary-button text label="Delete" class="address-info__delete" @click.native="$refs['address-{{forloop.index}}'].destroyAddress"></primary-button>
+
+        <div class="address-form__default input input--checkbox">
+          {{ form.set_as_default_checkbox }}
+          <div class="input--checkbox__indicator"></div>
+          <label for="address_default_address_{{ form.id }}">Make Default</label>
+        </div>
+
+        <div class="address-form__row">
+          <div class="input input--text">
+            <input type="text"
+                  name="address[first_name]"
+                  id="AddressFirstName_{{ form.id }}"
+                  value="{{ form.first_name }}"
+                  autocapitalize="words">
+            <label for="AddressFirstName_{{ form.id }}">First Name</label>
+          </div>
+          <div class="input input--text">
+            <input type="text"
+                  name="address[last_name]"
+                  id="AddressLastName_{{ form.id }}"
+                  value="{{ form.last_name }}"
+                  autocapitalize="words">
+            <label for="AddressLastName_{{ form.id }}">Last Name</label>
+          </div>
+        </div>
+
+        <div class="address-form__row">
+          <div class="input input--text">
+            <input type="text"
+                  name="address[company]"
+                  id="AddressCompany_{{ form.id }}"
+                  value="{{ form.company }}"
+                  autocapitalize="words">
+            <label for="AddressCompany_{{ form.id }}">Company</label>
+          </div>
+        </div>
+
+        <div class="address-form__row">
+          <div class="input input--text">
+            <input type="text"
+                  name="address[address1]"
+                  id="AddressAddress1_{{ form.id }}"
+                  value="{{ form.address1 }}"
+                  autocapitalize="words">
+            <label for="AddressAddress1_{{ form.id }}">Address</label>
+          </div>
+        </div>
+
+        <div class="address-form__row">
+          <div class="input input--text">
+            <input type="text"
+                  name="address[address2]"
+                  id="AddressAddress2_{{ form.id }}"
+                  value="{{ form.address2 }}"
+                  autocapitalize="words">
+            <label for="AddressAddress2_{{ form.id }}">Apt or Suite</label>
+          </div>
+          <div class="input input--text">
+            <input type="tel"
+                  name="address[phone]"
+                  id="AddressPhone_{{ form.id }}"
+                  value="{{ form.phone }}"
+                  pattern="[0-9\-]*">
+            <label for="AddressPhone_{{ form.id }}">Phone Number</label>
+          </div>
+        </div>
+
+        <div class="address-form__row">
+          <div class="input input--text">
+            <input type="text"
+                  name="address[city]"
+                  id="AddressCity_{{ form.id }}"
+                  value="{{ form.city }}"
+                  autocapitalize="words">
+            <label for="AddressCity_{{ form.id }}">City</label>
+          </div>
+          <div id="AddressProvinceWrapper_{{ address.id }}">
+            <div class="input input--select">
+              <select data-address-province
+                name="address[province]"
+                id="AddressProvince_{{ form.id }}"
+                data-default="{{ form.province }}">
+              </select>
+              <icon name="chevron-down" size="16px"></icon>
+              <label for="AddressProvince_{{ address.id }}">Province</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="address-form__row">
+          <div class="input input--text">
+            <input type="text"
+                  name="address[zip]"
+                  id="AddressZip_{{ form.id }}"
+                  value="{{ form.zip }}"
+                  autocapitalize="characters">
+            <label for="AddressZip_{{ form.id }}">Zip Code</label>
+          </div>
+          <div class="input input--select">
+            <select data-address-country
+              name="address[country]"
+              id="AddressCountry_{{ form.id }}"
+              class="address-country-option"
+              data-form-id="{{ form.id }}"
+              data-default="{{ form.country }}">
+              {{ country_option_tags }}
+            </select>
+            <icon name="chevron-down" size="16px"></icon>
+            <label for="AddressCountry_{{ address.id }}">Country</label>
+          </div>
+        </div>
+
+        <div class="address-form__buttons">
+          <primary-button outline secondary label="Cancel" @click.native="$refs['address-{{forloop.index}}'].hideForm"></primary-button>
+          <submit-button label="Save Address"></submit-button>
+        </div>
+      {%- endform -%}
+    </template>
+  </account-saved-address>
+{%- endfor -%}

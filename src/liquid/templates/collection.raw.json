@@ -1,0 +1,16 @@
+{
+    "sections": {
+        "collection-raw": {
+            "type": "collection__raw",
+            "settings": {}
+        },
+        "sub-brand-raw": {
+            "type": "sub-brand__raw",
+            "settings": {}
+        }
+    },
+    "order": [
+        "collection-raw",
+        "sub-brand-raw"
+    ]
+}

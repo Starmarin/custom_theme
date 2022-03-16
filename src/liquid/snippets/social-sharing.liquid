@@ -1,0 +1,27 @@
+{%- assign mod_icon_size = mod_icon_size | default: '29px' -%}
+<div class="social-sharing bg-white md:border md:border-solid md:border-gray-200 md:shadow-card pb-e0 pt-e20 md:p-e22 md:w-e90 text-center rounded-e4 flex flex-wrap md:flex-no-wrap md:flex-col items-center justify-center space-x-e16 md:space-x-0 md:space-y-e10">
+  <div class="mb-e24 md:mb-0 text-e14 font-medium w-full text-center">Share</div>
+  <a
+  class="p-e8 text-black hover:text-red-700 no-underline"
+  target="_blank"
+  href="//www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}"
+  >
+    <icon name="facebook" size="{{mod_icon_size}}"></icon>
+  </a>
+
+  <a
+  class="p-e8 text-black hover:text-red-700 no-underline"
+  target="_blank"
+  href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: share_permalink }}"
+  >
+    <icon name="twitter" size="{{mod_icon_size}}"></icon>
+  </a>
+
+  <a
+  class="p-e8 text-black hover:text-red-700 no-underline"
+  target="_blank"
+  href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | img_url: '1024x1024' }}&amp;description={{ share_title | url_param_escape }}"
+  >
+    <icon name="pinterest" size="{{mod_icon_size}}"></icon>
+  </a>
+</div>

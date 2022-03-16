@@ -1,0 +1,98 @@
+<div is="AccountRegisterForm" inline-template>
+  <div class="text-center sm:w-10/12 mx-auto max-w-e410">
+    <h1 class="font-primary font-extrabold text-xl md:text-e36 uppercase tracking-header mb-4 text-black">{{ 'customer.login.create_account' | t }}</h1>
+    <p class="font-body font-normal text-megamenu_sub md:text-md mb-6">{{ 'customer.login.content' | t }}</p>
+    <div class="flex items-center justify-center mb-6">
+      <a class="font-primary font-bold uppercase text-md px-e10 py-2 border-b-2 border-gray-300 tracking-wider focus:shadow-outline" href="{{ routes.account_login_url }}">{{ 'customer.login.login' | t }}</a>
+      <div class="font-primary font-bold uppercase text-md px-e10 py-2 border-b-2 border-primary-500 tracking-wider">{{ 'customer.login.create_account' | t }}</div>
+    </div>
+    <div @submit="validate">
+      {%- form 'create_customer', class: 'mha' -%}
+        {%- assign mod_errors = form.errors | default: false -%}
+        {%- if mod_errors -%}
+          {%- for field in mod_errors -%}
+            {%- if field == 'form' -%}
+              <p class="p bg-white font-body p-4 text-e14 my-e10 text-red-700">{{- mod_errors.messages[field] -}}</p>
+            {%- else -%}
+              <p class="p bg-white font-body p-4 text-e14 my-e10 text-red-700">{{ mod_errors.translated_fields[field] | capitalize }} {{ mod_errors.messages[field] }}.</p>
+            {%- endif -%}
+            {%- assign error_text = mod_errors.messages[field] -%}
+          {%- endfor -%}
+        {%- endif -%}
+        {%- assign mod_errors = nil -%}
+
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            {%- assign placeholder = 'customer.register.first_name' | t -%}
+            {%- render 'text-input' with
+              mod_name: 'customer[first_name]',
+              mod_label: placeholder,
+              mod_required: true -%}
+            {%- assign placeholder = nil -%}
+          </div>
+  
+          <div>
+            {%- assign placeholder = 'customer.register.last_name' | t -%}
+            {%- render 'text-input' with
+              mod_name: 'customer[last_name]',
+              mod_label: placeholder,
+              mod_required: true -%}
+            {%- assign placeholder = nil -%}
+          </div>
+  
+          <div>
+            {%- assign placeholder = 'customer.register.email' | t -%}
+            {%- render 'text-input' with
+              mod_name: 'customer[email]',
+              mod_type: 'email',
+              mod_label: placeholder,
+              mod_required: true -%}
+            {%- assign placeholder = nil -%}
+          </div>
+  
+          <div>
+            {%- assign placeholder = 'customer.register.password' | t -%}
+            {%- render 'text-input' with
+              mod_name: 'customer[password]',
+              mod_type: 'password',
+              mod_label: placeholder,
+              mod_required: true -%}
+            {%- assign placeholder = nil -%}
+          </div>
+
+          <div class="hidden justify-start items-center">
+            <input type="checkbox" name="customer[sms_promotions]" id="sms_promotions" />
+            <label class="body-sm" for="sms_promotions">{{ 'customer.login.sms_content' | t }}</label>
+          </div>
+
+          <div class="flex justify-start items-center">
+            <input class="min-w-e24" type="checkbox" name="customer[accepts_marketing]" id="accepts_marketing" />
+            <label class="body-sm text-left leading-1" for="accepts_marketing">
+              {{ 'customer.login.newsletter_content_1' | t }}
+              <a class="font-body font-semibold underline color-black focus:shadow-outline" target="_blank" href="https://www.wwe.com/page/terms-and-conditions">
+                {{ 'customer.login.newsletter_content_2' | t }}
+              </a> {{ 'customer.login.newsletter_content_and' | t }}
+              <a class="font-body font-semibold underline color-black focus:shadow-outline" target="_blank" href="https://www.wwe.com/page/privacy-policy">
+                {{ 'general.checkout.privacy_policy' | t }}
+              </a>.
+            </label>
+          </div>
+  
+          <div>
+            {%- assign mod_value = 'customer.register.submit' | t -%}
+              <button is="BtnPrimary" @click="registrationAttempt" class="w-full focus:underline uppercase"type="submit">{{ 'customer.login.create_account' | t }}</button>
+            {%- assign mod_value = nil -%}
+          </div>
+    
+        </div>
+
+        {% if form.errors %}
+          <span class="hidden" :adswerve="registrationFail"></span>
+        {% endif %}
+
+        {%- endform -%}
+      </form>
+
+    </div>
+  </div>
+</div>

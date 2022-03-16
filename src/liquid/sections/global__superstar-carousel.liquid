@@ -1,0 +1,93 @@
+{%- render 'hp--superstar-carousel', mod_settings: section.settings, mod_blocks: section.blocks -%}
+{% schema %}
+  {
+    "name": "Global Superstar Carousel",
+    "class": "superstar-carousel",
+    "max_blocks": 18,
+    "settings": [
+      {"type": "header", "content": "Content"},
+      {
+        "type": "text",
+        "id": "header",
+        "label": "Header"
+      },
+      {
+        "type": "text",
+        "id": "shop_all_link_text",
+        "label": "Shop All Link Text"
+      },
+      {
+        "type": "url",
+        "id": "shop_all_link_url",
+        "label": "Shop All Link URL"
+      },
+      {"type": "header", "content": "Colors"},
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color"
+      },
+      {
+        "type": "color",
+        "id": "header_text_color",
+        "label": "Header Text Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Shop All Background Color",
+        "default": "#D0021B"
+      },
+      {
+        "type": "color",
+        "id": "shop_all_text_color",
+        "label": "Shop All Text Color"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "superstar",
+        "name": "Superstar",
+        "settings": [
+          {"type": "header", "content": "Settings"},
+          {
+            "type": "collection",
+            "id": "superstar_collection",
+            "label": "Superstar Collection"
+          },
+          {"type": "header", "content": "Overrides"},
+          {"type": "paragraph", "content": "By default, all superstar information is pulled from the superstars collection metafields. Override those settings here."},
+          {
+            "type": "image_picker",
+            "id": "superstar_photo",
+            "label": "Superstar Photo",
+            "info": "Suggested dimensions: 512 x 1080"
+          },
+          {
+            "type": "text",
+            "id": "badge_text",
+            "label": "Badge Text"
+          },
+          {
+            "type": "color",
+            "id": "badge_bg_color",
+            "label": "Badge Background Color",
+            "default": "#D0021B"
+          },
+          {
+            "type": "color",
+            "id": "badge_text_color",
+            "label": "Badge Text Color",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "text",
+            "id": "superstar_name",
+            "label": "Superstar Name"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

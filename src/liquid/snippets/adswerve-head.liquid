@@ -1,0 +1,24 @@
+
+
+<script>
+  let adswerveBreakpoint = 'desktop'
+  if (window.innerWidth < 1400 && window.innerWidth > 768){
+    adswerveBreakpoint = 'tablet';
+  } else if(window.innerWidth < 768){
+    adswerveBreakpoint = 'mobile'
+  }
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+      'event': 'dataLayer-initialized',
+      'userID': '{{ customer.id }}',
+      'pageType': '{{ template }}',
+      'responsiveBreakpoint': adswerveBreakpoint,
+      {% if customer %}
+        'loggedIn': 'yes',
+      {% else %}
+        'loggedIn': 'no',
+      {% endif %}
+      'siteVersion': '1.0',
+  });
+  </script>

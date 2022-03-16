@@ -1,0 +1,7 @@
+{% if product.handle == settings.upsell_dummy_product %}
+  <script>
+    (function() {
+      window.location.href = '/';
+    })();
+  </script>
+{% endif %}

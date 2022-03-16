@@ -1,0 +1,73 @@
+.footer-accordion-group {
+  .accordion + .accordion {
+    border-top: 1px solid var(--color-gray-300);
+  }
+}
+
+.newsletter-input {
+  @apply bg-gray-600 text-white font-body text-megamenu_sub p-e14;
+}
+
+.newsletter-submit {
+  line-height: 19px;
+  min-width: 110px;
+}
+
+.newsletter-submit-text {
+  line-height: 18px;
+}
+
+.email-capture-text p {
+  @apply font-body text-modal text-white;
+}
+
+.email-capture-text a {
+  @apply font-body text-modal text-brands-nxt_old underline;
+
+  &:hover {
+    @apply no-underline;
+  }
+
+  &:focus {
+    @apply shadow-outline;
+  }
+}
+
+.legal-links li:last-child {
+  margin-right: 0;
+}
+
+.newsletter-form-inner-container {
+  @screen sm {
+    input[type='email'] {
+      max-width: initial;
+    }
+
+    .newsletter-form-inner-container .newsletter-submit {
+      padding-left: 40px;
+      padding-right: 40px;
+      line-height: 19px;
+    }
+  }
+
+  input[type='email'] {
+  }
+
+  .newsletter-form-inner-container .newsletter-submit {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+.footer-desktop {
+  background: var(--color-gray-700);
+  background-image: url("{{ section.settings.desktop_image | img_url: '800x' }}");
+
+  @screen md {
+    background-color: var(--color-gray-700);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 60% 100%;
+    background-clip: padding-box;
+  }
+}

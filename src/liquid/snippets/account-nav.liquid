@@ -1,0 +1,64 @@
+<div class="bg-gray-700 md:bg-transparent px-4 py-5 md:py-0 flex items-center justify-between">
+  <div>
+    <h3 class="text-white md:text-black mb-1 md:mb-3 font-primary font-bold uppercase tracking-header text-xl">{{ 'customer.navigation.hello' | t }} {{ customer.first_name }}</h3>
+    <p class="text-gray-300 md:text-black font-body text-md md:mb-10">{{ customer.email }}</p>   
+  </div>
+  <a class="font-primary font-bold uppercase text-md text-white tracking-wider underline md:hidden" href="{{ routes.account_logout_url }}">{{ 'customer.navigation.log_out' | t }}</a> 
+</div>
+<div 
+  is="Dropdown" 
+  :selected="selectedAccountNav" 
+  class="w-full block md:hidden px-4 my-5"
+  @select="(value) => mobileAccountNavigation(value)"
+  :options="currentOptions">
+</div>
+
+<section class="hidden md:block md:px-4">
+  <div class="">
+    <nav class="">
+      <ul class="md:space-y-e24 flex items-center md:block">
+        <li class="font-secondary font-bold text-md">
+          {%- if template contains 'account' or template contains 'customers/order' -%}
+            {%- if template != 'customers/account.my_rewards' and template != 'customers/account.subscriptions' -%}
+              <span class="font-secondary font-bold text-md pb-1 border-b-2 border-primary-500 capitalize">{{ 'customer.navigation.order_history' | t }}</span>
+            {% else %}
+              <a class="font-secondary font-bold text-md pb-1 capitalize" href="{{ routes.account_url }}">{{ 'customer.navigation.order_history' | t }}</a>
+            {% endif %}
+          {%- else -%}
+            <a class="font-secondary font-bold text-md pb-1 capitalize" href="{{ routes.account_url }}">{{ 'customer.navigation.order_history' | t }}</a>
+          {%- endif -%}
+        </li>
+        <li class="text-e12 sm:text-e16 font-medium tracking-wide mr-e16">
+          {%- if template contains 'address' -%}
+            <span class="font-secondary font-bold text-md pb-1 border-b-2 border-primary-500 capitalize">{{ 'customer.navigation.address_book' | t }}</span>
+          {%- else -%}
+            <a class="font-secondary font-bold text-md pb-1 capitalize" href="{{ routes.account_addresses_url }}">{{ 'customer.navigation.address_book' | t }}</a>
+          {%- endif -%}
+        </li>
+        <li class="text-e12 sm:text-e16 font-medium tracking-wide mr-e16 bfx-remove-element">
+          {%- if template contains 'customers/account.my_rewards' -%}
+            <span class="font-secondary font-bold text-md pb-1 border-b-2 border-primary-500 capitalize">{{ 'customer.navigation.rewards' | t }}</span>
+          {%- else -%}
+            <a class="font-secondary font-bold text-md pb-1 capitalize" href="{{ routes.account_url }}?view=my_rewards">{{ 'customer.navigation.rewards' | t }}</a>
+          {%- endif -%}
+        </li>
+        {% if settings.enable_subscription_tab%}
+          <li class="text-e12 sm:text-e16 font-medium tracking-wide mr-e16 bfx-remove-element">
+            {%- if template contains 'customers/account.subscriptions' -%}
+              <span class="font-secondary font-bold text-md pb-1 border-b-2 border-primary-500 capitalize">{{ 'customer.navigation.subscriptions' | t }}</span>
+            {%- else -%}
+              <a class="font-secondary font-bold text-md pb-1 capitalize" href="{{ routes.account_url }}?view=subscriptions">{{ 'customer.navigation.subscriptions' | t }}</a>
+            {%- endif -%}
+          </li>
+        {% endif %}
+        <li class="text-e12 sm:text-e16 font-medium tracking-wide mr-e16">
+          <a class="font-secondary font-bold text-md pb-1 capitalize" href="{{ routes.account_logout_url }}">{{ 'customer.navigation.logout' | t }}</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="hidden md:block py-e125">
+      {% render 'account-support' %}
+    </div>
+  </div>
+</section>

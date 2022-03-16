@@ -1,0 +1,46 @@
+{%- if customer.orders.size != 0 -%}
+  <table class="w-full border-solid border-b border-gray-300">
+    <thead class="bg-black h-e56 text-left">
+      <tr>
+        <th class="text-center md:text-left px-e10 md:px-e20 sm:text-left lg:pl-e56 font-primary font-bold text-megamenu_top uppercase text-white tracking-header h-e56">{{ 'customer.orders.order_number' | t }}</th>
+        <th class="text-center md:text-left px-e10 md:px-e20 sm:text-left lg:pl-e56 font-primary font-bold text-megamenu_top uppercase text-white tracking-header h-e56">{{ 'customer.orders.date' | t }}</th>
+        <th class="text-center md:text-left px-e10 md:px-e20 sm:text-left lg:pl-e56 font-primary font-bold text-megamenu_top uppercase text-white tracking-header h-e56">{{ 'customer.orders.status' | t }}</th>
+        <th class="text-center md:text-left px-e10 md:px-e20 sm:text-left lg:pl-e56 font-primary font-bold text-megamenu_top uppercase text-white tracking-header h-e56">{{ 'customer.orders.total' | t }}</th>
+        <th class="md-down:hidden text-right px-e10 md:px-e20 sm:text-left lg:pl-e56 font-normal text-e14 sm:text-e18 h-e56"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for order in customer.orders -%}
+        <tr class="border-solid border-l border-r border-gray-300">
+          <td class="text-center md:text-left py-e20 lg:py-e32 px-e4 sm:px-e8 md:px-e20 lg:pl-e56 font-body font-normal text-e14 sm:text-e18"><a class="text-primary-500 underline font-body font-semibold" href="{{ order.customer_url }}">{{ order.name }}</a></td>
+          <td class="text-center md:text-left py-e20 lg:py-e32 px-e4 sm:px-e8 text-gray-700 md:px-e20 lg:pl-e56 font-body font-normal text-e14 sm:text-e18">{{ order.created_at | date: "%m/%d/%Y" }}</td>
+          <td class="text-center md:text-left py-e20 lg:py-e32 px-e4 sm:px-e8 text-gray-700 md:px-e20 lg:pl-e56 font-body font-normal text-e14 sm:text-e18">{{ order.fulfillment_status }}</td>
+          <td class="py-e20 lg:py-e32 px-e4 sm:px-e8 text-gray-700 md:px-e20 lg:pl-e56 font-normal text-e14 text-center font-body md:text-left sm:text-e18 whitespace-no-wrap">{{ order.total_price | money }}</td>
+          <td class="md-down:hidden py-e20 lg:py-e32 px-e4 sm:px-e8 text-gray-700 md:px-e20 lg:pl-e56 font-normal text-e14 sm:text-e18 ">
+            <a href="{{ order.customer_url }}">
+              <icon name="chevron-right" size="12px"></icon>
+            </a>
+          </td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+{%- else -%}
+  <div class="">
+    <table class="w-full border-l border-r border-black">
+      <thead class="bg-black h-e56 text-left">
+        <tr>
+          <th class="text-center md:text-left px-e10 md:px-e20 sm:text-left lg:pl-e56 font-primary font-bold text-megamenu_top uppercase text-white tracking-header h-e56">{{ 'customer.orders.order_number' | t }}</th>
+          <th class="text-center md:text-left px-e10 md:px-e20 sm:text-left lg:pl-e56 font-primary font-bold text-megamenu_top uppercase text-white tracking-header h-e56">{{ 'customer.orders.date' | t }}</th>
+          <th class="text-center md:text-left px-e10 md:px-e20 sm:text-left lg:pl-e56 font-primary font-bold text-megamenu_top uppercase text-white tracking-header h-e56">{{ 'customer.orders.status' | t }}</th>
+          <th class="text-center md:text-left px-e10 md:px-e20 sm:text-left lg:pl-e56 font-primary font-bold text-megamenu_top uppercase text-white tracking-header h-e56">{{ 'customer.orders.total' | t }}</th>
+          <th class="md-down:hidden text-right px-e10 md:px-e20 sm:text-left lg:pl-e56 font-normal text-e14 sm:text-e18 h-e56"></th>
+        </tr>
+      </thead>
+    </table>
+    <div class="text-center text-gray-700 py-e80 border-b border-l border-r border-gray-300">
+      <p class="font-body text-md mb-6">{{ 'customer.orders.none' |  t }}</p>
+      <a is="BtnPrimaryLink" href="{{ routes.root_url }}" class="uppercase">{{ 'customer.login.start_shopping' |  t }}</a>
+    </div>
+  </div>
+{%- endif -%}

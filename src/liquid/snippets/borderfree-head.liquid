@@ -1,0 +1,46 @@
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+{% if shop.metafields.custom_fields["store_country"] == "usa" %}
+  {% if settings.borderfree_environment == 'staging' %}
+    <script id="bfx-snippet">
+      (function(e,n,o,t,a){function c(n){e[t]._apiKey=n.key;e[t]._env=n.env;e[t]._logLevel=n.logLevel;
+      e[t]._mode=n.mode;e[t]._brand=n.brand;e[t]._cookieFlag=n.cookieFlag}e[t]=c;e[t].l=1*new Date;var i,l;
+      i=n.createElement(o);l=n.getElementsByTagName(o)[0];i.async=1;i.src=a;l.parentNode.insertBefore(i,l);
+      })(window,document,"script","bfx",
+      "https://bfx-objects.sbx.borderfree.com/v1/dist/bfx.js");
+      bfx(
+        {
+          key:'0cbdb400-35af-11eb-98b1-2315cd9c96a7', 
+          env:'STAGE', 
+          mode:'default', 
+          brand:'default'
+        }
+      );
+    </script>
+  {% else %}
+    <script id="bfx-snippet">
+      (function(e,n,o,t,a){function c(n){e[t]._apiKey=n.key;e[t]._env=n.env;e[t]._logLevel=n.logLevel;
+      e[t]._mode=n.mode;e[t]._brand=n.brand;e[t]._cookieFlag=n.cookieFlag}e[t]=c;e[t].l=1*new Date;var i,l;
+      i=n.createElement(o);l=n.getElementsByTagName(o)[0];i.async=1;i.src=a;l.parentNode.insertBefore(i,l);
+      })(window,document,"script","bfx",
+      "https://bfx-objects.prd.borderfree.com/v1/dist/bfx.js");
+      bfx(
+        {
+          key:'c9fd7ac0-777a-11eb-afb9-5f2011ee1710', 
+          env:'PROD', 
+          mode:'default', 
+          brand:'default'
+        }
+      );
+    </script>
+  {% endif %}
+{% endif %}
+
+{% if page.title == 'International Order Status' %}
+  {% if settings.borderfree_environment == 'staging' %}
+    <!-- STAGING -->
+    <script src="https://global.sbx.borderfree.com/cdn/tracking/v1/dist/borderfreeOrderTracking.min.js"></script>
+  {% else %}
+    <!-- PRODUCTION -->
+    <script src="https://global.prd.borderfree.com/cdn/tracking/v1/dist/borderfreeOrderTracking.min.js"></script>
+  {% endif %}
+{% endif %}

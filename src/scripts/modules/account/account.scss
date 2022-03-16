@@ -1,0 +1,38 @@
+.support-content p {
+  @apply font-body text-md;
+}
+
+.support-content a {
+  @apply font-body text-md underline;
+}
+
+.support-content strong {
+  @apply font-body text-md font-bold;
+}
+
+.description-text-rewards p {
+  @apply font-body text-md text-white;
+}
+
+.description-text-rewards a {
+  @apply font-body text-md underline text-white;
+}
+
+.description-text-rewards strong {
+  @apply font-body text-md font-bold text-white;
+}
+
+.shopify-challenge__container {
+  @apply py-10;
+}
+
+.shopify-challenge__message {
+  @apply font-body;
+}
+
+.shopify-challenge__button {
+  @apply bg-btn-primary_main font-primary font-bold uppercase text-white tracking-header cursor-pointer;
+  &:hover {
+    @apply bg-btn-primary_hover;
+  }
+}

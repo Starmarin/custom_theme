@@ -1,0 +1,15 @@
+
+<div class="content-blocks">
+  <div class="row">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'image' -%}
+          {%- comment -%} Image {%- endcomment -%}
+          {%- include 'content-block--image', block: block -%}
+        {%- else -%}
+          {%- comment -%} Default {%- endcomment -%}
+          {%- include 'content-block--basic', block: block -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>

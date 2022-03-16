@@ -1,0 +1,92 @@
+{% render 'steps-section', mod_settings: section.settings, mod_blocks: section.blocks %}
+
+{% schema %}
+{
+    "name": "Steps Section",
+    "presets": [
+    {
+        "name": "Steps Section",
+        "category": "Content"
+    }
+    ],
+    "settings": [
+    {
+        "type": "text",
+        "id": "steps_section_title",
+        "label": "Section Title",
+        "default": "How It Works",
+        "info": "optional",
+        "placeholder": "Title"
+    },
+    {
+        "type": "text",
+        "id": "steps_text_cta1",
+        "label": "CTA 1 Text",
+        "placeholder": "Text"
+    },
+    {
+        "type": "url",
+        "id": "steps_url_cta1",
+        "label": "CTA 1 Link"
+    },
+    {
+        "type": "color",
+        "id": "steps_color_cta1",
+        "label": "CTA 1 Background Color",
+        "default": "#DA1221"
+    },
+    {
+        "type": "color",
+        "id": "steps_text_color_cta1",
+        "label": "CTA 1 Text Color",
+        "default": "#DA1221"
+    },
+    {
+        "type": "text",
+        "id": "steps_text_cta2",
+        "label": "CTA 2 Text",
+        "placeholder": "Text"
+    },
+    {
+        "type": "url",
+        "id": "steps_url_cta2",
+        "label": "CTA 2 Link"
+    },
+    {
+        "type": "color",
+        "id": "steps_color_cta2",
+        "label": "CTA 2 Color",
+        "default": "#000000"
+    },
+    {
+        "type": "color",
+        "id": "steps_text_color_cta2",
+        "label": "CTA 2 Text Color",
+        "default": "#ffffff"
+    }
+    ],
+    "max_blocks": 3,
+        "blocks": [
+        {
+            "type": "steps_item",
+            "name": "Steps Block",
+            "settings": [
+            {
+                "type": "header",
+                "content": "Content"
+            },
+            {
+                "type": "text",
+                "id": "steps_title",
+                "label": "Heading"
+            },
+            {
+                "type": "text",
+                "id": "steps_description",
+                "label": "Description"
+            }
+        ]
+        }
+    ]
+}
+{% endschema %}

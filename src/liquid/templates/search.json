@@ -1,0 +1,11 @@
+{
+    "sections": {
+        "search-main": {
+            "type": "search-template-boost-pfs-filter",
+            "settings": {}
+        }
+    },
+    "order": [
+        "search-main"
+    ]
+}

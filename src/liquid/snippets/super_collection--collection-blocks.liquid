@@ -1,0 +1,36 @@
+{% if collection.metafields.custom_fields['order-collection_blocks'] != blank %}
+  <div style="order: {{ collection.metafields.custom_fields['order-collection_blocks'] | json }}">
+    {% capture collection_blocks_settings %}
+      {
+        "number_of_blocks": {{ collection.metafields.custom_fields["super_blocks-number_of_blocks"] | json }},
+        "text_alignment": "left",
+        "preheader": "",
+        "header": {{ collection.metafields.custom_fields["super_blocks-header"] | json }},
+        "shop_all_link_text": "{{ 'general.megamenu.shop_all' | t }}",
+        "shop_all_link_url": {{ collection.metafields.custom_fields["super_promo"] | json }},
+        "background_color": {{ collection.metafields.custom_fields["super_blocks-background_color"] | json }},
+        "preheader_text_color": "",
+        "preheader_border_color": "",
+        "header_text_color": {{ collection.metafields.custom_fields["super_blocks-header_text_color"] | json }},
+        "shop_all_text_color": {{ collection.metafields.custom_fields["super_blocks-header_text_color"] | json }}
+      }
+    {% endcapture %}
+    {% capture collection_blocks_blocks %}
+      [
+        {% for item in collection.metafields.custom_fields["blocks"] %}
+          {
+            "settings": {
+              "desktop_image": {{ item["super_blocks-image"] | json }},
+              "mobile_image": {{ item["super_blocks-image"] | json }},
+              "block_link": {{ item["super_blocks-block_link"] | json }},
+              "block_header": {{ item["super_blocks-header"] | json }},
+              "block_header_color": {{ collection.metafields.custom_fields["super_blocks-title_text_color"] | json }},
+              "block_header_background_color": {{ collection.metafields.custom_fields["super_blocks-title_bg_color"] | json }}
+            }
+          }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    {% endcapture %}
+    {%- render 'hp--collection-blocks', mod_settings: collection_blocks_settings, mod_blocks: collection_blocks_blocks, block_data_from_metafields: true, block_type: block.type -%}
+  </div>
+{% endif %}

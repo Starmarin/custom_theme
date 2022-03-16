@@ -1,0 +1,397 @@
+{% layout none %}
+{% assign bc_settings = shop.metafields.bc-sf-filter.settings %}
+  {% assign active_vendor = true %}
+  {% assign active_description = true %}
+  {% assign active_cart_form = true %}
+  {% assign active_price = true %}{% assign file_extension = 'png' %}
+  {% assign view_full_label = 'products.product.view_full' | t %}
+  {% if view_full_label contains 'translation missing'  %}
+    {% assign view_full_label = 'View full product' %}
+  {% endif %}
+
+  {% assign quantity_label = 'product_filter_search_quickview.quantity' | t %}
+  {% if quantity_label contains 'translation missing'  %}
+    {% assign quantity_label = 'Quantity' %}
+  {% endif %}
+
+  {% assign add_to_cart_btn_label = 'products.product.add_to_cart' | t %}
+  {% if add_to_cart_btn_label contains 'translation missing'  %}
+    {% assign add_to_cart_btn_label = 'Add To Cart' %}
+  {% endif %}
+
+  {% assign sold_out_btn_label = 'products.product.sold_out' | t %}
+  {% if sold_out_btn_label contains 'translation missing'  %}
+    {% assign sold_out_btn_label = 'Sold Out' %}
+  {% endif %}
+
+
+  {% comment %} Translation {% endcomment %}
+  {% assign view_full_label = 'View Full Details' %}
+  {% if bc_settings contains 'qvViewFullDetails' %}
+  {% assign view_full_label = bc_settings | split: 'qvViewFullDetails":' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip | escape %}
+  {% endif %}
+  {% assign quantity_label = 'Quantity' %}
+  {% if bc_settings contains 'qvQuantity' %}
+  {% assign quantity_label = bc_settings | split: 'qvQuantity":' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip | escape %}
+  {% endif %}
+  {% assign add_to_cart_btn_label = 'Add To Cart' %}
+  {% if bc_settings contains 'qvAddToCartBtnLabel' %}
+  {% assign add_to_cart_btn_label = bc_settings | split: 'qvAddToCartBtnLabel":' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip | escape %}
+  {% endif %}
+  {% assign sold_out_btn_label = 'Sold Out' %}
+  {% if bc_settings contains 'qvSoldOutLabel' %}
+  {% assign sold_out_btn_label = bc_settings | split: 'qvSoldOutLabel":' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip | escape %}
+  {% endif %}
+
+  {% comment %} QV Settings {% endcomment %}
+  {% assign active_vendor = true %}
+  {% assign active_description = true %}
+
+  {% assign bc_al_qv_cart_form_enable = 'true' %}
+  {% if bc_settings contains 'qvCartFormEnable' and bc_al_is_advanced_version %}
+    {% assign bc_al_qv_cart_form_enable = bc_settings | split: 'qvCartFormEnable:' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip %}
+  {% endif %}
+
+  {% assign bc_al_qv_notify_form_enable = 'false' %}
+  {% if bc_settings contains 'qvNotifyMeFormEnable' and bc_al_is_advanced_version %}
+    {% assign bc_al_qv_notify_form_enable = bc_settings | split: 'qvNotifyMeFormEnable:' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip %}
+  {% endif %}
+  {% comment %} Translation {% endcomment %}
+  {% assign view_full_label = 'View Full Details' %}
+  {% if bc_settings contains 'qvViewFullDetails' %}
+  {% assign view_full_label = bc_settings | split: 'qvViewFullDetails":' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip | escape %}
+  {% endif %}
+  {% assign quantity_label = 'Quantity' %}
+  {% if bc_settings contains 'qvQuantity' %}
+  {% assign quantity_label = bc_settings | split: 'qvQuantity":' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip | escape %}
+  {% endif %}
+  {% assign add_to_cart_btn_label = 'Add To Cart' %}
+  {% if bc_settings contains 'qvAddToCartBtnLabel' %}
+  {% assign add_to_cart_btn_label = bc_settings | split: 'qvAddToCartBtnLabel":' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip | escape %}
+  {% endif %}
+  {% assign sold_out_btn_label = 'Sold Out' %}
+  {% if bc_settings contains 'qvSoldOutLabel' %}
+  {% assign sold_out_btn_label = bc_settings | split: 'qvSoldOutLabel":' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip | escape %}
+  {% endif %}
+
+  {% comment %} QV Settings {% endcomment %}
+  {% assign active_vendor = true %}
+  {% assign active_description = true %}
+
+  {% assign bc_al_qv_cart_form_enable = 'true' %}
+  {% if bc_settings contains 'qvCartFormEnable' and bc_al_is_advanced_version %}
+    {% assign bc_al_qv_cart_form_enable = bc_settings | split: 'qvCartFormEnable:' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip %}
+  {% endif %}
+
+  {% assign bc_al_qv_notify_form_enable = 'false' %}
+  {% if bc_settings contains 'qvNotifyMeFormEnable' and bc_al_is_advanced_version %}
+    {% assign bc_al_qv_notify_form_enable = bc_settings | split: 'qvNotifyMeFormEnable:' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip %}
+  {% endif %}
+
+  {% assign bc_al_qv_social_block_enable = 'false' %}
+  {% if bc_settings contains 'qvSocilaBlockEnable' and bc_al_is_advanced_version %}
+    {% assign bc_al_qv_social_block_enable = bc_settings | split: 'qvSocilaBlockEnable:' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip %}
+  {% endif %}
+
+  {% assign bc_al_qv_social_block_enable = 'false' %}
+  {% if bc_settings contains 'qvSocilaBlockEnable' and bc_al_is_advanced_version %}
+    {% assign bc_al_qv_social_block_enable = bc_settings | split: 'qvSocilaBlockEnable:' | last | split: ',' | first | replace: '"', '' | replace: '}', '' | strip %}
+  {% endif %}
+
+{% assign image_size = 'original' %}
+{% assign image_thumb_size = 'original' %}
+{% assign image_scale = 3 %}
+{% assign truncate_words = 30 %}
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+
+<div class="boost-pfs-quickview-wrapper">
+  <button tabindex="0" title="{{ 'general.header.close' | t }}" class="boost-pfs-quickview-close cursor-pointer focus:shadow-outline">×</button>
+  <div class="boost-pfs-quickview-content bg-white">
+    <div class="boost-pfs-quickview-left boost-pfs-quickview-product-thumbs w-3/5 max-w-3/5 h-full">
+      {% if product.images.size > 0 %}
+      <div class="flex h-full mt-4" style="height: calc(100% - 32px);">
+        <div class="flex flex-col items-center w-e100 max-w-e100 boost-pfs-quickview-slider-dots">
+          {% for image in product.images %}
+            <button class="my-1 w-e80 h-e80 bg-gray-100 focus:shadow-outline">
+              <img class="w-full h-full blend-darken object-contain transition-all duration-300 cursor-pointer boost-pfs-quickview-slider-dot" data-index="{{ forloop.index0 }}" src="{{ image.src | img_url: '100x' }}" alt="{{ image.alt | escape }}" />
+            </button>
+          {% endfor %}
+        </div>
+        <div class="bg-gray-100 w-full flex justify-center overflow-hidden">
+          <div class="boost-pfs-quickview-slider">
+            <div class="boost-pfs-quickview-slider-inner">
+              <div class="boost-pfs-quickview-featured-image-wrapper">
+              {% for image in product.images %}
+                <div class="boost-pfs-quickview-featured-image mt-1">
+                  <div class="bg-gray-100 w-full">
+                    <img class="blend-darken" src="{{ image.src | img_url: image_size }}" alt="{{ image.alt | escape }}" />
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% if product.compare_at_price > product.price %}
+            {% endif %}<div class="boost-pfs-quickview-slider-nav">
+                <div class="boost-pfs-quickview-slider-prev hidden"></div>
+                <div class="boost-pfs-quickview-slider-next hidden"></div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+
+    <div class="boost-pfs-quickview-right product-details w-2/5 pb-0">
+      <div class="boost-pfs-quickview-right-inner pr-3">
+        <h2 class="boost-pfs-quickview-title font-secondary font-bold text-xl">{{ product.title }}</h2>
+        {% capture yotpo_stars %}{% render 'yotpo--stars', product: product %}{% endcapture %}
+        <a href="{{ product.url }}#yotpo-widget">
+          {{ yotpo_stars }}
+        </a>
+
+        {% if active_price %}
+        <div class="boost-pfs-quickview-price-wrapper mb-0 {% unless current_variant.available %} boost-pfs-quickview-price-sold-out{% endunless %} {% if current_variant.compare_at_price > current_variant.price %} boost-pfs-quickview-price-on-sale{% endif %}">
+            <p class="boost-pfs-quickview-price mb-0">
+              {% if current_variant.compare_at_price > current_variant.price %}
+                <span id="boost-pfs-quickview-current-price" class="boost-pfs-quickview-price font-body font-bold text-xl text-util-sale mb-0 bfx-price">
+                  {{ current_variant.price | money }}
+                </span>
+                <span id="boost-pfs-quickview-was-price" class="boost-pfs-quickview-price boost-pfs-quickview-was-price font-body font-bold text-xl text-gray-discount mb-0 bfx-price">
+                  {{ current_variant.compare_at_price | money }}
+                </span>
+              {% else %}
+                <span id="boost-pfs-quickview-current-price" class="boost-pfs-quickview-price font-body font-bold text-xl text-black mb-0 bfx-price">
+                  {{ current_variant.price | money }}
+                </span>
+                <span id="boost-pfs-quickview-was-price" class="boost-pfs-quickview-price boost-pfs-quickview-was-price font-body font-bold text-xl text-gray-discount ml-2 mb-0 bfx-price"></span>
+              {% endif %}
+            </p>
+        </div>
+        {% endif %}
+
+        {% if shop.metafields.custom_fields["store_country"] == "usa" %}
+          <div class="klarna-quickview mb-4 bfx-remove-element">
+            <klarna-placement
+              data-key="credit-promotion-auto-size"
+              data-purchase-amount="{{ current_variant.price }}"
+              data-locale="en-US"
+            ></klarna-placement>
+          </div>
+        {% endif %}
+
+        {% if active_cart_form %}
+        <form id="boost-pfs-quickview-cart-form" action="/cart/add" method="post" enctype="multipart/form-data" class="boost-pfs-quickview-cart-form product-form pb-4 m-0">
+          <div id="boost-pfs-quickview-variants-data" style="display:none">
+            [
+            {% for variant in product.variants %}
+              {
+                "id": {{ variant.id | json }},
+                "option1": {{ variant.option1 | json }},
+                "option2": {{ variant.option2 | json }},
+                "option3": {{ variant.option3 | json }},
+                "available": {{ variant.available | json }}
+              }{%- if forloop.last != true -%},{%- endif -%}
+            {% endfor %}
+            ]
+          </div>
+
+          <div
+            id="boost-pfs-quickview-datalayer-store"
+            data-id="{{ product.id }}"
+            data-sku="{{ product.selected_or_first_available_variant.sku }}"
+            data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+            data-product-type="{{ product.type | escape }}"
+            data-name="{{ product.title | escape }}"
+            data-price="{{ product.price | divided_by: 100.00 }}"
+            data-current-category="{{ product.type | downcase | escape }}"
+            data-brand="{%- render 'product--brand' product: product, json: false -%}"
+            data-source="{{ product.vendor | escape }}"
+            style="display:none"
+          ></div>
+
+          <select style="display:none" name="id" id="boost-pfs-quickview-variants-selector" class="boost-pfs-quickview-variants-selector">
+            {% for variant in product.variants %}
+              {% if variant.image != blank %}
+                {% assign variant_image = variant.image %}
+              {% else %}
+                {% assign variant_image = featured_image %}
+              {% endif %}
+              <option value="{{ variant.id }}"
+                  data-magnify-src="{{ variant_image | img_url: image_size, scale: image_scale }}"
+                  data-featured-image="{{ variant_image | img_url: image_size }}"
+                  data-variant-id="{{ variant.id }}" data-options="{{ variant.title }}"
+                  data-current-price-without-currency="{{ variant.price | money_without_currency }}"
+                  data-current-price="{{ variant.price | money | strip_html }}"
+                  data-was-price-without-currency="{{ variant.compare_at_price | money_without_currency }}"
+                  data-was-price="{% if variant.compare_at_price > 0 %} {{ variant.compare_at_price | money | strip_html }} {% endif %}"
+                  {% if variant.available %} data-available="true" {% else %} data-available="false" disabled="disabled" {% endif %}
+                  {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %}>
+              </option>
+            {% endfor %}
+          </select>
+
+          {% assign variantCount = product.variants | size %}
+          {% if variantCount > 0 and product.variants[0].title != 'Default Title'  %}
+            {% for tag in product.tags %}
+              {% if tag contains 'SizeChart::' %}
+                {% assign has_size_chart = true %}
+              {% endif %}
+            {% endfor %}
+
+            {% assign all_sizes = '' %}
+            {% for variant in product.variants %}
+              {% if variant.available %}
+                {% assign all_sizes = all_sizes | append: variant.options[0] | append: ',' %}
+                {% assign all_sizes = all_sizes | append: variant.options[1] | append: ',' %}
+                {% assign all_sizes = all_sizes | append: variant.options[2] | append: ',' %}
+              {% endif %}
+            {% endfor %}
+
+            {% assign avail_sizes = all_sizes | split: ',' | uniq %}
+
+            {%- for option in product.options_with_values -%}
+              {% assign is_color = false %}
+              {% assign is_size = false %}
+              {% assign option_name = option.name | downcase %}
+              {% assign file_extension = 'png' %}
+              {% assign option_id = 'option' | append: forloop.index %}
+              {% if option_name contains 'color' or option_name contains 'colour' %}
+                {% assign is_color = true %}
+              {% endif %}
+              {% if option_name contains 'size' or option_name contains 'Size' %}
+                {% assign is_size = true %}
+              {% endif %}
+              <div class="boost-pfs-quickview-selector-wrapper mt-0 mb-0 {% if index == option_size %}last{% endif %}" id="ProductSelect-option-{{ forloop.index0 }}" name="{{ option.name | handleize }}">
+                <div class="boost-pfs-quickview-product-option-header">
+                  {{ option.name | escape }}
+                  {% if is_size == true and has_size_chart == true %}
+                    <a href="{{ product.url | within_collection }}?size_chart" class="float-right font-primary font-bold uppercase text-xs text-primary-500 underline">{{ 'products.product.size_chart' | t }}</a>
+                  {% endif %}
+                </div>
+                {%- for value in option.values -%}
+                  <!-- Check to see if there's a product size option. If there is a size, check to see if there's any availble for purchase. If not, set the variat control in a "disabled" state. -->
+                  {%- assign variant_label_state = true -%}
+
+                  {%- if product.options.size == 1 -%}
+                    {%- unless product.variants[forloop.index0].available -%}
+                      {%- assign variant_label_state = false -%}
+                    {%- endunless -%}
+                  {%- endif -%}
+                  <div data-value="{{ value | escape }}" class="boost-pfs-swatch-element mt-e6 mb-0 {% if is_color %} boost-pfs-quickview-option-color {% endif %} {{ value | handle }} {% if all_sizes contains value %}available{% else %}boost-pfs-soldout{% endif %}">
+                    {% if is_color %}
+                      <div class="boost-pfs-quickview-tooltip">{{ value }}</div>
+                    {% endif %}
+                    <input type="radio" style="display: block; max-width: 0; max-height: 0; margin: 0; font-size: 0; opacity: 0; border: none;"
+                      {% if option.selected_value == value %} checked="checked"{% endif %}
+                      {% unless variant_label_state %} disabled="disabled"{% endunless %}
+                      value="{{ value | escape }}"
+                      data-name="{{ option.name | handleize }}"
+                      name="{{ option_id }}"
+                      id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+                      class="boost-pfs-quickview-select-option focus:shadow-outline">
+                    {% if is_color %}
+                      <label class="abc rounded-none" for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}" style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value| prepend: 'color-' | handle | append: '.' | append: file_extension | file_url }})">
+                      </label>
+                    {%- else -%}
+                      <label class="quickview-non-swatch" for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}">
+                        {{ value | escape }}
+                      </label>
+                    {%- endif -%}
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+
+          <div class="block">
+            {% if product.metafields.custom_fields["short_description_heading"] != blank %}
+              <p class="float-left font-primary font-bold text-md md:text-megamenu_top uppercase tracking-wider mt-7 px-0">{{ product.metafields.custom_fields["short_description_heading"] }}</p>
+            {% endif %}
+            {% if product.selected_or_first_available_variant.sku != blank %}
+              <p class="float-right font-body font-semibold text-xs px-0 lg:mt-7 md:block">SKU: {{ product.selected_or_first_available_variant.sku }}</p>
+            {% endif %}
+          </div>
+
+          {% if product.metafields.custom_fields["short_description_text"] != blank %}
+            <div class="w-full clear-both">
+                <div class="description-text px-0 mt-2">{{ product.metafields.custom_fields["short_description_text"] }}</div>
+            </div>
+          {% endif %}
+
+          <a class="link--secondary-reverse mt-4 uppercase font-primary font-bold text-megamenu_sub text-black tracking-header" href="{{ product.url | within_collection }}">
+            {{ 'products.product.view_full' | t }}
+            <svg class="absolute" style="width: 10px; height: 10px; top: 8px; right: -12px;">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#chevron-right"></use>
+            </svg>
+          </a>
+
+          <div class="boost-pfs-quickview-qty-cartbtn-wrapper border-t border-gray-300 mt-6 pt-6 {% unless current_variant.available %}hidden{% endunless %}">
+            <div class="boost-pfs-quickview-qty-cartbtn flex">
+              <div class="boost-pfs-quickview-quantity">
+                <input type="number" id="boost-pfs-quickview-cart-quantity" name="quantity" value="1" min="1" class="boost-pfs-quickview-cart-quantity" pattern="[0-9]*" required>
+              </div>
+              <div class="boost-pfs-quickview-cart w-full">
+                <button type="submit" name="add" id="boost-pfs-quickview-cart-btn" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="boost-pfs-quickview-cart-btn {% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}" {% if product.metafields.printful.customisable and settings.customizable_atc_disable %} style="display: none;"{% endif %}>
+                  <span id="boost-pfs-quickview-cart-btn-text">
+                    {% unless current_variant.available %}
+                      {{ sold_out_btn_label }}
+                    {% else %}
+                      {{ add_to_cart_btn_label }}
+                    {% endunless %}
+                  </span>
+                </button>
+                <div id="boost-pfs-addtocart-error-label"></div>
+              </div>
+            </div>
+            {%- if product.metafields.printful.customisable -%}
+                <a href="{{ product.url | within_collection }}#pfCustomizeProductAnchor" class="uppercase flex text-e16 items-center font-bold tracking-header mt-e9 py-3 w-full mt-0 text-black nline-flex justify-center
+                  transition-colors ease-linear duration-200 mb-e16" style="background-color: {{settings.customizable_btn_bg_color}}; color: {{settings.customizable_btn_text_color}};">
+                  <svg class="mr-2" style="width: 18px; height: 18px; fill: {{settings.customizable_btn_text_color}};">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#customizable"></use>
+                  </svg>
+                  {{ 'products.product.personalization_btn' | t}}
+              </a>
+            {%- endif -%}
+          </div>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script defer>
+  if (typeof yotpo !== 'undefined') yotpo.refreshWidgets();
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+      'event': 'module-view',
+      'moduleName': 'quick-shop',
+      'moduleCategory': {{ product.collections.first.title | json }},
+      'id': {{ product.id }},
+      'name': {{ product.title | json }},
+      'category': {{ product.type | json }},
+      'brand': '{{ product.vendor }}',
+      'variant': {{ product.selected_or_first_available_variant.id }},
+      'price': {{ product.selected_or_first_available_variant.price }},
+      'modulePosition': '',
+      'modulePromotion': '',
+      'sku': {{ product.selected_or_first_available_variant.sku | json }},
+      'brand': {%- render 'product--brand' with product -%},
+      'variantOption1': {{ product.selected_or_first_available_variant.option1 | json }},
+      'variantOption2': {{ product.selected_or_first_available_variant.option2 | json }},
+      'variantOption3': {{ product.selected_or_first_available_variant.option3 | json }}
+  });
+
+  jQ('.boost-pfs-quickview-selector-wrapper').on('click', '.boost-pfs-quickview-option-color', function() {
+    var index = jQ(this).index();
+    jQ('.boost-pfs-quickview-slider-dots div:eq('+ (index - 1) + ') img').click();
+  })
+
+  window.__trackQuickShop();
+  window.KlarnaOnsiteService = window.KlarnaOnsiteService || [];
+  window.KlarnaOnsiteService.push({ eventName: 'refresh-placements' });
+
+</script>

@@ -1,0 +1,29 @@
+<script src="{{ 'theme.entry.js' | asset_url }}" defer></script>
+
+{% if template.name contains 'collection' %}
+  <script src="{{ 'plp.entry.js' | asset_url }}" defer></script>
+{% endif %} 
+
+{% if template.name contains 'search' %}
+  <script src="{{ 'search.entry.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% if template contains 'about' %}
+<script src="{{ 'about.entry.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% if template.name contains 'blog' or template.name contains 'article' %}
+  <script src="{{ 'blog.entry.js' | asset_url }}" defer></script>
+{% endif %}
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=smoothscroll" async></script>
+
+{%- comment -%}
+<!-- Klaviyo -->
+{%- render 'scripts--klaviyo' -%}
+<!-- End Klaviyo -->
+
+<!-- Klaviyo -->
+{%- render 'scripts--yotpo' -%}
+<!-- End Klaviyo -->
+{%- endcomment -%}

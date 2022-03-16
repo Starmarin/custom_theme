@@ -1,0 +1,29 @@
+{% comment %} 
+  @param {string} [preheader]
+  @param {string} [header]
+  @param {string} [body_copy]
+  @param {ImageObject} [image]
+  @param {string} [cta_url]
+  @param {string} [cta_text]
+{% endcomment %}
+<article class="mx-auto md:flex md:flex-no-wrap overflow-hidden" style="max-width: 1440px;">
+  <div class="w-full md:w-1/2 hover:slow-zoom-in md:order-2">
+    <img class="slow-zoom-in__subject w-full h-full object-cover object-center" src="{{ image | img_url: 'master' }}" alt="{{ image.alt }}" role="presentation">
+  </div>
+  <div class="w-full md:w-1/2 text-center pt-e40 pb-e100 md:pt-0 md:pb-0 px-e12 md:order-1 self-center">
+    <div class="md:w-2/3 lg:w-7/12 mx-auto md:py-e232">
+      {% if preheader %}
+        <h1 class="text-red-700 font-medium tracking-tighter text-e16 mb-e16 md:mb-e8">{{ preheader }}</h1>
+      {% endif %}
+      {% if header %}
+        <h2 class="h2 md:text-e36 leading-8 md:mb-e16">{{ header }}</h2>
+      {% endif %}
+      {% if body_copy %}
+        <p class="text-gray-700 tracking-tighter text-e16 md:text-e18 mb-e32 md:mb-e40">{{ body_copy }}</p>
+      {% endif %}
+      {% if cta_url and cta_text %}
+        <a is="BtnPrimaryLink" href="{{ cta_url }}" class="w-full uppercase">{{ cta_text }}</a>
+      {% endif %}
+    </div>
+  </div>
+</article>

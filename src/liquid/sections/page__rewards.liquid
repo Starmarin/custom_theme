@@ -1,0 +1,36 @@
+<div class="swell-wwe">
+  <div class="swell-banner">
+    {% if shop.metafields.custom_fields["store_country"] == "usa" %}
+      <div class="yotpo-widget-instance" data-yotpo-instance-id="20235"></div>
+    {% else %}
+      <div class="yotpo-widget-instance" data-yotpo-instance-id="33345"></div>
+    {% endif %}
+    <ul class="swell-link-list">
+      <li class="swell-link"></li>
+    </ul>
+  </div>
+  {% if shop.metafields.custom_fields["store_country"] == "usa" %}
+    <div class="yotpo-widget-instance" data-yotpo-instance-id="20240"></div>
+  {% else %}
+    <div class="yotpo-widget-instance" data-yotpo-instance-id="33347"></div>
+  {% endif %}
+
+  {% unless customer %}
+  <ul class="swell-link-list">
+    <li class="swell-link">
+      <a class="swell-anchor focus:underline" href="{{ routes.account_login_url }}">
+        {{ 'customer.rewards.enroll_now' | t }}
+      </a>
+    </li>
+  </ul>
+  {% endunless %}
+  {% if shop.metafields.custom_fields["store_country"] == "usa" %}
+    <div class="yotpo-widget-instance" data-yotpo-instance-id="20239"></div>
+    <div class="yotpo-widget-instance" data-yotpo-instance-id="20236"></div>
+    <div class="yotpo-widget-instance" data-yotpo-instance-id="67214"></div>
+  {% else %}
+    <div class="yotpo-widget-instance" data-yotpo-instance-id="33348"></div>
+    <div class="yotpo-widget-instance" data-yotpo-instance-id="33346"></div>
+    <div class="yotpo-widget-instance" data-yotpo-instance-id="70197"></div>
+  {% endif %}
+</div>

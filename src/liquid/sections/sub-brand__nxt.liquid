@@ -1,0 +1,1374 @@
+{%- render 'sub-brand--nxt', mod_settings: section.settings, mod_blocks: section.blocks -%}
+{% schema %}
+  {
+    "name": "NXT Landing Page",
+    "class": "nxt-landing",
+    "max_blocks": 18,
+    "settings": [
+      {
+        "id": "desktop_image",
+        "label": "Sub-Brand Desktop Image",
+        "type": "image_picker",
+        "info": "Image Dimensions: Width: 1920px, Height: 720px"
+      },
+      {
+        "id": "mobile_image",
+        "label": "Sub-Brand Mobile Image",
+        "type": "image_picker",
+        "info": "Image Dimensions: Width: 1920px, Height: 720px"
+      }
+  ],
+    "blocks": [
+      {
+        "type": "promo_banner",
+        "name": "Promo Banner",
+        "settings": [
+          {"type": "header", "content": "Margins"},
+          {
+            "type": "range",
+            "id": "top_margin",
+            "label": "Top",
+            "min": 0,
+            "max": 80,
+            "step": 4,
+            "default": 40
+          },
+          {
+            "type": "range",
+            "id": "bottom_margin",
+            "label": "Bottom",
+            "min": 0,
+            "max": 80,
+            "step": 4,
+            "default": 40
+          },
+          {"type": "header", "content": "Text"},
+          {
+            "type": "text",
+            "id": "heading_text",
+            "label": "Heading Text"
+          },
+          {"type": "header", "content": "Images"},
+          {"type": "paragraph", "content": "You can either have a background image or a left/right images, not both."},
+          {
+            "type": "image_picker",
+            "id": "desktop_background_image",
+            "label": "Desktop Background Image",
+            "info": "Suggested dimensions: 1440 x 220"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_background_image",
+            "label": "Mobile Background Image",
+            "info": "Suggested dimensions: 375 x 196"
+          },
+          {
+            "type": "image_picker",
+            "id": "left_image",
+            "label": "Left Image",
+            "info": "Suggested dimensions: 394 x 220"
+          },
+          {
+            "type": "image_picker",
+            "id": "right_image",
+            "label": "Right Image",
+            "info": "Suggested dimensions: 394 x 220"
+          },
+          {"type": "header", "content": "Colors"},
+          {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Color",
+            "info": "Only applies if you haven’t uploaded a background image."
+          },
+          {
+            "type": "color",
+            "id": "heading_text_color",
+            "label": "Heading Text Color"
+          },
+          {
+            "type": "color",
+            "id": "link_color",
+            "label": "Link Color"
+          },
+          <% for (let i = 1; i <= 6; i++) { %>
+          {"type": "header", "content": "Link <%- i -%>"},
+          {
+            "type": "text",
+            "id": "link_text_<%- i -%>",
+            "label": "Link Text"
+          },
+          {
+            "type": "url",
+            "id": "link_url_<%- i -%>",
+            "label": "Link URL"
+          }<% if (i < 6) { %>, <% } %>
+          <% } %>
+        ]
+      },
+      {
+        "type": "product_carousel",
+        "name": "Product Carousel", 
+        "settings": [
+          {"type": "header", "content": "Content"},
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          },
+          {
+            "id": "text_alignment",
+            "type": "select",
+            "label": "Text Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              }
+            ],
+            "default": "left"
+          },
+          {
+            "type": "text",
+            "id": "header",
+            "label": "Header"
+          },
+          {
+            "type": "text",
+            "id": "shop_all_link_text",
+            "label": "Shop All Text"
+          },
+          {
+            "type": "url",
+            "id": "shop_all_link_url",
+            "label": "Shop All Link"
+          },
+          {"type": "header", "content": "Colors"},
+          {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Color"
+          },
+          {
+            "type": "color",
+            "id": "header_text_color",
+            "label": "Header Text Color"
+          },
+          {
+            "type": "color",
+            "id": "shop_all_link_color",
+            "label": "Shop All Link Color"
+          }
+        ]
+      },
+      {
+        "type": "superstar_carousel",
+        "name": "Superstar Carousel",
+        "settings": [
+          {"type": "header", "content": "Content"},
+          {
+            "type": "text",
+            "id": "header",
+            "label": "Header"
+          },
+          {
+            "type": "text",
+            "id": "shop_all_link_text",
+            "label": "Shop All Link Text"
+          },
+          {
+            "type": "url",
+            "id": "shop_all_link_url",
+            "label": "Shop All Link URL"
+          },
+          {"type": "header", "content": "Colors"},
+          {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Color"
+          },
+          {
+            "type": "color",
+            "id": "header_text_color",
+            "label": "Header Text Color",
+            "default": "#000000"
+          },
+          {
+            "type": "color",
+            "id": "shop_text_color",
+            "label": "Shop Text Color"
+          },
+          {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Shop All Background Color",
+            "default": "#D0021B"
+          },
+          {
+            "type": "color",
+            "id": "shop_all_text_color",
+            "label": "Shop All Text Color"
+          },
+          <% for (let i = 1; i <= 12; i++) { %>
+            {"type": "header", "content": "Superstar <%- i -%>"},
+            {
+              "type": "collection",
+              "id": "superstar_collection_<%- i -%>",
+              "label": "Superstar Collection"
+            },
+            {"type": "header", "content": "Overrides"},
+            {"type": "paragraph", "content": "By default, all superstar information is pulled from the superstars collection metafields. Override those settings here."},
+            {
+              "type": "image_picker",
+              "id": "superstar_photo_<%- i -%>",
+              "label": "Superstar Photo",
+              "info": "Suggested dimensions: 512 x 1080"
+            },
+            {
+              "type": "text",
+              "id": "badge_text_<%- i -%>",
+              "label": "Badge Text"
+            },
+            {
+              "type": "color",
+              "id": "badge_bg_color_<%- i -%>",
+              "label": "Badge Background Color",
+              "default": "#D0021B"
+            },
+            {
+              "type": "color",
+              "id": "badge_text_color_<%- i -%>",
+              "label": "Badge Text Color",
+              "default": "#FFFFFF"
+            },
+            {
+              "type": "text",
+              "id": "superstar_name_<%- i -%>",
+              "label": "Superstar Name"
+            }<% if (i < 12) { %>, <% } %>
+          <% } %>
+        ]
+      },
+      {
+        "type": "button_collection",
+        "name": "Button Collection",
+        "settings": [
+          {"type": "header", "content": "Content"},
+          {
+            "type": "text",
+            "id": "header",
+            "label": "Header"
+          },
+          {
+            "type": "text",
+            "id": "shop_all_link_text",
+            "label": "Shop All Link Text"
+          },
+          {
+            "type": "url",
+            "id": "shop_all_link_url",
+            "label": "Shop All Link URL"
+          },
+          {"type": "header", "content": "Colors"},
+          {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background Color",
+            "default": "#000000"
+          },
+          {
+            "type": "image_picker",
+            "id": "background_image",
+            "label": "Background Image",
+            "info": "Suggested dimensions: 2880 x 960"
+          },
+          {
+            "type": "color",
+            "id": "header_text_color",
+            "label": "Header Text Color"
+          },
+          {
+            "type": "color",
+            "id": "shop_all_link_color",
+            "label": "Shop All Link Color"
+          },
+          {
+            "type": "color",
+            "id": "button_text_color",
+            "label": "Button Text Color"
+          },
+          <% for (let i = 1; i <= 7; i++) { %>
+          {"type": "header", "content": "Button Collection <%- i -%>"},
+          {
+            "type": "collection",
+            "id": "collection_<%- i -%>",
+            "label": "Collection"
+          },
+          {
+            "type": "text",
+            "id": "collection_title_<%- i -%>",
+            "label": "Collection Title"
+          },
+          {
+            "type": "image_picker",
+            "id": "collection_image_<%- i -%>",
+            "label": "Collection Image",
+            "info": "Image will automatically crop to be a circle. Suggested dimensions: 500 x 500"
+          },
+          {
+            "type": "color",
+            "id": "border_color_<%- i -%>",
+            "label": "Border Color",
+            "info": "Add an optional border color around the collection image."
+          }<% if (i < 7) { %>, <% } %>
+          <% } %>
+        ]
+      },
+      {
+        "type": "hero",
+        "name": "Hero",
+        "settings": [
+          {"type": "header", "content": "Mobile Layout"},
+          {"type": "paragraph", "content": "Display the text content overlaid on the image/videos or below the image/videos."},
+          {
+            "id": "layout",
+            "type": "select",
+            "label": "Layout",
+            "options": [
+              {
+                "value": "overlaid",
+                "label": "Overlaid"
+              },
+              {
+                "value": "below_image",
+                "label": "Below Image"
+              }
+            ],
+            "default": "overlaid"
+          },
+        <% for (let i = 1; i <= 1; i++) { %>
+          {"type": "header", "content": "Image or Video <%- i -%>"},
+          {"type": "paragraph", "content": "Choose either an image or a video"},
+          {
+            "type": "image_picker",
+            "id": "desktop_image_<%- i -%>",
+            "label": "Desktop Image",
+            "info": "Suggested Dimensions: XXX x XXX"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_image_<%- i -%>",
+            "label": "Mobile Image",
+            "info": "Suggested Dimensions: XXX x XXX"
+          },
+          {
+            "type": "text",
+            "id": "shopify_video_url_<%- i -%>",
+            "label": "Shopify Video URL",
+            "info": "Upload to Shopify files and paste URL here. Expected format: MP4"
+          },
+          {
+            "type": "text",
+            "id": "vimeo_video_url_<%- i -%>",
+            "label": "Vimeo Video URL",
+            "info": "Paste the URL of the Vimeo video here."
+          },
+          {"type": "header", "content": "Image Overlay"},
+          {"type": "paragraph", "content": "For image backgrounds only"},
+          {
+            "type": "checkbox",
+            "id": "enable_image_overlay_<%- i -%>",
+            "label": "Enable Image Overlay"
+          },
+          {
+            "type": "color",
+            "id": "image_overlay_color_<%- i -%>",
+            "label": "Image Overlay Color",
+            "default": "#000000"
+          },
+          {
+            "type": "range",
+            "id": "image_overlay_opacity_percentage_<%- i -%>",
+            "label": "Image Overlay Opacity Percentage",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 25
+          },
+          {"type": "header", "content": "Text Content"},
+          {
+            "type": "checkbox",
+            "id": "enable_text_box_<%- i -%>",
+            "label": "Enable Text Box",
+            "info": "Adds a background color behind text content."
+          },
+          {
+            "type": "color",
+            "id": "text_box_color_<%- i -%>",
+            "label": "Text Box Color",
+            "default": "#000000"
+          },
+          {
+            "type": "range",
+            "id": "text_box_opacity_percentage_<%- i -%>",
+            "label": "Text Box Opacity Percentage",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 75
+          },
+          {
+            "id": "text_box_alignment_<%- i -%>",
+            "type": "select",
+            "label": "Text Box Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default": "left"
+          },
+          {
+            "type": "text",
+            "id": "slide_title_<%- i -%>",
+            "label": "Slide Title",
+            "info": "Appears at the bottom of the slideshow."
+          },
+          {
+            "type": "text",
+            "id": "slide_preheader_<%- i -%>",
+            "label": "Preheader"
+          },
+          {
+            "type": "text",
+            "id": "slide_header_<%- i -%>",
+            "label": "Header"
+          },
+          {
+            "type": "richtext",
+            "id": "slide_body_copy_<%- i -%>",
+            "label": "Body Copy"
+          },
+          {"type": "header", "content": "Text Colors"},
+          {
+            "type": "color",
+            "id": "preheader_color_<%- i -%>",
+            "label": "Preheader Color",
+            "default": "#FFC71C"
+          },
+          {
+            "type": "color",
+            "id": "header_body_color_<%- i -%>",
+            "label": "Header & Body Copy Color",
+            "default": "#FFFFFF"
+          },
+          {"type": "header", "content": "CTAs"},
+          {
+            "type": "text",
+            "id": "cta_1_text_<%- i -%>",
+            "label": "CTA 1 Text"
+          },
+          {
+            "type": "url",
+            "id": "cta_1_url_<%- i -%>",
+            "label": "CTA 1 URL"
+          },
+          {
+            "type": "color",
+            "id": "cta_1_bg_color_<%- i -%>",
+            "label": "CTA 1 Background Color"
+          },
+          {
+            "type": "color",
+            "id": "cta_1_text_color_<%- i -%>",
+            "label": "CTA 1 Text Color"
+          },
+          {
+            "type": "text",
+            "id": "cta_2_text_<%- i -%>",
+            "label": "CTA 2 Text"
+          },
+          {
+            "type": "url",
+            "id": "cta_2_url_<%- i -%>",
+            "label": "CTA 2 URL"
+          },
+          {
+            "type": "color",
+            "id": "cta_2_bg_color_<%- i -%>",
+            "label": "CTA 2 Background Color"
+          },
+          {
+            "type": "color",
+            "id": "cta_2_text_color_<%- i -%>",
+            "label": "CTA 2 Text Color"
+          }<% if (i < 1) { %>, <% } %>
+        <% } %>
+        ]
+      },
+      {
+        "type": "fifty_fifty",
+        "name": "Fifty Fifty",
+        "settings": [
+          {"type": "header", "content": "Content"},
+          {
+            "id": "layout",
+            "type": "select",
+            "label": "Layout",
+            "options": [
+              {
+                "value": "50/50",
+                "label": "50/50"
+              },
+              {
+                "value": "60/40",
+                "label": "60/40"
+              }
+            ],
+            "default": "50/50"
+          },
+          {
+            "id": "image_location",
+            "type": "select",
+            "label": "Image Location",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default": "left"
+          },
+          {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Color"
+          },
+          {"type": "header", "content": "Image"},
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {"type": "header", "content": "Text"},
+          {
+            "id": "alignment",
+            "type": "select",
+            "label": "Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              }
+            ],
+            "default": "left"
+          },
+          {
+            "type": "text",
+            "id": "preheader",
+            "label": "Preheader"
+          },
+          {
+            "type": "text",
+            "id": "header",
+            "label": "Header"
+          },
+          {
+            "type": "richtext",
+            "id": "body_copy",
+            "label": "Body Copy"
+          },
+          {"type": "header", "content": "Text Color"},
+          {
+            "type": "color",
+            "id": "preheader_text_color",
+            "label": "Preheader Text Color"
+          },
+          {
+            "type": "color",
+            "id": "preheader_border_color",
+            "label": "Preheader Top/Bottom Border"
+          },
+          {
+            "type": "color",
+            "id": "header_text_color",
+            "label": "Header Text Color"
+          },
+          {
+            "type": "color",
+            "id": "body_text_color",
+            "label": "Body Copy Color"
+          },
+          {"type": "header", "content": "CTA 1"},
+          {
+            "type": "text",
+            "id": "cta_1_link_text",
+            "label": "CTA 1 Text"
+          },
+          {
+            "type": "url",
+            "id": "cta_1_link_url",
+            "label": "CTA 1 Link"
+          },
+          {
+            "type": "color",
+            "id": "cta_1_text_color",
+            "label": "CTA 1 Text Color"
+          },
+          {
+            "type": "color",
+            "id": "cta_1_background_color",
+            "label": "CTA 1 Background Color"
+          },
+          {"type": "header", "content": "CTA 2"},
+          {
+            "type": "text",
+            "id": "cta_2_link_text",
+            "label": "CTA 2 Text"
+          },
+          {
+            "type": "url",
+            "id": "cta_2_link_url",
+            "label": "CTA 2 Link"
+          },
+          {
+            "type": "color",
+            "id": "cta_2_text_color",
+            "label": "CTA 2 Text Color"
+          },
+          {
+            "type": "color",
+            "id": "cta_2_background_color",
+            "label": "CTA 2 Background Color"
+          },
+          {"type": "header", "content": "CTA 3"},
+          {
+            "type": "text",
+            "id": "cta_3_link_text",
+            "label": "CTA 3 Text"
+          },
+          {
+            "type": "url",
+            "id": "cta_3_link_url",
+            "label": "CTA 3 Link"
+          },
+          {
+            "type": "color",
+            "id": "cta_3_text_color",
+            "label": "CTA 3 Text Color"
+          },
+          {
+            "type": "color",
+            "id": "cta_3_background_color",
+            "label": "CTA 3 Background Color"
+          }  
+        ]
+      },
+      {
+        "type": "columns",
+        "name": "Columns",
+        "settings": [
+          {
+            "type": "text",
+            "id": "column_section_title",
+            "label": "Section Title",
+            "default": "Section Title",
+            "info": "optional",
+            "placeholder": "Title"
+          },
+          {
+            "type": "header",
+            "content": "Margins"
+          },
+          {
+            "type": "range",
+            "id": "column_section_margin_top",
+            "min": 0,
+            "max": 80,
+            "step": 4,
+            "unit": "px",
+            "label": "Margin Top",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "column_section_margin_bottom",
+            "min": 0,
+            "max": 80,
+            "step": 4,
+            "unit": "px",
+            "label": "Margin Bottom",
+            "default": 0
+          },
+          {
+            "type": "header",
+            "content": "Design"
+          },
+          {
+            "type": "color",
+            "id": "column_section_background_color",
+            "label": "Section Background Color",
+            "default": "#EEEEEE"
+          },
+          {
+            "type": "select",
+            "id": "column_section_block_layout",
+            "label": "Block Content Layout",
+            "options": [
+              {
+                "value": "overlayed",
+                "label": "Overlayed"
+              },
+              {
+                "value": "below",
+                "label": "Below"
+              }
+            ],
+            "default": "overlayed"
+          },
+          {
+            "type": "select",
+            "id": "column_section_block_text_align",
+            "label": "Block Text Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default": "left"
+          },
+          {
+            "type": "select",
+            "id": "column_section_block_vertical_align",
+            "label": "Block Vertical Alignment",
+            "options": [
+              {
+                "value": "top_left",
+                "label": "Top Left"
+              },
+              {
+                "value": "top_center",
+                "label": "Top Center"
+              },
+              {
+                "value": "top_right",
+                "label": "Top Right"
+              },
+              {
+                "value": "center_left",
+                "label": "Center Left"
+              },
+              {
+                "value": "center_center",
+                "label": "Center Center"
+              },
+              {
+                "value": "center_right",
+                "label": "Center Right"
+              },
+              {
+                "value": "bottom_left",
+                "label": "Bottom Left"
+              },
+              {
+                "value": "bottom_center",
+                "label": "Bottom Center"
+              },
+              {
+                "value": "bottom_right",
+                "label": "Bottom Right"
+              }
+            ],
+            "default": "center_center"
+          },
+          <% for (let i = 1; i <= 3; i++) { %>
+            {"type": "header", "content": "Column <%- i -%>"},
+            {
+              "type": "image_picker",
+              "id": "column_desktop_image_<%- i -%>",
+              "label": "Desktop Image"
+            },
+            {
+              "type": "image_picker",
+              "id": "column_mobile_image_<%- i -%>",
+              "label": "Mobile Image"
+            },
+            {
+              "type": "text",
+              "id": "column_heading_<%- i -%>",
+              "label": "Heading",
+              "placeholder": "Heading"
+            },
+            {
+              "type": "text",
+              "id": "column_body_copy_<%- i -%>",
+              "label": "Body Copy",
+              "info": "Optional",
+              "placeholder": "Optional body copy"
+            },
+            {
+              "type": "header",
+              "content": "Buttons"
+            },
+            {
+              "type": "text",
+              "id": "column_text_cta1_<%- i -%>",
+              "label": "CTA 1 Text",
+              "placeholder": "Text"
+            },
+            {
+              "type": "url",
+              "id": "column_url_cta1_<%- i -%>",
+              "label": "CTA 1 Link"
+            },
+            {
+              "type": "text",
+              "id": "column_text_cta2_<%- i -%>",
+              "label": "CTA 2 Text",
+              "placeholder": "Text"
+            },
+            {
+              "type": "url",
+              "id": "column_url_cta2_<%- i -%>",
+              "label": "CTA 2 Link"
+            },
+            {
+              "type": "header",
+              "content": "Colors"
+            },
+            {
+              "type": "color",
+              "id": "column_color_text_<%- i -%>",
+              "label": "Text Color",
+              "default": "#ffffff"
+            },
+            {
+              "type": "color",
+              "id": "column_color_text_container_bg_<%- i -%>",
+              "label": "Text Container Background Color",
+              "default": "transparent",
+              "info": "If section’s layout is “Overlaid with Background”, this color will appear behind the text and CTAs"
+            },
+            {
+              "type": "color",
+              "id": "column_color_cta1_<%- i -%>",
+              "label": "CTA 1 Background Color",
+              "default": "#DA1221"
+            },
+            {
+              "type": "color",
+              "id": "column_text_color_cta1_<%- i -%>",
+              "label": "CTA 1 Text Color",
+              "default": "#DA1221"
+            },
+            {
+              "type": "color",
+              "id": "column_color_cta2_<%- i -%>",
+              "label": "CTA 2 Background Color",
+              "default": "#003250"
+            },
+            {
+              "type": "color",
+              "id": "column_text_color_cta2_<%- i -%>",
+              "label": "CTA 2 Text Color",
+              "default": "#DA1221"
+            }<% if (i < 3) { %>, <% } %>
+          <% } %>
+        ]
+      },
+      {
+        "type": "collection_blocks",
+        "name": "Collection Blocks",
+        "settings": [
+          {"type": "header", "content": "Content"},
+          {
+            "type": "range",
+            "id": "number_of_blocks",
+            "min": 2,
+            "max": 6,
+            "step": 2,
+            "label": "Number of Blocks",
+            "default": 4
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text alignment",
+            "default": "center",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              }
+            ],
+            "default": "left"
+          },
+          {
+            "type": "text",
+            "id": "preheader",
+            "label": "Preheader"
+          },
+          {
+            "type": "text",
+            "id": "header",
+            "label": "Header"
+          },
+          {
+            "type": "text",
+            "id": "shop_all_link_text",
+            "label": "Shop All Link Text"
+          },
+          {
+            "type": "url",
+            "id": "shop_all_link_url",
+            "label": "Shop All Link URL"
+          },
+          {"type": "header", "content": "Colors"},
+          {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Color"
+          },
+          {
+            "type": "color",
+            "id": "preheader_text_color",
+            "label": "Preheader Text Color"
+          },
+          {
+            "type": "color",
+            "id": "preheader_border_color",
+            "label": "Preheader Top/Bottom Border"
+          },
+          {
+            "type": "color",
+            "id": "header_text_color",
+            "label": "Header Text Color",
+            "default": "#000000"
+          },
+          {
+            "type": "color",
+            "id": "shop_all_text_color",
+            "label": "Shop All Text Color"
+          },
+          <% for (let i = 1; i <= 6; i++) { %>
+            {"type": "header", "content": "Collection Block <%- i -%>"},
+            {
+              "type": "image_picker",
+              "id": "desktop_image_<%- i -%>",
+              "label": "Desktop Image",
+              "info": "Suggested dimensions: 1322 x 624"
+            },
+            {
+              "type": "image_picker",
+              "id": "mobile_image_<%- i -%>",
+              "label": "Mobile Image",
+              "info": "Suggested dimensions: 688 x 480"
+            },
+            {
+              "type": "url",
+              "id": "block_link_<%- i -%>",
+              "label": "Block Link"
+            },
+            {
+              "type": "text",
+              "id": "block_header_<%- i -%>",
+              "label": "Block Header"
+            },
+            {"type": "header", "content": "Colors"},
+            {
+              "type": "color",
+              "id": "block_header_color_<%- i -%>",
+              "label": "Block Header Color",
+              "default": "#000000"
+            },
+            {
+              "type": "color",
+              "id": "block_header_background_color_<%- i -%>",
+              "label": "Block Header Background Color"
+            }<% if (i < 6) { %>, <% } %>
+          <% } %>
+        ]
+      },
+      {
+        "type": "tile_grid",
+        "name": "Tile Grid",
+        "settings": [
+          {"type": "paragraph", "content": "You can have either 1 large tile or 3 tiles (1 large, 2 small). If you do not fill out the image fields for both small tiles, only a large tile will appear."},
+          {
+            "type": "text",
+            "id": "optional_header",
+            "label": "Optional Header"
+          },
+          {
+            "type": "color",
+            "id": "optional_header_text_color",
+            "label": "Optional Header Text Color"
+          },
+          {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Color"
+          },
+          {"type": "header", "content": "Large Tile"},
+          {"type": "header", "content": "Image"},
+          {
+            "type": "image_picker",
+            "id": "large_desktop_image",
+            "label": "Large Tile -  Desktop Image",
+            "info": "Dimensions (grid layout) 890 x 960 | Dimensions (hero layout) 1360 x 960"
+          },
+          {
+            "type": "image_picker",
+            "id": "large_mobile_image",
+            "label": "Large Tile - Mobile Image",
+            "info": "Dimensions 375 x 500"
+          },
+          {"type": "header", "content": "Video"},
+          {
+            "type": "text",
+            "id": "youtube_video_url",
+            "label": "Youtube Video URL",
+            "info": "If there is a url here, it will be selected before the Shopify video"
+          },
+          {
+            "type": "text",
+            "id": "shopify_video_url",
+            "label": "Shopify Video URL"
+          },
+          {"type": "header", "content": "Text Content"},
+          {
+            "type": "text",
+            "id": "large_preheader",
+            "label": "Large Tile - Preheader"
+          },
+          {
+            "type": "text",
+            "id": "large_header",
+            "label": "Large Tile - Header"
+          },
+          {
+            "type": "richtext",
+            "id": "large_body_copy",
+            "label": "Large Tile - Body Copy"
+          },
+          {"type": "header", "content": "Text Color"},
+          {
+            "type": "checkbox",
+            "id": "enable_large_textbox",
+            "label": "Large Tile - Enabled Textbox Background on Desktop"
+          },
+          {
+            "type": "select",
+            "id": "textbox_alignment",
+            "label": "Textbox alignment",
+            "options": [
+              {
+                "value": "top",
+                "label": "Top"
+              },
+              {
+                "value": "bottom",
+                "label": "Bottom"
+              }
+            ],
+            "default": "bottom"
+          },
+          {
+            "type": "color",
+            "id": "large_textbox_background_color",
+            "label": "Large Tile - Textbox Background Color",
+            "info": "Reqired for mobile"
+          },
+          {
+            "type": "color",
+            "id": "large_preheader_text_color",
+            "label": "Large Tile - Preheader Text Color"
+          },
+          {
+            "type": "color",
+            "id": "large_preheader_border_color",
+            "label": "Large Tile - Preheader Top/Bottom Border"
+          },
+          {
+            "type": "color",
+            "id": "large_header_text_color",
+            "label": "Large Tile - Header Text Color"
+          },
+          {
+            "type": "color",
+            "id": "large_body_text_color",
+            "label": "Large Tile - Body Copy Color"
+          },
+          {"type": "header", "content": "Large Tile - CTA 1"},
+          {
+            "type": "text",
+            "id": "large_cta_1_link_text",
+            "label": "Large Tile - CTA 1 Text"
+          },
+          {
+            "type": "url",
+            "id": "large_cta_1_link_url",
+            "label": "Large Tile - CTA 1 Link"
+          },
+          {
+            "type": "color",
+            "id": "large_cta_1_text_color",
+            "label": "Large Tile - CTA 1 Text Color"
+          },
+          {
+            "type": "color",
+            "id": "large_cta_1_background_color",
+            "label": "Large Tile -  CTA 1 Background Color"
+          },
+          {"type": "header", "content": "Large Tile - CTA 2"},
+          {
+            "type": "text",
+            "id": "large_cta_2_link_text",
+            "label": "Large Tile - CTA 2 Text"
+          },
+          {
+            "type": "url",
+            "id": "large_cta_2_link_url",
+            "label": "Large Tile - CTA 2 Link"
+          },
+          {
+            "type": "color",
+            "id": "large_cta_2_text_color",
+            "label": "Large Tile - CTA 2 Text Color"
+          },
+          {
+            "type": "color",
+            "id": "large_cta_2_background_color",
+            "label": "Large Tile -  CTA 2 Background Color"
+          },
+          {"type": "header", "content": "Small Tile 1"},
+          {"type": "header", "content": "Image"},
+          {
+            "type": "image_picker",
+            "id": "small_desktop_image_1",
+            "label": "Small Tile 1 -  Desktop Image",
+            "info": "Dimensions 430 x 460"
+          },
+          {
+            "type": "image_picker",
+            "id": "small_mobile_image_1",
+            "label": "Small Tile 1 - Mobile Image",
+            "info": "Dimensions 375 x 310"
+          },
+          {"type": "header", "content": "Text Content"},
+          {
+            "type": "text",
+            "id": "small_header_1",
+            "label": "Small Tile 1 - Header"
+          },
+          {"type": "header", "content": "Text Color"},
+          {
+            "type": "color",
+            "id": "small_textbox_background_color_1",
+            "label": "Small Tile 1 - Textbox Background Color",
+            "info": "Reqired"
+          },
+          {
+            "type": "color",
+            "id": "small_header_text_color_1",
+            "label": "Small Tile 1 - Preheader Text Color"
+          },
+          {"type": "header", "content": "Links"},
+          {
+            "type": "text",
+            "id": "small_link_1_text_1",
+            "label": "Small Tile 1 - Link Text 1"
+          },
+          {
+            "type": "url",
+            "id": "small_link_1_url_1",
+            "label": "Small Tile 1 - Link URL 1"
+          },
+          {
+            "type": "text",
+            "id": "small_link_2_text_1",
+            "label": "Small Tile 1 - Link Text 2"
+          },
+          {
+            "type": "url",
+            "id": "small_link_2_url_1",
+            "label": "Small Tile 1 - Link URL 2"
+          },
+          {
+            "type": "text",
+            "id": "small_link_3_text_1",
+            "label": "Small Tile 1 - Link Text 3"
+          },
+          {
+            "type": "url",
+            "id": "small_link_3_url_1",
+            "label": "Small Tile 1 - Link URL 3"
+          },
+          {"type": "header", "content": "Small Tile 2"},
+          {"type": "header", "content": "Image"},
+          {
+            "type": "image_picker",
+            "id": "small_desktop_image_2",
+            "label": "Small Tile 2 -  Desktop Image",
+            "info": "Dimenions 430 x 460"
+          },
+          {
+            "type": "image_picker",
+            "id": "small_mobile_image_2",
+            "label": "Small Tile 2 - Mobile Image",
+            "info": "Dimenions 375 x 310"
+          },
+          {"type": "header", "content": "Text Content"},
+          {
+            "type": "text",
+            "id": "small_header_2",
+            "label": "Small Tile 2 - Header"
+          },
+          {"type": "header", "content": "Text Color"},
+          {
+            "type": "color",
+            "id": "small_textbox_background_color_2",
+            "label": "Small Tile 2 - Textbox Background Color",
+            "info": "Reqired"
+          },
+          {
+            "type": "color",
+            "id": "small_header_text_color_2",
+            "label": "Small Tile 2 - Preheader Text Color"
+          },
+          {"type": "header", "content": "Links"},
+          {
+            "type": "text",
+            "id": "small_link_1_text_2",
+            "label": "Small Tile 2 - Link Text 1"
+          },
+          {
+            "type": "url",
+            "id": "small_link_1_url_2",
+            "label": "Small Tile 2 - Link URL 1"
+          },
+          {
+            "type": "text",
+            "id": "small_link_2_text_2",
+            "label": "Small Tile 2 - Link Text 2"
+          },
+          {
+            "type": "url",
+            "id": "small_link_2_url_2",
+            "label": "Small Tile 2 - Link URL 2"
+          },
+          {
+            "type": "text",
+            "id": "small_link_3_text_2",
+            "label": "Small Tile 2 - Link Text 3"
+          },
+          {
+            "type": "url",
+            "id": "small_link_3_url_2",
+            "label": "Small Tile 2 - Link URL 3"
+          }
+        ]
+      },
+      {
+        "type": "instagram",
+        "name": "Instagram",
+        "settings": [
+          {"type": "paragraph", "content": "The images in this section are curated within Yotpo."},
+          {"type": "header", "content": "Content"},
+          {
+            "type": "text",
+            "id": "preheader",
+            "label": "Preheader"
+          },
+          {
+            "type": "text",
+            "id": "gallery_id",
+            "label": "Yotpo Gallery ID",
+            "default": "6018512bf1b6081033bea572"
+          },
+          {
+            "type": "text",
+            "id": "instagram_handle",
+            "label": "Instagram Handle",
+            "info": "Include the @ symbol"
+          },
+          {
+            "type": "richtext",
+            "id": "description",
+            "label": "Description"
+          },
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link Text"
+          },
+          {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link URL"
+          },
+          {"type": "header", "content": "Colors"},
+          {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Color"
+          },
+          {
+            "type": "color",
+            "id": "preheader_text_color",
+            "label": "Preheader Text Color"
+          },
+          {
+            "type": "color",
+            "id": "preheader_border_color",
+            "label": "Preheader Top/Bottom Border"
+          },
+          {
+            "type": "color",
+            "id": "body_copy_color",
+            "label": "Body Copy Color"
+          },
+          {
+            "type": "color",
+            "id": "link_color",
+            "label": "Link Color"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

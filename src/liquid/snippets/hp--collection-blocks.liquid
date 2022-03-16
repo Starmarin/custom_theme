@@ -1,0 +1,97 @@
+{% capture props %}
+{
+  {% if block_data_from_metafields %}
+    "modsettings": {{ mod_settings }},
+    "blocks": {{ mod_blocks }}
+  {% elsif block_data_from_collections %}
+    "modsettings": {{ mod_settings | json }},
+    "blocks": {{ mod_blocks }}
+  {% else %}
+    "modsettings": {{ mod_settings | json }},
+    "blocks": [
+    {% for block in mod_blocks %}
+      {
+        "settings": {{ block.settings | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    ]
+  {% endif %}
+}
+{% endcapture %}
+
+<div :style="sectionBackground" class="w-full px-4 md:px-6 py-5 md:py-10 bg-gray-200 flex flex-wrap justify-center {{ block_type }}" data-vue-component="CollectionBlocks" data-props="{{ props | escape | strip_newlines }}">
+  <div v-if="modsettings.text_alignment === 'center'" class="flex flex-col items-center w-full max-w-lg mx-auto">
+    <p 
+      :style="preHeaderColors" 
+      v-html="modsettings.preheader"
+      class="font-primary font-bold text-md uppercase tracking-header border-b border-t border-transparent mb-3">
+    </p>
+    <h3 
+      :style="headerTextColor"
+      v-html="modsettings.header"
+      class="font-primary font-extrabold text-e28 md:text-hero uppercase tracking-header w-full mb-6 md:mb-e18 text-center">
+    </h3>
+    <a 
+      v-if="modsettings.shop_all_link_url !== ''" 
+      :href="modsettings.shop_all_link_url"
+      :style="shopAllColor"
+      v-html="modsettings.shop_all_link_text"
+      class="font-primary font-bold text-lg tracking-header uppercase link--secondary-reverse px-0">
+    </a>
+  </div>
+  <div v-if="modsettings.text_alignment === 'left'" class="flex flex-wrap md:flex-no-wrap items-end justify-between w-full max-w-lg mx-auto">
+    <div class="flex flex-col items-start w-full md:w-1/2">
+      <p 
+        :style="preHeaderColors" 
+        v-html="modsettings.preheader" 
+        class="font-primary font-bold text-md uppercase tracking-header border-b border-t border-transparent mb-3">
+      </p>
+      <h3 
+        :style="headerTextColor"
+        v-html="modsettings.header"
+        class="font-primary font-extrabold text-e28 md:text-hero uppercase tracking-header w-full mb-6 md:mb-0 text-left">
+      </h3>  
+    </div>
+    <a 
+      v-if="modsettings.shop_all_link_url !== ''" 
+      :href="modsettings.shop_all_link_url"
+      :style="shopAllColor"
+      v-html="modsettings.shop_all_link_text"
+      class="font-primary font-bold text-lg tracking-header uppercase link--secondary-reverse px-0">
+    </a>
+  </div>
+  <div class="flex flex-wrap justify-between mt-8 md:mt-12 w-full max-w-lg mx-auto">
+    <a 
+      :href="blocks[blockIndex].settings.block_link"
+      :style="collectionBackgroundImage(blockIndex, $mq)"
+      v-for="(collectionBlock, blockIndex) in blocks"
+      v-if="blockIndex < modsettings.number_of_blocks"
+      class="flex items-end cursor-pointer mb-2 md:mb-8 w-full md:w-1/2 h-e240 md:h-e312 overflow-hidden bg-cover collection-block-card"
+      :class="[blockIndex % 2 === 0 ? 'mr-0 md:mr-e18' : 'ml-0 md:ml-e18']">
+      <div 
+        v-if="$mq === 'sm'" 
+        :style="blockColors(blockIndex, $mq)" 
+        class="p-6 font-primary font-extrabold uppercase text-megamenu_top md:text-xl tracking-header collection-block-link"
+        v-html="blocks[blockIndex].settings.block_header">
+      </div>
+      <div 
+        v-else 
+        class="p-6 font-primary font-extrabold uppercase text-megamenu_top md:text-xl tracking-header collection-block-link" 
+        :style="blockColors(blockIndex, $mq)"
+        v-html="blocks[blockIndex].settings.block_header">
+      </div>
+      <svg 
+        v-if="$mq === 'sm'" 
+        :style="blockColors(blockIndex, $mq)" 
+        class="w-e80 h-e70 md:h-e80 px-7 py-7 opacity-100 md:opacity-0 ml-0 md:-ml-e80 transition-all duration-200">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#hp-long-arrow"></use>
+      </svg>
+      <svg 
+        v-else 
+        :style="blockColors(blockIndex, $mq)"
+        class="w-e80 h-e70 md:h-e80 px-7 py-7 opacity-100 md:opacity-0 ml-0 md:-ml-e80 transition-all duration-200">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#hp-long-arrow"></use>
+      </svg>
+    </a>
+  </div>
+</div>

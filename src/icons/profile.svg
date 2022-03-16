@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Navigation" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="M_Navigations_1.2-/-Open-" transform="translate(-14.000000, -424.000000)">
+            <g id="noun_profile_3167555-copy-3" transform="translate(14.000000, 424.000000)">
+                <g id="noun_profile_1766704" transform="translate(2.000000, 2.000000)" fill="#000000" fill-rule="nonzero">
+                    <path d="M11,0 C7.68085106,0 5,2.625 5,6 C5,9.25 7.68085106,12 11,12 C14.3191489,12 17,9.25 17,6 C17,2.625 14.3191489,0 11,0 Z" id="Path"></path>
+                    <path d="M22,18.2370649 C21.0994152,15.5465663 19.1695906,13.5898401 16.2105263,12 C13.380117,14.5682032 8.87719298,14.5682032 6.04678363,12 C2.83040936,13.5898401 0.771929825,15.6688617 0,18.6039511 C6.56140351,23.2511759 15.5672515,23.1288805 22,18.2370649 Z" id="Path"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

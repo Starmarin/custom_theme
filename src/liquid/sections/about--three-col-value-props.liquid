@@ -1,0 +1,49 @@
+{%- render 'global--three-col-value-props', mod_items: section.blocks, mod_settings: section.settings -%}
+{% schema %}
+  {
+    "name": "Three Column Value Props",
+    "class": "three-col-value-props",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Customer Service <span>Here for You</span>"
+      },
+      {
+        "id": "learn_more_cta",
+        "type": "text",
+        "label": "Learn More CTA"
+      },
+      {
+        "id": "learn_more_url",
+        "type": "url",
+        "label": "Learn More Link"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "value-prop",
+        "name": "Value Prop",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Icon"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "content",
+            "label": "Content"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

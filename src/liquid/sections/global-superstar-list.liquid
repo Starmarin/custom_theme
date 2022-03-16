@@ -1,0 +1,56 @@
+<script>
+  {% include 'global-superstar-data' %}
+</script>
+{% schema %}
+  {
+    "name": "Global Superstar List",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "superstar",
+        "name": "Superstar",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Superstar Collection"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Superstar Name"
+          },
+          {
+            "type": "image_picker",
+            "id": "superstar_name",
+            "label": "Superstar Image"
+          },
+          {
+            "type": "select",
+            "id": "brand",
+            "label": "Superstar Brand",
+            "options": [
+              {
+                "value": "raw",
+                "label": "Raw"
+              },
+              {
+                "value": "smackdown",
+                "label": "Smackdown"
+              },
+              {
+                "value": "nxt",
+                "label": "NXT"
+              },
+              {
+                "value": "legends",
+                "label": "Legends"
+              }
+            ],
+            "default": "raw"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

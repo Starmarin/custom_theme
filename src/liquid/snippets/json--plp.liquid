@@ -1,0 +1,56 @@
+{%- assign mod_encode = mod_encode | default: false, allow_false: true -%}
+{%- assign mod_title = collection.title -%}
+{%- assign mod_description = collection.description -%}
+{%- assign mod_excerpt = collection.description -%}
+{%- assign mod_more = mod_more | default: 'more' -%}
+{%- assign mod_description = mod_description | replace: '"', "&#34;" -%}
+{%- assign mod_excerpt = mod_excerpt | replace: '"', "&#34;" -%}
+{%- assign mod_more = mod_more | replace: '"', "&#34;" -%} 
+{%- capture mod_json -%}
+{
+  "handle":"/collections/{{ collection.handle }}",
+  "title": {{ mod_title | json }},
+  "description": {{ mod_description | json }},
+  "image": {{ collection.image | img_url: '1440x' | json }},
+  "fetched": true,
+  "sortOptions": [
+    {%- for sort_option in collection.sort_options -%} 
+      {
+        "value": {{ sort_option.value | json }},
+        "name": {{ sort_option.name | json }}
+      }
+      {%- unless forloop.last -%},{%- endunless -%} 
+    {%- endfor -%}
+  ], 
+  "defaultSort": {{ collection.default_sort_by | json }}, 
+  "metafields": { 
+    "promo_tile_1_preheader": {{ collection.metafields.custom_fields['promo_tile_1_pre-header'] | json }},
+    "promo_tile_1_header": {{ collection.metafields.custom_fields['promo_tile_1_header'] | json }},
+    "promo_tile_1_text_color": {{ collection.metafields.custom_fields['promo_tile_1_text_color'] | json }},
+    "promo_tile_1_image": {{ collection.metafields.custom_fields["promo_tile_1_image"] | json }},
+    "promo_tile_1_link": {{ collection.metafields.custom_fields["promo_tile_1_link"] | json }},
+    "promo_tile_1_cta_text": {{ collection.metafields.custom_fields["promo_tile_1_cta_text"] | json }},
+    "promo_tile_1_size": {{ collection.metafields.custom_fields["promo_tile_1_size"] | json }},
+    "promo_tile_1_location": {{ collection.metafields.custom_fields["promo_tile_1_location"] | json }},
+    "promo_tile_2_preheader": {{ collection.metafields.custom_fields["promo_tile_2_pre-header"] | json }},
+    "promo_tile_2_header": {{ collection.metafields.custom_fields["promo_tile_2_header"] | json }},
+    "promo_tile_2_text_color": {{ collection.metafields.custom_fields["promo_tile_2_text_color"] | json }},
+    "promo_tile_2_image": {{ collection.metafields.custom_fields["promo_tile_2_image"] | json }},
+    "promo_tile_2_link": {{ collection.metafields.custom_fields["promo_tile_2_link"] | json }},
+    "promo_tile_2_cta_text": {{ collection.metafields.custom_fields["promo_tile_2_cta_text"] | json }},
+    "promo_tile_2_size": {{ collection.metafields.custom_fields["promo_tile_2_size"] | json }},
+    "promo_tile_2_location": {{ collection.metafields.custom_fields["promo_tile_2_location"] | json }}
+  }
+}
+{%- endcapture -%}
+{%- if mod_encode -%}
+  {{- mod_json | strip | strip_newlines | url_encode -}}
+{%- else -%}
+  {{- mod_json -}}
+{%- endif -%}
+{%- assign mod_encode = nil -%}
+{%- assign mod_json = nil -%}
+{%- assign mod_title = nil -%}
+{%- assign mod_description = nil -%}
+{%- assign mod_excerpt = nil -%}
+{%- assign mod_more = nil -%}

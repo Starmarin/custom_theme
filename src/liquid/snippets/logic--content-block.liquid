@@ -1,0 +1,30 @@
+
+{%- capture content_block_wrapper_styles -%}
+  min-height: {{ block.settings.min_height }}px;
+{%- endcapture -%}
+
+{%- capture content_block_styles -%}
+  background-color: {{ block.settings.background_color }};
+  {%- if block.settings.background_image != blank -%}
+    background-image: url({{ block.settings.background_image | img_url: '500x500' }});
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture content_block_overlay_styles -%}
+  {%- if block.settings.overlay_opacity > 0 -%}
+    background-color: {{ block.settings.overlay_color }};
+    opacity: {{ block.settings.overlay_opacity }};
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture content_block_title_styles -%}
+  color: {{ block.settings.title_color }};
+{%- endcapture -%}
+
+{%- capture content_block_subtitle_styles -%}
+  color: {{ block.settings.subtitle_color }};
+{%- endcapture -%}
+
+{%- capture content_block_text_styles -%}
+  color: {{ block.settings.text_color }};
+{%- endcapture -%}

@@ -1,0 +1,31 @@
+{% capture props %}
+{
+  "mod_settings": {{ mod_settings | json }}
+}
+{% endcapture %}
+{%- if mod_settings.enable_global_countdown -%}
+<div data-vue-component="GlobalCountdown" data-props="{{ props | escape | strip_newlines }}" >
+    <div v-if="visible" class="relative bg-cover global-countdown md:h-e120 flex items-center flex-col md:flex-row justify-between md:px-e160 py-4 md:py-5 px-2" :style="backgroundImage">
+        <div class="global-countdown_text text-center md:text-left md:max-w-1/3 max-w-3/4" style="color: {{mod_settings.global_countdown_text_color}}">
+            {%- unless mod_settings.global_countdown_title == blank-%}
+                <h3 class="global-countdown_title uppercase font-bold md:text-e28">
+                    {{mod_settings.global_countdown_title}}
+                </h3>
+            {%- endunless -%}
+            {% unless mod_settings.global_countdown_text == blank %}
+                <div v-if="$mq !=='sm'">
+                    {{mod_settings.global_countdown_text}}
+                </div> 
+            {% endunless %}
+        </div>
+        <Countdown :endtime="mod_settings.global_countdown_date" :bgcolor="mod_settings.global_countdown_timer_bg" class="timer md:my-8 mt-2"></Countdown>
+            {%- if mod_settings.cta_countdown_enable -%}
+            <a href="{{mod_settings.cta_countdown_url}}" class="py-3 px-10 h-e50 w-2/3 md:w-auto text-center whitespace-no-wrap mr-4 md:mb-0 focus:shadow-outline font-primary font-bold uppercase tracking-header transition-all duration-200 hover:filter-brightness"  style="color: {{mod_settings.cta_countdown_text_color}}; background-color: {{mod_settings.cta_countdown_bg_color}}">{{mod_settings.cta_countdown_text}}</a>
+            {%- endif -%}
+        
+        <button class="absolute md:right-20 right-10 md:top-20 top-10 cursor-pointer focus:shadow-outline" @click="hideTimer()">
+            <svg is="icon" name="box-close" size="20px" class="text-white transition-colors duration-300 hover:text-primary-500"></svg>
+        </button>
+    </div>
+</div>
+{%- endif -%}

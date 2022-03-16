@@ -1,0 +1,137 @@
+{% capture props %}
+{
+  "mod_settings": {{ mod_settings | json }},
+  "featuredProduct": {{ all_products[mod_settings.featured_product] | json }},
+  "featuredProductAlt": {{ all_products[mod_settings.featured_product].featured_image.alt | json }},
+  "optionsWithValues": {{ all_products[mod_settings.featured_product].options_with_values |  json }},
+  "selectedVariant": {{ all_products[mod_settings.featured_product].selected_or_first_available_variant | json }}
+}
+{% endcapture %}
+{% assign featured_product = all_products[mod_settings.featured_product] %}
+
+{% assign tile_layout = 'single' %}
+{% if mod_settings.large_desktop_image != blank and mod_settings.small_desktop_image_1 != blank and mod_settings.small_desktop_image_2 != blank%}
+  {% assign tile_layout = 'grid' %}
+{% endif %}
+
+<div style="background-color: {{ mod_settings.background_color }};" class="flex flex-wrap w-full px-4 md:px-10 py-e22 justify-center" data-vue-component="FeaturedProduct" data-props="{{ props | escape | strip_newlines }}">
+
+  <h2 style="color: {{ mod_settings.header_text_color }}" class="h3 text-left w-full mb-4">{{ mod_settings.header }}</h2>
+
+  <div class="flex flex-wrap md:flex-no-wrap w-full max-w-lg">
+      <div class="w-full md:w-2/3 mb-4 md:mb-0">
+        <img :alt="featuredProductAlt" v-if="selectedVariant.featured_image != null" :src="selectedVariant.featured_image.src" />
+        <img :alt="featuredProductAlt" v-else :src="featuredProduct.featured_image" />
+      </div>
+      
+    <section class="w-full md:w-1/3 md:px-0 top-0 h-full">
+      <section class="px-0 md:px-6">
+
+        {%- render 'badge-holder' -%}
+
+        <h1 class="font-secondary font-bold text-megamenu_top text-black md:text-xl" v-html="featuredProduct.title"></h1>
+
+        <ul class="pt-2 md:px-0 flex-no-wrap justify-between">
+          {% render 'yotpo--stars', product: mod_settings.featured_product %}
+        </ul>
+
+        <div class="mt-2">
+          <p class="inline-block" v-if="selectedVariant">
+            <span class="font-body font-semibold text-megamenu_top md:text-hero_price" :class="{ 'text-util-sale': selectedVariant.price < selectedVariant.compare_at_price }" v-html="currentFormattedPrice"></span>
+            <s class="ml-2 inline-block text-gray-discount font-body font-semibold text-megamenu_top md:text-hero_price" v-show="selectedVariant.price < selectedVariant.compare_at_price" v-html="currentFormattedComparePrice"></s>
+          </p>
+        </div>
+
+        {% if shop.metafields.custom_fields["store_country"] == "usa" %}
+          <div class="klarna-featured-product mb-4">
+            <klarna-placement
+              data-key="credit-promotion-auto-size"
+              :data-purchase-amount="selectedVariant.price"
+              data-locale="en-US"
+            ></klarna-placement>
+          </div>
+        {% endif %}
+    
+      </section>
+
+      <div v-for="(option, optionIndex) of optionsWithValues" :key="option.name" class="option-set flex flex-wrap justify-start py-2 pt-4 items-center px-0 md:px-6">
+        <div class="w-full flex justify-between items-center font-medium text-e16 tracking-tighter mb-3">
+          <div class="flex justify-start items-center">
+            <p class="font-primary font-bold flex items-center text-megamenu_sub uppercase tracking-widest"v-html="option.name"></p>
+            <span class="font-body capitalize text-xs ml-2 tracking-normal" v-html="selectedOptions[optionIndex]"></span>  
+          </div>
+          <a href="{{ featured_product.url }}?size_chart" class="cursor-pointer" v-show="isSizeOption(option) && hasSizeChart">
+            <span class="underline text-xs uppercase text-primary-500 font-bold font-primary tracking-wider" v-html="state.language.size_chart"></span>
+          </a>
+        </div>
+        <span v-if="isColorOption(option)" class="flex">
+          <div 
+            is="VariantSwatch" 
+            class="mr-e6 color-swatch" 
+            :swatch="value" 
+            v-for="value in option.values" 
+            :key="value" 
+            :color="value" 
+            :size="44" 
+            :class="{ disabled: !optionValueHasInStockVariant(optionIndex, value) }" 
+            :active="value === selectedOptions[optionIndex]" 
+            @click="setVariantByIndex({ optionIndex, value })" >
+          </div>
+        </span>
+        <span v-else class="flex">
+          <div 
+            class="mr-e6 variant-btn cursor-pointer btn--variant font-body w-11 h-11 flex items-center justify-center font-semibold text-xs border border-gray-breadcrumbs bg-gray-200 hover:text-white hover:bg-gray-600 transition-all duration-300" 
+            v-for="value in option.values" 
+            :key="value" 
+            :size="44" 
+            :class="{ disabled: !optionValueHasInStockVariant(optionIndex, value) }" 
+            :active="value === selectedOptions[optionIndex]" 
+            @click="setVariantByIndex({ optionIndex, value })" 
+            v-html="value" >
+          </div>
+        </span>
+        
+      </div>
+
+      <div class="px-0 md:px-6 mt-4">
+        <div class="flex justify-between items-center">
+          <div class="w-e78 min-w-e78">
+            <Dropdown class="pdp__quantity-dropdown" :options="quantityDropdownOptions" :selected="selectedQuantity" @select="(value) => selectedQuantity = value" />
+          </div>
+          <p v-cloak class="font-body font-semibold text-megamenu_sub ml-2" v-if="selectedVariant.inventory_quantity <= 0  && !selectedVariant.available">{{ 'products.product.out_of_stock' | t }}</p>
+          <p v-cloak class="font-body font-semibold text-megamenu_sub ml-2" v-else-if="selectedVariant.available">{{ 'products.product.available' | t }}</p>
+          <div class="w-full ml-4 flex justify-end items-center">
+            <p v-cloak v-if="selectedVariant.sku !== ''" class="font-body font-semibold text-xs hidden md:block text-right" v-html="selectedVariant.sku"></p>
+          </div>
+        </div>
+        <div 
+          v-if="selectedVariant.available"
+          class="bg-btn-primary_main hover:bg-btn-primary_hover font-bold tracking-header uppercase py-4 mt-6 text-white flex justify-center cursor-pointer" 
+          @click="addToCart(selectedVariant.id)">
+          {{ 'products.product.add_to_cart' | t }}
+        </div>
+        <div 
+          v-else
+          v-cloak
+          class="font-bold tracking-header uppercase py-4 mt-6 text-black flex justify-center cursor-pointer" 
+          @click="addToCart(selectedVariant.id)">
+          {{ 'products.product.out_of_stock' | t }}
+        </div>
+        <div class="bg-btn-secondary_main hover:bg-btn-secondary_hover font-bold tracking-header uppercase py-4 text-white flex justify-center md:hidden  cursor-pointer" @click="buyNow(selectedVariant.id)">{{ 'products.product.buy_now' | t }}</div>
+
+        {% if featured_product.metafields.custom_fields['short_description_heading'] != blank %}
+          <p class="font-primary font-bold text-md md:text-megamenu_top uppercase tracking-wider mt-6 px-0">
+            {{ featured_product.metafields.custom_fields['short_description_heading'] }}
+          </p>
+        {% endif %}
+        {% if featured_product.metafields.custom_fields['short_description_text'] != blank %}
+          <div class="description-text mt-2 px-0">
+            {{ featured_product.metafields.custom_fields['short_description_text'] }}
+          </div>
+        {% endif %}
+      </div>
+
+    </section>
+  </div>
+
+</div>

@@ -1,0 +1,16 @@
+.swiper-container-horizontal > .swiper-scrollbar {
+  @apply left-0;
+}
+
+.swiper-button-prev {
+  @apply rounded-none w-5 left-0 h-e250;
+  margin-top: -145px;
+}
+.swiper-button-next {
+  @apply rounded-none w-5 right-0 h-e250;
+  margin-top: -145px;
+}
+.swiper-button-next > svg,
+.swiper-button-prev > svg {
+  transform: translate(-50%, -50%) !important;
+}

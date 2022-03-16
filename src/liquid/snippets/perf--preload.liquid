@@ -1,0 +1,31 @@
+
+
+<script>
+  (function () {
+    function getFileType (url) {
+      if(/\.js/.test(url)) {
+        return 'script';
+      } else if (/\.css/.test(url)) {
+        return 'style';
+      }
+    }
+    function injectPreloadLink (fileURL) {
+      var link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.as = getFileType(fileURL);
+      link.href = fileURL;
+      document.head.appendChild(link);
+    } 
+
+    window.addEventListener('load', function () {
+      <% preloadFileMatrix.forEach(function(fileArr, fileArrIndex){ %>
+        window.setTimeout(function() {
+          <% fileArr.forEach(function(file){ %>
+            {% assign name = '<%- file -%>' %}
+            injectPreloadLink({{ name | asset_url | json }});
+          <% }); %>
+        }, <%- fileArrIndex -%> * 1000);
+      <% }); %>
+    })
+  })()
+</script>

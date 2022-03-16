@@ -1,0 +1,88 @@
+{%- render 'hp--button-collection', mod_settings: section.settings, mod_blocks: section.blocks -%}
+{% schema %}
+  {
+    "name": "Button Collection",
+    "class": "hero",
+    "max_blocks": 14,
+    "settings": [
+      {"type": "header", "content": "Content"},
+      {
+        "type": "text",
+        "id": "header",
+        "label": "Header"
+      },
+      {
+        "type": "text",
+        "id": "shop_all_link_text",
+        "label": "Shop All Link Text"
+      },
+      {
+        "type": "url",
+        "id": "shop_all_link_url",
+        "label": "Shop All Link URL"
+      },
+      {"type": "header", "content": "Colors"},
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color",
+        "default": "#000000"
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background Image",
+        "info": "Suggested dimensions: 2880 x 960"
+      },
+      {
+        "type": "color",
+        "id": "header_text_color",
+        "label": "Header Text Color"
+      },
+      {
+        "type": "color",
+        "id": "shop_all_link_color",
+        "label": "Shop All Link Color"
+      },
+      {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button Text Color"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection_button",
+        "name": "Collection Button",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          },
+          {
+            "type": "text",
+            "id": "collection_title",
+            "label": "Collection Title"
+          },
+          {
+            "type": "image_picker",
+            "id": "collection_image",
+            "label": "Collection Image",
+            "info": "Image will automatically crop to be a circle. Suggested dimensions: 500 x 500"
+          },
+          {
+            "type": "color",
+            "id": "border_color",
+            "label": "Border Color",
+            "info": "Add an optional border color around the collection image."
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Button Collection",
+      "category": "Collections"
+    }]
+  }
+{% endschema %}

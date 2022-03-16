@@ -1,0 +1,538 @@
+{% comment %} 
+  memeber of 
+  section: nav--navbar
+  vue component: 
+ {% endcomment %}
+
+{% assign mobile_brands = "raw, smackdown, nxt, legends" %}
+{% assign mobile_brands_array = mobile_brands | split: ', ' %}
+
+<div class="mobile-menu-contents" :class="{'mobile-menu-contents--level-2-open': mobileStates.some(Boolean)}">
+  <div class="mobile-menu-contents__level-1">
+    <ul>
+      {% for root in menu_roots %}
+        {% assign root_raw = root | split: '-' %}
+        {% for root_base in root_raw %}
+          {% if forloop.first %}
+            {% assign root_title = root_base %}
+          {% endif %}
+          {% if forloop.index == 2 %}
+            {% assign root_type = root_base %}
+          {% endif %}
+          {% for block in section.blocks %}
+            {% assign block_id = block.id | remove: '-' %}
+            {% if root_base == block_id %}
+              {% assign root_settings = block.settings %}
+            {% endif %}
+          {% endfor %}
+        {% endfor %}      
+        <li class="flex justify-between items-center {% if root_settings.group_img != blank %} py-e7 px-4 {% else %} p-4 {% endif %} m-0 cursor-pointer bg-white" @click="toggleMobileContentByIndex({{forloop.index0}})">
+          {% if root_type == 'link' %}
+            <a href="{{root_settings.link_url}}" class="font-primary font-bold text-menu uppercase tracking-wider" >
+              {% if root_settings.group_img != blank %}
+                <img class="lazy h-40" src="{{ root_settings.group_img | img_url: 'x40'}}" data-src="{{ root_settings.group_img | img_url: 'x40'}}" alt="{{ root_settings.group_img.alt }}">
+              {% else %}
+                <span style="color: {{root_settings.title_color}}">{{ root_title }}</span>
+              {% endif %}
+            </a>
+          {% else %}
+            <button class="font-primary font-bold text-menu uppercase tracking-wider" icon-size="16px" tag="button" is="LinkPrimary" >
+              {% if root_settings.group_img != blank %}
+                <img class="lazy h-40" src="{{ root_settings.group_img | img_url: 'x40'}}" data-src="{{ root_settings.group_img | img_url: 'x40'}}" alt="{{ root_settings.group_img.alt }}">
+              {% else %}
+                <span style="color: {{root_settings.title_color}}">{{ root_title }}</span>
+              {% endif %}
+            </button>
+            <svg is="icon" name="menu-right" size="15px"></svg>
+          {% endif %}
+        </li>
+        <hr class="divider-light m-0" />
+      {% endfor %}
+    </ul>
+    <ul class="px-e14 py-5 bg-gray-200 border-solid">
+        {% if customer %}
+          <li @click="toggleMobileContentByIndex(mobileStates.length - 3)" class="flex items-center justify-between mobile-support-menu" :class="{ active: mobileStates[mobileStates.length - 3] }">
+            <div class="flex">
+              <svg is="icon" name="chevron-down" size="18px" class="mr-3 transition-all duration-300"></svg>
+              <button class="font-primary font-bold text-menu uppercase tracking-wider w-full">{{ 'customer.account.title' | t }}</button>
+            </div>
+            <div class="flex flex-col items-start min-w-e100 w-e100 ml-2">
+              <p class="font-primary uppercase text-black text-megamenu_sub tracking-wider flex leading-none">
+                Hi, {{ customer.first_name }}
+              </p>
+              <p v-cloak v-if="customerDetails != null" class="font-body font-normal text-primary-500 text-xxs bfx-remove-element">Rewards: <span class="font-body" v-html="customerDetails.pointsBalance"></span> pts</p>
+            </div>
+          </li>
+          <transition-expand :duration="300" >
+            <div class="overflow-y-auto max-h-full h-full px-e24 pt-3 hidden-until-vue-loaded w-full" 
+              v-show="mobileStates[mobileStates.length - 3]">
+              <ul>
+                {% for link in settings.linklist_account_dropdown.links %}
+                  <li class="mb-4"><a href="{{ link.url }}" class="font-primary font-bold text-menu uppercase tracking-wider">{{ link.title }}</a></li>
+                {% endfor %}
+                <li>
+                  <a class="font-primary font-bold text-menu uppercase tracking-wider" href="{{ routes.account_logout_url }}">{{ 'customer.navigation.logout' | t }}</a>
+                </li>
+              </ul>
+            </div>
+          </transition-expand>
+        {% else %}
+          <li class="flex items-center justify-between mobile-support-menu">
+            <div class="flex">
+              <svg is="icon" name="profile" size="22px" class="mr-3 transition-all duration-300"></svg>
+              <a href="/account" class="font-primary font-bold text-menu uppercase tracking-wider" tag="button">{{ 'general.megamenu.sign_in' | t }}</a>
+            </div>
+          </li>
+        {% endif %}
+      <li @click="toggleMobileContentByIndex(mobileStates.length - 2)" class="flex items-center mt-6 mobile-support-menu" :class="{ active: mobileStates[mobileStates.length - 2] }">
+        <svg is="icon" name="chevron-down" size="14px" class="mr-3 transition-all duration-300"></svg>
+        <button class="font-primary font-bold text-menu uppercase tracking-wider" tag="button" is="LinkPrimary">{{ 'general.megamenu.support' | t }}</button>
+      </li>
+      <transition-expand :duration="300" >
+        <div class="overflow-y-auto max-h-full h-full px-e24 pt-3 hidden-until-vue-loaded w-full" 
+          v-show="mobileStates[mobileStates.length - 2]">
+          <ul>
+            {% for link in linklists[section.settings.mobile_linklist_1].links %}
+              <li class="mb-4"><a href="{{ link.url }}" class="link--nav font-normal">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </transition-expand>
+      <li @click="toggleMobileContentByIndex(mobileStates.length - 1)" class="flex items-center mt-6 mobile-support-menu" :class="{ active: mobileStates[mobileStates.length - 1] }">
+        <svg is="icon" name="chevron-down" size="14px" class="mr-3 transition-all duration-300"></svg>
+        <button class="font-primary font-bold text-menu uppercase tracking-wider" tag="button" is="LinkPrimary">{{ 'general.megamenu.explore' | t }}</button>
+      </li>
+      <transition-expand :duration="300" >
+        <div class="overflow-y-auto max-h-full h-full px-e24 pt-3 hidden-until-vue-loaded w-full" 
+          v-show="mobileStates[mobileStates.length - 1]">
+          <ul>
+            {% for link in linklists[section.settings.mobile_linklist_2].links %}
+              <li class="mb-4"><a href="{{ link.url }}" class="link--nav font-normal">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </transition-expand>
+      {% for link in linklists[section.settings.mobile_additional_links].links %}
+        <li class="text-e18 font-semibold leading-8">
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="flex items-center py-4 px-5 border-t border-b border-gray-300 bg-gray-200">
+      <div @click="showPromosMobile = true" class="flex items-center cursor-pointer">
+        <svg is="icon" name="promos" size="16px" class="text-black mr-2"></svg>
+        <p class="font-body font-semibold text-xs capitalize">{{ 'layout.footer.promos' | t }}</p>
+      </div>
+    </div>
+
+
+    <transition name="slide-in-left" :duration="300">
+      <section v-show="showPromosMobile">
+        <div 
+          class="overflow-y-auto max-h-full h-full pb-e200 hidden-until-vue-loaded absolute top-0 bg-gray-100 w-full z-100"
+          >
+          <div class="w-full flex justify-between items-center bg-gray-700 p-3 mb-4">
+            <div @click="showPromosMobile = false" class="bg-gray-200 p-e10 rounded-full cursor-pointer">
+              <svg is="icon" name="chevron-left" size="12px" class="text-black"></svg>
+            </div>
+            <p class="w-full text-center text-mobile_sub text-e24 font-primary font-black tracking-wider uppercase text-white">{{ 'layout.footer.promos' | t }}</p>
+            <button class="mx-auto mr-2"
+              @click="closeMobileMenu"
+              aria-label="{{ 'general.header.nav_label' | t }}">
+              <svg is="icon" name="close" size="18px" class="text-white"></svg>
+            </button>
+          </div>
+          <div v-for="(promo, promoIndex) in mobilePromos" class="promo-card mx-5">
+            <p class="font-primary font-bold uppercase text-lg text-black mb-4" v-html="promo.title"></p>
+            <div class="font-body font-normal modal-content text-black mt-o mb-4" v-html="promo.content"></div>
+            <hr v-if="promoIndex < (mobilePromos.length - 1)" class="dark-divider mt-7 mb-5" />
+          </div>
+        </div>        
+      </section>
+    </transition>
+
+    <div class="flex justify-between items-center py-4 px-5 bg-gray-200">
+      <div class="flex items-center mr-4 cursor-pointer" @click="openCountrySelectorMobile">
+        <img class="w-7 border border-black mr-2 current-country-image-mobile" :src="currentCountryImage" v-if="currentCountry === 'usa'" />
+        <img class="w-7 border border-black mr-2" :src="countryFlag" v-if="currentCountry === 'eu'" />
+        <p class="font-body font-semibold text-xs uppercase underline" v-html="currencyCountry"></p> 
+      </div>
+      <div class="flex items-center">
+        {% if settings.social_instagram_link != blank %}
+          <a href="{{ settings.social_instagram_link }}">
+            <svg is="icon" name="instagram" size="12px" class="text-primary-500 mr-4"></svg>
+          </a>
+        {% endif %}
+        {% if settings.social_facebook_link != blank %}
+          <a href="{{ settings.social_facebook_link }}">
+            <svg is="icon" name="facebook" size="12px" class="text-primary-500 mr-4"></svg>
+          </a>
+        {% endif %}
+        {% if settings.social_twitter_link != blank %}
+          <a href="{{ settings.social_twitter_link }}">
+            <svg is="icon" name="twitter" size="12px" class="text-primary-500 mr-4"></svg>
+          </a>
+        {% endif %}
+        {% if settings.social_youtube_link != blank %}
+          <a href="{{ settings.social_youtube_link }}">
+            <svg is="icon" name="youtube" size="12px" class="text-primary-500 mr-4"></svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <p class="mt-6 font-body px-5 text-xs">&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}</p>
+</div>
+
+<transition-expand :duration="300" v-if="$mq='sm'" class="block">
+  <section v-show="openCountrySelectMobile" v-scroll-lock="openCountrySelectMobile"
+    class="fixed left-0 bottom-0 h-e100 w-full text-black bg-white py-5 px-4 z-30 border-solid border-t border-b border-gray-200">
+      {% if shop.metafields.custom_fields["store_country"] == "usa" %}
+        <div class="flex items-center">
+          <img class="w-7 border border-black mr-2 current-country-image-mobile-expand" src="{{ 'usa_flag.png' | asset_url }}" v-if="currentCountry === 'usa'" />
+          <img class="w-7 border border-black mr-2" src="{{ 'euro_flag.png' | asset_url }}" v-if="currentCountry === 'eu'" />
+          <p class="font-body font-semibold text-xs uppercase" v-html="currencyCountry"></p>
+        </div>
+        <div class="borderfree-currency-container borderfree-mobile-selector" data-borderfree-container>
+          <div class="bva borderfree-inside-container container flex flex-col items-center">
+            <div class="flex flex-col w-full mb-4">
+              <p class="font-primary font-bold text-megamenu_sub uppercase tracking-wider text-black mt-6 mb-3 text-center">{{ settings.bf_country_heading }}</p>
+              <div class="bf-body-text text-center">{{ settings.bf_country_body }}</div>
+            </div>
+            <div class="borderfree-currency-selectors borderfree-container flex w-full">
+              <div class="borderfree-wrapper-hook-mobile w-full flex"></div>
+            </div>
+          </div>
+        </div>
+        <hr class="divider-light my-4" />
+      {% endif %}
+      {% if shop.published_locales.size > 1 %}
+        <div class="flex flex-col items-center">
+          <div class="flex flex-col w-full mb-4">
+            <p class="font-primary font-bold text-megamenu_sub uppercase tracking-wider text-black mt-6 mb-3 text-center">{{ settings.language_heading }}</p>
+            <div class="bf-body-text text-center">{{ settings.language_body }}</div>
+          </div>
+          <div class="flex flex-col w-full items-center">
+            <span 
+              is="Dropdown" 
+              class="w-full"
+              :options="languageOptions" 
+              :selected="mobileSelectedLanguage"
+              @select="(value) => mobileSelectedLanguage = value">
+            </span>
+            <span 
+              is="Dropdown" 
+              class="w-full mt-2"
+              :options="currencyOptions" 
+              :selected="activeCurrency"
+              @select="(value) => activeCurrency = value">
+            </span>
+            {%- form 'localization', id: 'localization_form_footer', class: 'footer__localization-form w-full' -%}
+              <input type="hidden" name="locale_code" :value="mobileSelectedLanguage">
+              <input type="hidden" name="currency_code" :value="activeCurrency">
+              <button type="submit" class="w-full py-4 px-14 mt-4 text-white bg-btn-secondary_main hover:bg-btn-secondary_hover font-primary font-bold uppercase tracking-header">{{ 'layout.international.apply_btn' | t }}</button>
+            {%- endform -%}
+          </div>
+        </div>
+        <hr class="divider-light my-4" />
+      {% endif %}
+      <p class="font-primary font-bold text-xs uppercase tracking-wider text-black mb-5">{{ settings.bf_header_text }}</p>
+      <div class="flex">
+        <div class="flex items-center mr-5" v-if="currentCountry !== 'usa'">
+          <img class="mr-4 w-9" src="{{ 'usa_flag.png' | asset_url }}" />
+          <a class="font-body font-semibold text-xs underline text-black" href="https://shop.wwe.com/">shop.wwe.com</a>
+        </div>
+        <div class="flex items-center mr-5" v-if="currentCountry !== 'eu'">
+          <img class="mr-4 w-9" src="{{ 'euro_flag.png' | asset_url }}" />
+          <a class="font-body font-semibold text-xs underline text-black" href="https://euroshop.wwe.com/">euroshop.wwe.com</a>
+        </div>
+      </div>
+      <button role="button" class="p-5 absolute top-0 right-0" @click="openCountrySelectMobile = !openCountrySelectMobile">
+        <svg is="icon" name="modal-close" size="12px" class=""></svg>
+      </button>
+  </section>
+</transition-expand>
+
+
+  {% for root in menu_roots %}
+    {% assign root_raw = root | split: '-' %}
+    {% for root_base in root_raw %}
+      {% if forloop.first %}
+        {% assign root_title = root_base %}
+      {% endif %}
+      {% if forloop.index == 2 %}
+        {% assign root_type = root_base %}
+      {% endif %}
+    {% endfor %}      
+    <transition name="slide-in-left" :duration="300" v-if="mobileStates[{{ forloop.index0 }}]">
+      <div class="overflow-y-auto max-h-full h-full pb-e200 hidden-until-vue-loaded absolute top-0 bg-gray-100 w-full" >
+        <div class="w-full flex justify-between items-center bg-gray-700 p-3">
+          <div @click="toggleMobileContentByIndex({{forloop.index0}})" class="bg-gray-200 p-e10 rounded-full cursor-pointer">
+            <svg is="icon" name="chevron-left" size="12px" class="text-black"></svg>
+          </div>
+          <p class="w-full text-center text-mobile_sub text-e24 font-primary font-black tracking-wider uppercase text-white">{{ root_title }}</p>
+          <button class="mx-auto mr-2"
+            @click="closeMobileMenu"
+            aria-label="{{ 'general.header.nav_label' | t }}">
+            <svg is="icon" name="close" size="18px" class="text-white"></svg>
+          </button>
+        </div>
+        <div class="leading-9">
+          {% for block in section.blocks %}
+            {% if block.settings.group_id == root_title %}
+              {% case block.type %}
+                {% when 'superstars' %}
+                  <div class="px-4 py-5">
+                    <p class="w-full font-primary font-bold uppercase text-center text-black tracking-wider text-lg pb-5">{{ 'general.megamenu.featured_superstars' | t }}</p>
+                    <div class="overflow-x-scroll w-p105 sm:w-full sm:flex sm:justify-center">
+                      <div class="flex w-e820">
+                        <% for (let i = 1; i <= 6; i++) { %>
+                          <a  
+                            class="megamenu-image w-e130 h-e180 flex flex-col items-center justify-end px-3 py-4 mr-2 lazy"
+                            href="{{ settings.superstars_featured_url_<%- i -%> }}"
+                            data-bg="{{ settings.superstars_featured_headshot_<%- i -%> | img_url: '312x432', crop: 'center' }}"
+                            style="background:url({{ settings.superstars_featured_headshot_<%- i -%> | img_url: '312x432', crop: 'center' }});">
+                            <p class="font-primary font-bold uppercase text-xs py-1 px-2 flex justify-center text-white mb-1" style="background-color:{{ settings.superstars_featured_color_<%- i -%> }};">{{ settings.superstars_featured_champion_title_<%- i -%> }}</p>
+                            <p class="font-primary font-bold uppercase text-menu text-white text-center">{{ settings.superstars_featured_name_<%- i -%> }}</p>  
+                          </a> 
+                        <% } %>
+                      </div>        
+                    </div>
+
+                    <a href="{{ routes.root_url }}pages/all-superstars" class="w-full flex justify-center bg-btn-primary_main text-white tracking-header font-bold uppercase border-2 border-transparent py-3 px-14 rounded-e2 focus:text-gray-300 focus:border-util-focus mt-5">{{ 'general.megamenu.shop_all' | t }}</a>
+                  </div>
+                  <hr class="divider-dark m-0" />
+                  {% for brand in mobile_brands_array %}
+                    <li @click="toggleMobileNav('{{ brand }}_subnav')" aria-expanded="false" class="flex justify-between items-center p-4 m-0 bg-white cursor-pointer mobile-support-menu">
+                      <button class="font-primary font-bold text-menu uppercase" tag="button" is="LinkPrimary">
+                        {{ 'general.brands.brand_' | append: brand | t }}
+                      </button>
+                      <svg is="icon" name="chevron-right" size="14px" class="mr-3 transition-all duration-300"></svg>
+                    </li>
+                    <hr class="divider-dark m-0" />
+                    <transition name="slide-in-left" :duration="300">
+                      <div class="overflow-y-auto max-h-full h-full pb-e200 hidden-until-vue-loaded absolute top-0 bg-gray-100 w-full z-100"
+                        v-show="openMobileNav === '{{ brand }}_subnav'">
+                        <div class="w-full flex justify-between items-center bg-gray-700 p-3">
+                          <div @click="toggleMobileNav('')" class="bg-gray-200 p-e10 rounded-full cursor-pointer">
+                            <svg is="icon" name="chevron-left" size="12px" class="text-black"></svg>
+                          </div>
+                          <p class="w-full text-center text-mobile_sub text-e24 font-primary font-black tracking-wider uppercase text-white">{{ 'general.brands.brand_' | append: brand | t }} {{ root_title }}</p>
+                          <button class="mx-auto mr-2"
+                            @click="closeMobileMenu"
+                            aria-label="{{ 'general.header.nav_label' | t }}">
+                            <svg is="icon" name="close" size="18px" class="text-white"></svg>
+                          </button>
+                        </div>
+                        {% assign mobile_banner_key = brand | prepend:'mobile_banner_' %}
+                        {% if block.settings[mobile_banner_key] != blank %}
+                          <img class="lazy w-full" alt="{{ block.settings[mobile_banner_key].alt }}" data-src="{{ block.settings[mobile_banner_key]}}" src="{{ block.settings[mobile_banner_key] | img_url: '700x'}}" />
+                        {% endif %}
+                        {% assign selected_superstars = "" %}
+                        {% for i in (1..6) %}
+                          {% assign superstar_name_key = 'superstars_' | append: brand | append: '_name_' | append: i %}
+                          {% assign superstar_url_key = 'superstars_' | append: brand | append: '_url_' | append: i %}
+                          {% assign superstar_headshot_key = 'superstars_' | append: brand | append: '_headshot_' | append: i %}
+                          {% assign superstar_color_key = 'superstars_' | append: brand | append: '_color_' | append: i %}
+                          {% assign superstar_champion_title_key = 'superstars_' | append: brand | append: '_champion_title_' | append: i %}
+                          {% assign superstar_handle = settings[superstar_name_key] | handleize %}
+                          {% assign selected_superstars = selected_superstars | append: superstar_handle | append: ',' %}
+                          <a href="{{ settings[superstar_url_key] }}" class="flex justify-between items-center px-e10 py-3 m-0 cursor-pointer">
+                            <img class="lazy w-12 h-12 mr-3" alt="{{superstar_handle}}" data-src="{{ settings[superstar_headshot_key] }}" src="{{ settings[superstar_headshot_key] | img_url: '100x100', crop: 'center' }}" />
+                            <div class="flex flex-col items-start w-full">
+                              <p class="font-primary font-bold tracking-wider uppercase text-md">{{ settings[superstar_name_key] }}</p>
+                              <p class="font-body font-semibold uppercase text-xs text-brands-{{ brand }}">{{ settings[superstar_champion_title_key] }}</p>
+                            </div>
+                          </a>
+                          <hr class="border-t border-brands-{{ brand }}" />
+                        {% endfor %}
+
+                        {% assign superstars_shopall_url_key =  'superstars_' | append: brand | append: '_url' %}  
+                        <div class="px-4">
+                          <a href="{{ settings[superstars_shopall_url_key] }}" class="w-full flex justify-center bg-btn-primary_main tracking-header font-bold uppercase border-2 border-transparent py-3 px-14 rounded-e2 focus:text-gray-300 focus:border-util-focus my-5 bg-brands-{{ brand }} {% if brand == 'nxt' %}text-black {% else %}text-white{% endif %}">{{ 'general.megamenu.shop_all' | t }}</a>
+                        </div>
+                        <div class="flex flex-col">
+                          <div class="flex flex-col px-e10 mt-6 order-2">
+                            {% assign star_count = 0 %}
+                            {% assign linklist_key = 'linklist_' | append: brand %}
+                            {% assign superstars_featured = selected_superstars | split: ',' %}
+                            {% for superstar in linklists[block.settings[linklist_key]].links %}
+                              {% assign title_handle = superstar.title | handleize %}
+                              {% unless superstars_featured contains title_handle %}
+                                {% assign star_count = star_count | plus: 1 %}
+                                <a class="w-full mx-0 mb-4 font-body font-semibold text-md relative" href="/collections/{{ superstar.title | handleize }}">{{ superstar.title }}</a>
+                              {% endunless %}
+                            {% endfor %}
+                          </div>
+                          <div class="flex justify-between px-4 py-3 bg-gray-200 order-1 {% unless star_count > 0 %}hidden{% endunless %}">
+                            <p class="font-primary font-bold tracking-header uppercase text-megamenu_sub">{{ 'general.brands.brand_' | append: brand | t }} roster</p>
+                            <p class="font-body uppercase text-megamenu_sub">{{ star_count }} superstars</p>
+                          </div>  
+                        </div>
+                      </div>
+                    </transition>
+                  {% endfor %}
+                {% when 'brands' %}
+                  <section class="w-full flex flex-col items-start px-4 pt-5 fade-in-delay-{{ i | times: 100 }} {% if block.settings.subbrand_url_5 != blank %}compact{% endif %} animation-duration-600">
+                    {% for i in (1..5) %}
+                      {% assign subbrand_url_key = 'subbrand_url_' | append: i %}
+                      {% assign subbrand_image_key = 'subbrand_image_' | append: i %}
+                      {% if block.settings[subbrand_url_key] != blank %}
+                        <a href="{{ block.settings[subbrand_url_key] }}">
+                          <img class="lazy {% unless forloop.last %}mb-2{% endunless %}" alt="{{subbrand_image_key}}" data-src="{{ block.settings[subbrand_image_key]}}" src="{{ block.settings[subbrand_image_key] | img_url: '300x'}}" />
+                        </a>
+                      {% endif %}
+                    {% endfor %}
+                  </section>
+                  <section class="w-full px-4 flex flex-wrap justify-between bg-white fade-in-delay-{{ i | times: 100 }} animation-duration-600">
+                    {% if block.settings.partner_heading_text != blank %}
+                      <p class="w-full text-center font-primary font-bold uppercase mb-4 mt-6 tracking-wider">{{ block.settings.partner_heading_text }}</p>
+                    {% endif %}
+                    {% for i in (1..12) %}
+                      {% assign partner_url_key = 'partnerbrand_url_' | append: i %}
+                      {% assign partner_image_key = 'partnerbrand_image_' | append: i %}
+                      {% if block.settings[partner_url_key] != blank %}
+                        <a class="mb-4 border w-p48 h-e80 border-solid border-gray-200 flex justify-center items-center" href="{{ block.settings[partner_url_key] }}">
+                          <img class="lazy object-contain w-4/5 h-full" alt="{{partner_image_key}}" data-src="{{ block.settings[partner_image_key] }}" src="{{ block.settings[partner_image_key] | img_url: '300x'}}"/>
+                        </a>
+                      {% endif %}
+                    {% endfor %}
+                  </section>
+                {% when 'one_ll_two_image' %}
+                  {% if block.settings.mobile_banner != blank %}
+                    <img class="lazy w-full" alt="{{ block.settings.mobile_banner.alt }}" data-src="{{ block.settings.mobile_banner }}" src="{{ block.settings.mobile_banner | img_url: '800x'}}"/>
+                  {% endif %}
+                  {% for link in linklists[block.settings.link_list_1].links %}
+                    {% if link.links.size > 0 %}
+                      <li @click="toggleMobileNav('{{link.title | handleize }}_{{ forloop.index }}')" :aria-expanded="openMobileNav === '{{link.title | handleize }}_{{ forloop.index }}'" class="flex justify-between items-center p-4 m-0 bg-white cursor-pointer mobile-support-menu" :class="[openMobileNav === '{{link.title | handleize }}_{{ forloop.index }}' ? 'active' : '']">
+                        <button class="font-primary font-bold text-menu uppercase tracking-wider" tag="button" is="LinkPrimary">{{ link.title }}</button>
+                        <svg is="icon" v-if="openMobileNav === '{{link.title | handleize }}_{{ forloop.index }}'" name="chevron-up" size="14px" class="mr-3 transition-all duration-300"></svg>
+                        <svg is="icon" v-else name="chevron-down" size="14px" class="mr-3 transition-all duration-300"></svg>
+                      </li>
+                      <transition-expand :duration="300" >
+                        <div class="overflow-y-auto max-h-full h-full px-4 pb-3 hidden-until-vue-loaded w-full flex flex-col items-start bg-white" 
+                          v-show="openMobileNav === '{{link.title | handleize }}_{{ forloop.index }}'">
+                          {% for child_link in link.links %}
+                            <a class="w-full font-body font-normal text-megamenu_sub mb-4 text-black hover:underline" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                          {% endfor %}
+                          <a class="w-full font-body font-bold text-megamenu_sub mb-4 text-primary-500 capitalize hover:underline" href="{{ link.url }}">{{ 'general.megamenu.shop_all' | t }}</a>
+                        </div>
+                      </transition-expand>
+                    {% else %}
+                      <li class="flex justify-between items-center p-4 m-0 cursor-pointer bg-white mobile-support-menu">
+                        <a href="{{ link.url }}" class="font-primary font-bold text-menu tracking-wider uppercase">{{ link.title }}</a>
+                      </li>
+                    {% endif %}
+                    <hr class="divider-light m-0" />
+                  {% endfor %}
+                  <% for (let i = 1; i <= 2; i++) { %>
+                    <a href="{{ block.settings.column_url_<%- i -%> }}">
+                      <img class="lazy p-4 w-full" 
+                      alt="{% if block.settings.column_image_<%- i -%>.alt != blank %}{{ block.settings.column_image_<%- i -%>.alt }}{% else %}{{ block.settings.column_text_<%- i -%>  | escape }}{% endif %}"
+                      data-src="{{ block.settings.column_image_<%- i -%> }}" 
+                      src="{{ block.settings.column_image_<%- i -%> | img_url: '300x'}}" />
+                      <p class="font-body font-semibold uppercase text-xs px-4">{{ block.settings.column_text_<%- i -%> }}</p>
+                    </a>
+                  <% } %>
+                  <div class="px-4 w-full pt-10">
+                    <a href="{{ block.settings.shop_all_url }}" class="w-full flex justify-center bg-primary-500 text-white tracking-header font-bold uppercase py-3 px-14 text-md rounded-e2">{{ 'general.megamenu.shop_all' | t }}</a>
+                  </div>
+                {% when 'deals' %}
+                  <% for (let i = 1; i <= 3; i++) { %>
+                    <a href="{{ block.settings.column_url_<%- i -%> }}">
+                      <img class="lazy p-4 w-full" 
+                      alt="{% if block.settings.column_image_<%- i -%>.alt != blank %}{{ block.settings.column_image_<%- i -%>.alt }}{% else %}{{ block.settings.column_text_<%- i -%>  | escape }}{% endif %}"
+                      data-src="{{ block.settings.column_image_<%- i -%> }}" 
+                      src="{{ block.settings.column_image_<%- i -%> | img_url: '300x'}}" />
+                      <p class="font-body font-semibold uppercase text-xs px-4">{{ block.settings.column_text_<%- i -%> }}</p>
+                    </a>
+                    <p class="font-body font-normal px-4 text-e12 mt-e8 leading-e16">{{ block.settings.column_description_<%- i -%> }}</p>
+                  <% } %>
+                  <div class="px-4 w-full pt-10">
+                    <a href="{{ block.settings.shop_all_url }}" class="w-full flex justify-center bg-primary-500 text-white tracking-header font-bold uppercase py-3 px-14 text-md rounded-e2">{{ 'general.megamenu.shop_all' | t }}</a>
+                  </div>
+                {% when 'two_ll_one_image' %}
+                  {% if block.settings.mobile_banner != blank %}
+                    <img class="lazy w-full" alt="{{ block.settings.mobile_banner.alt }}" data-src="{{ block.settings.mobile_banner }}" src="{{ block.settings.mobile_banner | img_url: '800x'}}" />
+                  {% endif %}
+                  <% for (let i = 1; i <= 2; i++) { %>
+                    {% for link in linklists[block.settings.link_list_<%- i -%>].links %}
+                      {% if link.links.size > 0 %}
+                        <li @click="toggleMobileNav('{{link.title | handleize }}_{{ forloop.index }}')" :aria-expanded="openMobileNav === '{{link.title | handleize }}_{{ forloop.index }}'" class="flex justify-between items-center p-4 m-0 bg-white cursor-pointer mobile-support-menu" :class="[openMobileNav === '{{ link.title | handleize }}_{{ forloop.index }}' ? 'active' : '']">
+                          <button class="font-primary font-bold text-menu uppercase tracking-wider" tag="button" is="LinkPrimary">{{ link.title }}</button>
+                          <svg is="icon" v-if="openMobileNav === '{{link.title | handleize }}_{{ forloop.index }}'" name="chevron-up" size="14px" class="mr-3 transition-all duration-300"></svg>
+                          <svg is="icon" v-else name="chevron-down" size="14px" class="mr-3 transition-all duration-300"></svg>
+                        </li>
+                        <transition-expand :duration="300" >
+                          <div class="overflow-y-auto max-h-full h-full px-4 pb-3 hidden-until-vue-loaded w-full flex flex-col items-start bg-white" 
+                            v-show="openMobileNav === '{{link.title | handleize }}_{{ forloop.index }}'">
+                            {% for child_link in link.links %}
+                              <a class="w-full font-body font-normal text-megamenu_sub mb-4 text-black hover:underline" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                            {% endfor %}
+                            <a class="w-full font-body font-bold text-megamenu_sub mb-4 text-primary-500 capitalize hover:underline" href="{{ link.url }}">{{ 'general.megamenu.shop_all' | t}}</a>
+                          </div>
+                        </transition-expand>
+                      {% else %}
+                        <li class="flex justify-between items-center p-4 m-0 bg-white cursor-pointer mobile-support-menu tracking-wider">
+                          <a href="{{ link.url }}" class="font-primary font-bold text-menu uppercase">{{ link.title }}</a>
+                        </li>
+                      {% endif %}
+                      <hr class="divider-light m-0" />
+                    {% endfor %}
+                  <% } %>
+                  <a href="{{ block.settings.column_url_1 }}">
+                    <img class="lazy p-4 w-full"
+                    alt="{% if block.settings.column_image_1.alt != blank %}{{ block.settings.column_image_1.alt }}{% else %}{{ block.settings.column_text_1 | escape }}{% endif %}"
+                    data-src="{{ block.settings.column_image_1 }}" 
+                    src="{{ block.settings.column_image_1 | img_url: '300x'}}" />
+                    <p class="font-body font-semibold uppercase text-xs px-4">{{ block.settings.column_text_1 }}</p>
+                  </a>
+                  <div class="px-4 w-full pt-10">
+                    <a href="{{ block.settings.shop_all_url }}" class="w-full flex justify-center bg-primary-500 text-white tracking-header font-bold uppercase py-3 px-14 text-md rounded-e2">{{ 'general.megamenu.shop_all' | t }}</a>
+                  </div>
+                {% when 'three_ll_one_image' %}
+                  {% if block.settings.mobile_banner != blank %}
+                    <img class="lazy w-full" alt="{{ block.settings.mobile_banner.alt }}" data-src="{{ block.settings.mobile_banner }}" src="{{ block.settings.mobile_banner | img_url: '800x'}}" />
+                  {% endif %}
+                  <% for (let i = 1; i <= 3; i++) { %>
+                    {% for link in linklists[block.settings.link_list_<%- i -%>].links %}
+                      {% if link.links.size > 0 %}
+                        <li @click="toggleMobileNav('{{link.title | handleize }}_{{ forloop.index }}')" :aria-expanded="openMobileNav === '{{link.title | handleize }}_{{ forloop.index }}'" class="flex justify-between items-center p-4 m-0 bg-white cursor-pointer mobile-support-menu" :class="[openMobileNav === '{{ link.title | handleize }}_{{ forloop.index }}' ? 'active' : '']">
+                          <button class="font-primary font-bold text-menu uppercase tracking-wider" tag="button" is="LinkPrimary">{{ link.title }}</button>
+                          <svg is="icon" v-if="openMobileNav === '{{link.title | handleize }}_{{ forloop.index }}'" name="chevron-up" size="14px" class="mr-3 transition-all duration-300"></svg>
+                          <svg is="icon" v-else name="chevron-down" size="14px" class="mr-3 transition-all duration-300"></svg>
+                        </li>
+                        <transition-expand :duration="300" >
+                          <div class="overflow-y-auto max-h-full h-full px-4 pb-3 hidden-until-vue-loaded w-full flex flex-col items-start bg-white" 
+                            v-show="openMobileNav === '{{link.title | handleize }}_{{ forloop.index }}'">
+                            {% for child_link in link.links %}
+                              <a class="w-full font-body font-normal text-megamenu_sub mb-4 text-black hover:underline" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                            {% endfor %}
+                            <a class="w-full font-body font-bold text-megamenu_sub mb-4 text-primary-500 capitalize hover:underline" href="{{ link.url }}">{{ 'general.megamenu.shop_all' | t}}</a>
+                          </div>
+                        </transition-expand>
+                      {% else %}
+                        <li class="flex justify-between items-center p-4 m-0 bg-white cursor-pointer mobile-support-menu tracking-wider">
+                          <a href="{{ link.url }}" class="font-primary font-bold text-menu uppercase">{{ link.title }}</a>
+                        </li>
+                      {% endif %}
+                      <hr class="divider-light m-0" />
+                    {% endfor %}
+                  <% } %>
+                  <a href="{{ block.settings.column_url_1 }}">
+                    <img class="lazy px-4 pt-6 pb-4 w-full" 
+                    alt="{% if block.settings.column_image_1.alt != blank %}{{ block.settings.column_image_1.alt }}{% else %}{{ block.settings.column_text_1  | escape }}{% endif %}"
+                    data-src="{{ block.settings.column_image_1 }}" 
+                    src="{{ block.settings.column_image_1 | img_url: '300x' }}" />
+                    <p class="font-body font-semibold uppercase text-xs px-4">{{ block.settings.column_text_1 }}</p>
+                  </a>
+                  <div class="px-4 w-full pt-10">
+                    <a href="{{ block.settings.shop_all_url }}" class="w-full flex justify-center bg-primary-500 text-white tracking-header font-bold uppercase py-3 px-14 text-md rounded-e2">{{ 'general.megamenu.shop_all' | t }}</a>
+                  </div>
+              {% endcase %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </transition>
+  {% endfor %}
+</div>

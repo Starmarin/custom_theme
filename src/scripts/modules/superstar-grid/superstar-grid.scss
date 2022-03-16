@@ -1,0 +1,42 @@
+.grid-container {
+  grid-template-areas:
+    'promo-card-one promo-card-one'
+    'promo-card-one promo-card-one'
+    '. .'
+    '. .'
+    '. .'
+    '. .'
+    '. .'
+    '. .'
+    'promo-card-two promo-card-two'
+    'promo-card-two promo-card-two';
+  @screen md {
+    grid-template-areas:
+      'promo-card-one promo-card-one . . .'
+      'promo-card-one promo-card-one . . .'
+      '. . . . .'
+      '. . . promo-card-two promo-card-two'
+      '. . . promo-card-two promo-card-two';
+  }
+}
+
+.promo-card-one {
+  grid-area: promo-card-one;
+  img {
+    height: calc(450px - 94px);
+    @screen md {
+      height: calc(100% - 94px);
+    }
+  }
+}
+
+.promo-card-two {
+  grid-area: promo-card-two;
+}
+
+.superstar-count {
+  width: calc(100% - 50px);
+  @screen md {
+    @apply w-full;
+  }
+}

@@ -1,0 +1,35 @@
+{%- assign blocks = section.blocks -%}
+<style id="color-options">
+  {%- for color in blocks -%}
+    {% assign color_name = color.settings.color_name | handleize %}
+    {% assign color_swatch = 'color-' | append: color_name | append: '.png' %}
+    [data-swatch-color="{{ color.settings.color_name | handle }}"] {
+      background-image: url({{ color_swatch | file_url }});
+    }
+  {%- endfor -%}
+</style>
+{% schema %}
+  {
+    "name": "Color Swatches",
+    "blocks": [
+      {
+        "name": "Color Option",
+        "type": "color-option",
+        "settings": [
+          {
+            "type": "text",
+            "id": "color_name",
+            "label": "Color Option",
+            "info": "Please enter the same name as used on the product color variations"
+          },
+          {
+            "type": "color",
+            "id": "color_code",
+            "label": "Option color",
+            "info": "Pick the color code to be used for the color switcher circle"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

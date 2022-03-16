@@ -1,0 +1,1298 @@
+{% comment %} 
+  BEGIN SETUP
+  We need to figure out how many menu roots there are: uniq(blocks.map.(b => b.settings.group_id))
+{% endcomment %}
+{% assign menu_roots = '' %}
+{% for block in section.blocks %}
+  {% assign root_id = block.id | remove: '-' %}
+  {% unless block.settings.group_id == blank or block.settings.group_id == '' %}
+    {% assign menu_roots = menu_roots | append: block.settings.group_id | append:'-' | append: block.type | append:'-' | append: root_id %}
+  {% endunless %}
+  {% unless forloop.last %}
+    {% assign menu_roots = menu_roots | append: ',' %}
+  {% endunless %}
+{% endfor %}
+{% assign menu_roots = menu_roots | split: ',' | uniq %}
+
+{% for locale in shop.published_locales %}
+  {% if locale.primary %}
+    {% assign primary_locale = locale.iso_code %}
+  {% endif %}
+{% endfor %}
+{% comment %} END SETUP {% endcomment %}
+
+{% capture props %}
+{
+  "drawerCount": {{ menu_roots | size | json }},
+  "primaryLocale": {{ primary_locale | json }},
+  "currentLocale": {{ shop.locale | json }},
+  "activeCountry": {{ shop.metafields.custom_fields["store_country"] | json }},
+  "activeCurrency": {{ shop.currency | json }}
+}
+{% endcapture %}
+<nav class="bg-white md:px-e16 md:py-0 relative"
+  v-scroll-lock="mobileMenuOpen"
+  id="navbar"
+  data-vue-component="NavBar"
+  data-props="{{ props | strip | escape }}"
+  v-click-outside="menuCloseCheck"
+  :class="{'navbar--fixed': scroll, 'navbar-search--open': desktopSearchOpen}">
+  <a href="#MainContentWrapper" tabindex="0" role="link" aria-label="{{ 'general.accessibility.skip_to_content' | t }}" class="opacity-0 uppercase z-70 absolute bg-white focus:opacity-100 focus:shadow-outline">{{ 'general.accessibility.skip_to_content' | t }}</a>
+  <div class="max-w-lg flex justify-between items-center mx-auto relative" v-click-outside="hideAccountDropdown">
+    <li class="flex md:hidden text-black px-e8 md:px-3 py-4 md:py-5">
+      <button v-if="!mobileMenuOpen" class="btn--icon mx-auto"
+        aria-expanded="mobileMenuOpen.toString()"
+        @click="() => mobileMenuOpen && !mobileSearchOpen ? closeMobileMenu() : openMobileMenu()"
+        aria-label="{{ 'general.header.nav_label' | t }}" style="min-width: 40px;">
+        <svg v-if="mobileMenuOpen && !mobileSearchOpen" style="width: 20px; height: 30px;"
+          class="hidden-until-vue-loaded text-black mx-auto">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
+        </svg>
+        <svg v-else style="width: 31px; height: 30px;">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#hamburger"></use>
+        </svg>
+      </button>
+      <button :class="{'opacity-0': mobSearchOpen}" @click="mobSearchOpen = true" class="md:hidden block ml-e8 hover:translate-up btn--icon" aria-label="{{ 'general.search.title' | t }}">
+        <svg is="icon" name="search" class="w-4 h-4"></svg>
+      </button>
+    </li>
+    <h1 class="absolute" style="left: -9999px;" itemprop="name">{{ shop.name }}</h1>
+    <a v-if="!mobileMenuOpen && $mq === 'sm'" itemscope itemtype="http://schema.org/Brand" class="navbar-flex-item-1 mr-0 md:mr-4 md:pl-0 focus:shadow-outline" href="/" aria-label="{{ 'general.header.hp_link' | t }}">
+      <img class="h-12 md:max-w-e100 md:h-e56" src="{{ section.settings.logo | img_url: '350x' }}" alt="{{ 'general.header.logo' | t }}" itemprop="logo">
+    </a>
+    <a v-if=" $mq !== 'sm'" itemscope itemtype="http://schema.org/Brand" class="navbar-flex-item-1 pl-10 mr-0 md:mr-4 md:pl-0 focus:shadow-outline" href="/" aria-label="{{ 'general.header.hp_link' | t }}">
+      <img class="h-12 md:max-w-e100 md:h-e56" src="{{ section.settings.logo | img_url: '350x' }}" alt="{{ 'general.header.logo' | t }}" itemprop="logo">
+    </a>
+    <div class="navbar-search hidden md:block items-center md:ml-e60 text-black px-e8 w-full py-e16 relative md:py-4 space-x-e12" :class="{'md:hidden': !desktopSearchOpen}">
+      <button class="hidden md:block hover:translate-up btn--icon absolute top-50p transform -translate-y-1/2  z-1" aria-label="{{ 'general.search.title' | t }}">
+        <svg is="icon" name="search" size="16px"  class="w-4 h-4"></svg>
+      </button>
+      <div class="navbar-search__form w-full hidden-until-loaded items-center space-x-e8 hidden md:inline-flex">
+        <form
+          style="height: 40px;"
+          method="get"
+          action="/search">
+          <input type="search"
+            aria-label="{{ 'general.search.title' | t }}"
+            :tabindex="desktopSearchOpen ? '0' : '-1'"
+            class="search-desktop w-full pointer-events-none text-gray-400 bg-gray-200 border border-gray-300 text-e16 placeholder-gray-400 h-e40 px-e12 pl-e40 font-body hover:bg-gray-misc"
+            placeholder="{{ 'general.search.placeholder' | t }}"
+            @click="desktopSearchClick"
+            name="q"
+            value="{{ search.terms | escape }}">
+            <input type="submit" class="u-sr-only" />
+        </form>
+      </div>
+    </div>
+    <button v-if="desktopSearchOpen && scroll && $mq !== 'lg'" @click="desktopSearchOpen = false" aria-label="{{ 'cart.general.gift_note_close' | t }}" class="nav-search__close hidden md:block absolute right-30 md:relative cursor-pointer z-50">
+      <svg is="icon" name="box-close" size="20px" class="text-black transition-colors duration-300 hover:text-primary-500"></svg>
+    </button>
+    <ul class="navbar-flex-item-3 flex items-center text-0 justify-end">
+      <li class="flex items-center text-black px-e8 md:pl-0 md:pr-0 md:ml-e40">
+        <button v-if="!desktopSearchOpen" @click="desktopSearchOpen = true" class="hidden md:block hover:translate-up btn--icon" aria-label="{{ 'general.search.title' | t }}">
+          <svg is="icon" name="search" class="w-4 h-4"></svg>
+        </button>
+        <button tabindex="0" @click="openCountrySelectorDesktop" class="cursor-pointer h-e80 py-e30 btn--icon ml-1 hidden md:pr-0 md:inline-block" :class="{'bg-gray-200' : openCountrySelect }" aria-label="{{ 'general.header.country_select' | t }}">
+          <div class="flex justify-end items-center w-e50">
+            <img v-cloak alt="{{ 'layout.international.us_flag' | t }}" class="w-7 border border-black mr-1 current-country-image current-country-image-desktop" :src="currentCountryImage" v-if="currentCountry === 'usa'" />
+            <img v-cloak alt="{{ 'layout.international.eu_flag' | t }}" class="w-7 border border-black mr-1" :src="countryFlag" v-if="currentCountry === 'eu'" />
+            {% if shop.published_locales.size > 1 %}
+              <p class="font-primary text-sm text-black uppercase mr-1">{{ shop.locale }}</p>
+            {% endif %}
+            <svg class="w-2 h-2" v-show="openCountrySelect">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#chevron-up"></use>
+            </svg>
+            <svg class="w-2 h-2" v-show="!openCountrySelect">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#chevron-down"></use>
+            </svg>  
+          </div>
+        </button>
+        <button class="hidden md:flex hover:translate-up items-center btn--icon ml-2 py-5 md:px-0" @click="openAccountDropdown = !openAccountDropdown" aria-label="{{ 'general.megamenu.sign_in' | t }}">
+          <div class="hidden lg:flex items-end ml-2">
+          {% if customer %}
+            <div class="flex flex-col items-end mr-e2">
+              <p class="font-primary font-bold uppercase text-black text-megamenu_sub tracking-wider flex leading-none">
+                Hi, {{ customer.first_name }}
+              </p>
+              <p v-cloak v-if="customerDetails != null" class="font-body whitespace-no-wrap font-normal text-primary-500 text-xxs bfx-remove-element">Rewards: <span class="font-body" v-html="customerDetails.pointsBalance"></span> pts</p>
+            </div>
+          {% else %}
+            <p class="font-primary font-bold uppercase text-black whitespace-no-wrap text-megamenu_sub tracking-wider mr-e2 flex leading-none">
+              {{ 'general.megamenu.sign_in' | t }}
+            </p>
+          {% endif %}
+          </div>
+          <svg is="icon" name="account" class="w-e28 h-e28"></svg>
+          <svg is="icon" size="8px" name="chevron-up" class="w-2 h-2" v-show="openAccountDropdown"></svg>
+          <svg is="icon" size="8px" name="chevron-down" class="w-2 h-2" v-show="!openAccountDropdown"> </svg>   
+        </button>
+        <a class="hover:translate-up md:hidden block items-center btn--icon ml-2 py-5 md:px-0" href="/account" aria-label="{{ 'general.megamenu.sign_in' | t }}">
+          <svg is="icon" name="account" class="w-e28 h-e28"> </svg>
+        </a>
+      <button v-if="!mobileMenuOpen" class="hover:translate-up inline-block btn--icon ml-2 py-5 md:px-0" @click="toggleSideCart" aria-label="{{ 'general.header.cart' | t }}"
+        aria-controls="sidecart" :aria-expanded="state.cart_modal.toString()">
+        <svg is="icon" name="cart" class="w-e28 h-e28"></svg>
+        <div v-cloak v-if="state.cart.item_count > 0" class="text-white bg-primary-500 p-1 absolute text-xs ml-5 -mt-9 font-primary font-bold leading-none" v-html="state.cart.item_count"></div>
+      </button>
+      </li>
+    </ul>
+    <transition-expand :duration="300" class="hidden md:block">
+      {% if customer %}
+        <nav v-cloak v-show="openAccountDropdown" class="absolute right-40 py-e32 z-30 text-black bg-white border border-gray-200 top-73">
+          <ul class="space-y-e24 items-center block">
+            {% for link in settings.linklist_account_dropdown.links %}
+              <li class="flex justify-center px-e32">
+                <a class="text-e18 uppercase font-bold tracking-wide hover:text-primary-500 focus:shadow-outline focus:outline-none" href="{{ link.url }}">{{ link.title}}</a>
+              </li>
+            {% endfor %}
+            <li  class="flex justify-center border-t border-gray-200 pt-e24 w-full">
+              <a class="text-e18 uppercase font-bold tracking-wide hover:text-primary-500 focus:shadow-outline focus:outline-none" href="{{ routes.account_logout_url }}">{{ 'customer.navigation.logout' | t }}</a>
+            </li>
+          </ul>
+        </nav>
+      {% else %}
+        <section v-cloak v-show="openAccountDropdown"
+          class="absolute right-40 pb-e16 pt-e8 z-50 w-e400 text-black bg-white border border-gray-200 top-73">
+          <div class="account-forms mb1" is="account-forms" v-cloak inline-template>
+            <div>
+              {% render 'account-login-form', modal: true %}
+              {% render 'account-recover-form' %}
+            </div>
+          </div>
+        </section>
+      {% endif %}
+    </transition-expand>
+  </div>
+  <div v-show="mobSearchOpen" class="navbar-search flex items-center text-black border-t border-gray-breadcrumbs w-full py-4 px-e8 bg-white md:hidden">
+    <button class="flex items-center text-black hover:translate-up btn--icon text-white relative z-1 left-0" @click="desktopSearchOpen = !desktopSearchOpen" aria-label="{{ 'general.search.title' | t }}">
+      <svg is="icon" name="search" size="16px" class="w-4 h-4 ml-e8 absolute"></svg>
+    </button>
+    <form class="inline-block bg-white w-full -ml-2"
+      style="height: 40px;"
+      method="get"
+      action="/search">
+      <input type="search"
+        aria-label="{{ 'general.search.title' | t }}"
+        :tabindex="desktopSearchOpen ? '0' : '-1'"
+        class="w-full appearance-none rounded-none text-gray-400 border border-gray-300 bg-gray-200 text-e16 placeholder-gray-400 h-full px-e12 pl-e40 font-body"
+        placeholder="{{ 'general.search.placeholder' | t }}"
+        name="q"
+        value="{{ search.terms | escape }}">
+        <input type="submit" class="u-sr-only" />
+    </form>
+    <div class="navbar-search__form hidden-until-loaded items-center space-x-e8 bg-black inline-flex">
+    </div>
+  </div>
+  <div class="navbar-menu max-w-lg md:pb-e8 flex justify-center items-center mx-auto relative">
+    <ul class="navbar-flex-item-2 hidden justify-center md:flex items-center text-center" :class="{'md:hidden': desktopSearchOpen && scroll}" ref="drawerStates">
+      {% for root in menu_roots %}
+        {% assign root_raw = root | split: '-' %}
+        {% for root_base in root_raw %}
+          {% if forloop.first %}
+            {% assign root_title = root_base %}
+          {% endif %}
+          {% if forloop.index == 2 %}
+            {% assign root_type = root_base %}
+          {% endif %}
+          {% for block in section.blocks %}
+            {% assign block_id = block.id | remove: '-' %}
+            {% if root_base == block_id %}
+              {% assign root_settings = block.settings %}
+            {% endif %}
+          {% endfor %}
+        {% endfor %}    
+        <li class="flex items-center" >
+          {% if root_type == 'link' %}
+            <a href="{{root_settings.link_url}}"
+              class="drawer-link {% if forloop.first %}pr-3{% else %}px-3{% endif %}  {% unless root_settings.group_img != blank %} uppercase font-bold futura-bold text-body-md text-black tracking-normal {% endunless %} hover:text-primary-500 focus:shadow-outline focus:outline-none">
+              {% if root_settings.group_img != blank %}
+                <img class="h-40" src="{{ root_settings.group_img | img_url: 'x40'}}" alt="{{ root_settings.group_img.alt }}">
+              {% else %}
+                <span style="color: {{root_settings.title_color}}" class="hover:underline font-primary font-bold text-menu">{{ root_title }}</span>
+              {% endif %}
+            </a>
+          {% else %}
+            <button @click="toggleShowContentByIndex({{ forloop.index0 }})"
+              :aria-expanded="drawerStates[{{ forloop.index0 }}].toString()"
+              class="drawer-link {% if forloop.first %}pr-3{% elsif forloop.last %}pl-3{% else %}px-3{% endif %} uppercase font-bold futura-bold text-body-md text-black tracking-normal hover:text-primary-500 focus:shadow-outline focus:outline-none"
+              :class="{'active': drawerStates[{{ forloop.index0 }}]}">
+              {% if root_settings.group_img != blank %}
+                <img class="h-40" src="{{ root_settings.group_img | img_url: 'x40'}}" alt="{{ root_settings.group_img.alt }}">
+              {% else %}
+                <span style="color: {{root_settings.title_color}}" class="hover:underline font-primary font-bold text-menu">{{ root_title }}</span>
+              {% endif %}
+            </button>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <transition-expand :duration="300" class="hidden md:block">
+    <section v-cloak v-show="openCountrySelect"
+      class="absolute left-0 p-9 z-30 h-e100 w-full text-black  bg-white border-solid border-t border-b border-gray-200 top-100p">
+        {% if shop.metafields.custom_fields["store_country"] == "usa" %}
+          <div class="borderfree-context-chooser"></div> 
+          <div class="borderfree-currency-container borderfree-header-selector current-country" data-borderfree-container>
+            <div class="bva borderfree-inside-container container flex max-w-e1100 justify-center mx-auto">
+              <div class="flex flex-col w-1/3 mr-4">
+                <p class="font-primary font-bold text-menu uppercase tracking-wider text-black mb-5">{{ settings.bf_country_heading }}</p>
+                <div class="bf-body-text">{{ settings.bf_country_body }}</div>
+              </div>
+              <div class="borderfree-currency-selectors borderfree-container flex w-2/3 items-center">
+                <div class="borderfree-wrapper-hook w-full flex"></div>
+              </div>
+            </div>
+          </div>
+          <hr class="divider-light my-4 max-w-e1100 mx-auto" />
+        {% endif %}
+        {% if shop.published_locales.size > 1 %}
+          <div class="flex justify-between max-w-e1100 mx-auto">
+            <div class="flex flex-col w-1/3 mr-4">
+              <p class="font-primary font-bold text-menu uppercase tracking-wider text-black mb-5">{{ settings.language_heading }}</p>
+              <div class="bf-body-text">{{ settings.language_body }}</div>
+            </div>
+            <div class="flex w-1/2 items-center">
+              <span 
+                is="Dropdown" 
+                class="mr-2 w-1/4"
+                :options="languageOptions" 
+                :selected="desktopSelectedLanguage"
+                @select="(value) => desktopSelectedLanguage = value">
+              </span>
+              <span 
+                is="Dropdown" 
+                class="mr-2 w-1/4"
+                :options="currencyOptions" 
+                :selected="activeCurrency"
+                @select="(value) => activeCurrency = value">
+              </span>
+              {%- form 'localization', id: 'localization_form_footer', class: 'footer__localization-form' -%}
+                <input type="hidden" name="locale_code" :value="desktopSelectedLanguage">
+                <input type="hidden" name="currency_code" :value="activeCurrency">
+                <button type="submit" class="w-full py-e14 px-14 text-white bg-btn-secondary_main hover:bg-btn-secondary_hover font-primary font-bold uppercase tracking-header">{{ 'layout.international.apply_btn' | t }}</button>
+              {%- endform -%}
+            </div>
+          </div>
+          <hr class="divider-light my-4 max-w-e1100 mx-auto" />
+        {% endif %}
+        <p class="font-primary font-bold text-menu uppercase tracking-wider text-black mb-5 max-w-e1100 mx-auto">{{ settings.bf_header_text }}</p>
+        <div v-cloak class="flex max-w-e1100 mx-auto">
+          <div class="flex items-center mr-5" v-if="currentCountry !== 'usa'">
+            <img v-cloak class="w-9 mr-4" :src="currentCountryImage" />
+            <a class="font-body font-semibold text-xs underline text-black" href="https://shop.wwe.com/">shop.wwe.com</a>
+          </div>
+          <div class="flex items-center mr-5" v-if="currentCountry !== 'eu'">
+            <img v-cloak class="w-9 mr-4" src="{{ 'euro_flag.png' | asset_url }}" />
+            <a class="font-body font-semibold text-xs underline text-black" href="https://euroshop.wwe.com/">euroshop.wwe.com</a>
+          </div>
+        </div>
+        <button aria-label="{{ 'cart.general.gift_note_close' | t }}" role="button" class="bg-gray-200 p-5 absolute top-0 right-0  focus:shadow-outline" @click="openCountrySelect = !openCountrySelect">
+          <svg is="icon" name="modal-close" size="10px"></svg>
+        </button>
+    </section>
+  </transition-expand>
+  <transition-expand :duration="300" class="hidden md:block">
+      <section v-if="desktopDropdownDrawerOpen" 
+        class="absolute left-0 w-full bg-white border-solid border-t border-gray-200 z-30 top-100p"
+        @mouseover="openDropdownDrawer">
+        <div is="focus-lock" :disabled="!desktopDropdownDrawerOpen">
+          {% for root in menu_roots %}
+            {% assign root_raw = root | split: '-' %}
+            {% for root_base in root_raw %}
+              {% if forloop.first %}
+                {% assign root_title = root_base %}
+              {% endif %}
+              {% if forloop.index == 2 %}
+                {% assign root_type = root_base %}
+              {% endif %}
+            {% endfor %}      
+            <div :class="{
+              'fade-in-delay-0': drawerStates[{{ forloop.index0 }}],
+              'desktop-drawer--active': drawerStates[{{ forloop.index0 }}]
+            }" 
+              tabindex="1"
+              class="desktop-drawer--{{forloop.index0}} desktop-drawer__content-container mx-auto py-e40 px-0 lg:px-0 flex flex-wrap justify-center bg-white {% if root_type == "superstars" %}pt-0 mx-0 max-w-full{% else %}max-w-lg{% endif %}">
+              <div class="flex flex-wrap items-start relative z-10 w-full {% if root_type == "brands" %}justify-center{% else %}justify-between{% endif %} {% if root_type == "superstars" %}mx-0 max-w-full{% else %}max-w-e1100 pt-5 px-4 lg:p-0{% endif %}">
+                {% render 'nav--desktop-menu-contents', root: root_title, index: forloop.index0 %}
+              </div>
+              <button aria-label="{{ 'cart.general.gift_note_close' | t }}" role="button" class="bg-gray-200 p-5 absolute right-0  focus:shadow-outline z-10 {% if root_type == 'superstars' %}top-2{% else %}top-0{% endif %}" @click="desktopDropdownDrawerOpen = false">
+                <svg is="icon" name="modal-close" size="10px" class="text-black transition-colors duration-300 hover:text-primary-500"></svg>
+              </button>
+            </div>
+          {% endfor %}
+          <div v-if="desktopDropdownDrawerOpen" @click="closeDropdownDrawer" class="absolute z-0 bg-gray-900 opacity-40 h-100vh w-full"></div>
+      </div>
+    </section>
+  </transition-expand>
+  <transition-menu name="slide-in-right" target="#navbar" :duration="300" class="md:hidden" v-if="$mq === 'sm'">
+    <div class="nav__mobile-menu fixed bg-gray-200 w-full overflow-y-auto max-h-full h-full z-30" v-show="mobileMenuOpen">
+      <div class="flex">
+        <svg is="icon" name="search" size="16px" class="ml-3 mt-6 text-gray-300 absolute"></svg>
+        <form class="inline-block w-full" 
+          method="get"
+          action="/search">
+          <input type="search"
+            aria-label="{{ 'general.search.title' | t }}"
+            :tabindex="desktopSearchOpen ? '-1' : '0'"
+            ref="mobileSearch"
+            class="w-full appearance-none rounded-none text-gray-300 text-sm bg-gray-700 placeholder-gray-300 uppercase h-full px-10 py-6 focus:outline-none"
+            placeholder="{{ 'general.search.placeholder' | t }}"
+            name="q"
+            value="{{ search.terms | escape }}">
+            <input aria-hidden="true" type="submit" tabindex="-1" class="u-sr-only" />
+        </form>
+        <button class="btn--icon mx-auto bg-gray-200 p-5"
+          aria-expanded="true"
+          @click="closeMobileMenu"
+          aria-label="{{ 'general.header.close' | t }}" style="min-width: 64px;">
+          <svg is="icon" name="close" size="16px" style="width: 16px; height: 18px;"
+            class="hidden-until-vue-loaded text-black mx-auto"></svg>
+        </button>  
+      </div>
+
+      {% render 'nav--mobile-menu-contents', menu_roots: menu_roots, section: section  %}
+    </div>
+  </transition-menu>
+</nav>
+
+{% schema %}
+  {
+    "name": "Logo + Navigation",
+    "max_blocks": 10,
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "header",
+        "content": "Mobile Menu 1"
+      },
+      {
+        "type": "paragraph",
+        "content": "Displays in the mobile menu after the main menu items."
+      },
+      {
+        "type": "link_list",
+        "id": "mobile_linklist_1",
+        "label": "Mobile Support Menu "
+      },
+      {
+        "type": "header",
+        "content": "Mobile Menu 2"
+      },
+      {
+        "type": "paragraph",
+        "content": "Displays in the mobile menu after the main menu items."
+      },
+      {
+        "type": "link_list",
+        "id": "mobile_linklist_2",
+        "label": "Mobile Explore Menu"
+      }
+    ],
+    "blocks":[
+      {
+        "type": "superstars",
+        "name": "Superstars",
+        "settings": [
+          {
+            "type": "text",
+            "id": "group_id",
+            "label": "Menu Name"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#000000"
+          },
+          {
+            "type": "image_picker",
+            "id": "group_img",
+            "label": "Menu Image",
+            "info": "Menu name will be ignored if this field contains an image. Recommended Dimenionsions: x 40px"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_banner_raw",
+            "label": "Mobile Banner (Raw)",
+            "info": "Recommended Dimenionsions: 430px x 120px"
+          },
+          {
+            "type": "link_list",
+            "id": "linklist_raw",
+            "label": "Linklist (Raw)"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_banner_smackdown",
+            "label": "Mobile Banner (Smackdown)",
+            "info": "Recommended Dimenionsions: 430px x 120px"
+          },
+          {
+            "type": "link_list",
+            "id": "linklist_smackdown",
+            "label": "Linklist (Smackdown)"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_banner_nxt",
+            "label": "Mobile Banner (NXT)",
+            "info": "Recommended Dimenionsions: 430px x 120px"
+          },
+          {
+            "type": "link_list",
+            "id": "linklist_nxt",
+            "label": "Linklist (NXT)"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_banner_legends",
+            "label": "Mobile Banner (Legends)",
+            "info": "Recommended Dimenionsions: 430px x 120px"
+          },
+          {
+            "type": "link_list",
+            "id": "linklist_legends",
+            "label": "Linklist (Legends)"
+          }
+        ]
+      },
+      {
+        "type": "link",
+        "name": "Link",
+        "settings": [
+          {
+            "type": "text",
+            "id": "group_id",
+            "label": "Menu Link Text"
+          },
+          {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#000000"
+          },
+          {
+            "type": "image_picker",
+            "id": "group_img",
+            "label": "Menu Image",
+            "info": "Menu name will be ignored if this field contains an image. Recommended Dimenionsions: x 40px"
+          }
+        ]
+      },
+      {
+        "type": "brands",
+        "name": "Brands",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Settings"
+          },
+          {
+            "type": "text",
+            "id": "group_id",
+            "label": "Menu Link Text"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#000000"
+          },
+          {
+            "type": "image_picker",
+            "id": "group_img",
+            "label": "Menu Image",
+            "info": "Menu name will be ignored if this field contains an image. Recommended Dimenionsions: x 40px"
+          },
+          {
+            "type": "text",
+            "id": "shop_all_text",
+            "label": "Shop All Link Text",
+            "default": "Shop All",
+            "info": "By default, this will display as 'Shop All'"
+          },
+          {
+            "type": "url",
+            "id": "shop_all_url",
+            "label": "Shop All Link URL"
+          },
+          {
+            "type": "text",
+            "id": "partner_heading_text",
+            "label": "Partner Brands Heading Text",
+            "default": "Partners",
+            "info": "Displays above partner logos"
+          },
+          {
+            "type": "header",
+            "content": "Sub-Brand 1"
+          },
+          {
+            "type": "image_picker",
+            "id": "subbrand_image_1",
+            "label": "Sub-Brand 1 Image",
+            "info": "Recommended Dimenionsions: 430px x 120px"
+          },
+          {
+            "type": "url",
+            "id": "subbrand_url_1",
+            "label": "Sub-Brand 1 URL"
+          },
+          {
+            "type": "header",
+            "content": "Sub-Brand 2"
+          },
+          {
+            "type": "image_picker",
+            "id": "subbrand_image_2",
+            "label": "Sub-Brand 2 Image",
+            "info": "Recommended Dimenionsions: 430px x 120px"
+          },
+          {
+            "type": "url",
+            "id": "subbrand_url_2",
+            "label": "Sub-Brand 2 URL"
+          },
+          {
+            "type": "header",
+            "content": "Sub-Brand 3"
+          },
+          {
+            "type": "image_picker",
+            "id": "subbrand_image_3",
+            "label": "Sub-Brand 3 Image",
+            "info": "Recommended Dimenionsions: 430px x 120px"
+          },
+          {
+            "type": "url",
+            "id": "subbrand_url_3",
+            "label": "Sub-Brand 3 URL"
+          },
+          {
+            "type": "header",
+            "content": "Sub-Brand 4"
+          },
+          {
+            "type": "image_picker",
+            "id": "subbrand_image_4",
+            "label": "Sub-Brand 4 Image",
+            "info": "Recommended Dimenionsions: 430px x 120px"
+          },
+          {
+            "type": "url",
+            "id": "subbrand_url_4",
+            "label": "Sub-Brand 4 URL"
+          },
+          {
+            "type": "header",
+            "content": "Sub-Brand 5"
+          },
+          {
+            "type": "image_picker",
+            "id": "subbrand_image_5",
+            "label": "Sub-Brand 5 Image",
+            "info": "Recommended Dimenionsions: 430px x 120px"
+          },
+          {
+            "type": "url",
+            "id": "subbrand_url_5",
+            "label": "Sub-Brand 5 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 1"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_1",
+            "label": "Partner Brand 1 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_1",
+            "label": "Partner Brand 1 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 2"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_2",
+            "label": "Partner Brand 2 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_2",
+            "label": "Partner Brand 2 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 3"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_3",
+            "label": "Partner Brand 3 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_3",
+            "label": "Partner Brand 3 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 4"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_4",
+            "label": "Partner Brand 4 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_4",
+            "label": "Partner Brand 4 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 5"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_5",
+            "label": "Partner Brand 5 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_5",
+            "label": "Partner Brand 5 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 6"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_6",
+            "label": "Partner Brand 6 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_6",
+            "label": "Partner Brand 6 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 7"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_7",
+            "label": "Partner Brand 7 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_7",
+            "label": "Partner Brand 7 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 8"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_8",
+            "label": "Partner Brand 8 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_8",
+            "label": "Partner Brand 8 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 9"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_9",
+            "label": "Partner Brand 9 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_9",
+            "label": "Partner Brand 9 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 10"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_10",
+            "label": "Partner Brand 10 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_10",
+            "label": "Partner Brand 10 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 11"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_11",
+            "label": "Partner Brand 11 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_11",
+            "label": "Partner Brand 11 URL"
+          },
+          {
+            "type": "header",
+            "content": "Partner Brand 12"
+          },
+          {
+            "type": "image_picker",
+            "id": "partnerbrand_image_12",
+            "label": "Partner Brand 12 Image",
+            "info": "Recommended Dimenionsions: 190px x 95px"
+          },
+          {
+            "type": "url",
+            "id": "partnerbrand_url_12",
+            "label": "Partner Brand 12 URL"
+          }
+        ]
+      },
+      {
+        "type": "one_ll_two_image",
+        "name": "1 Link List + 2 Images",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Settings"
+          },
+          {
+            "type": "text",
+            "id": "group_id",
+            "label": "Menu Link Text"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#000000"
+          },
+          {
+            "type": "image_picker",
+            "id": "group_img",
+            "label": "Menu Image",
+            "info": "Menu name will be ignored if this field contains an image. Recommended Dimenionsions: x 40px"
+          },
+          {
+            "type": "text",
+            "id": "shop_all_text",
+            "label": "Shop All Link Text",
+            "default": "Shop All",
+            "info": "By default, this will display as 'Shop All'"
+          },
+          {
+            "type": "url",
+            "id": "shop_all_url",
+            "label": "Shop All Link URL"
+          },
+          {
+            "type": "text",
+            "id": "extra_link_text",
+            "label": "Extra Link Text"
+          },
+          {
+            "type": "url",
+            "id": "extra_link_url",
+            "label": "Extra Link URL"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_banner",
+            "label": "Mobile Banner",
+            "info": "This appears at the top of the mobile menu"
+          },
+          {
+            "type": "header",
+            "content": "Link Column"
+          },
+          {
+            "type": "link_list",
+            "id": "link_list_1",
+            "label": "Link List"
+          },
+          {
+            "type": "header",
+            "content": "Image Column 1"
+          },
+          {
+            "type": "image_picker",
+            "id": "column_image_1",
+            "label": "Image 1",
+            "info": "Recommended dimensions: 400px+ Width"
+          },
+          {
+            "type": "text",
+            "id": "column_text_1",
+            "label": "Image 1 Caption"
+          },
+          {
+            "type": "url",
+            "id": "column_url_1",
+            "label": "Image 1 Link"
+          },
+          {
+            "type": "header",
+            "content": "Image Column 2"
+          },
+          {
+            "type": "image_picker",
+            "id": "column_image_2",
+            "label": "Image 2",
+            "info": "Recommended dimensions: 400px+ Width"
+          },
+          {
+            "type": "text",
+            "id": "column_text_2",
+            "label": "Image 2 Caption"
+          },
+          {
+            "type": "url",
+            "id": "column_url_2",
+            "label": "Image 2 Link"
+          }
+        ]
+      },
+      {
+        "type": "deals",
+        "name": "Deals",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Settings"
+          },
+          {
+            "type": "text",
+            "id": "group_id",
+            "label": "Menu Link Text"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#000000"
+          },
+          {
+            "type": "image_picker",
+            "id": "group_img",
+            "label": "Menu Image",
+            "info": "Menu name will be ignored if this field contains an image. Recommended Dimenionsions: x 40px"
+          },
+          {
+            "type": "text",
+            "id": "shop_all_text",
+            "label": "Bottom Link Text",
+            "default": "EARN POINTS & REDEEM REWARDS",
+            "info": "By default, this will display as 'EARN POINTS & REDEEM REWARDS'"
+          },
+          {
+            "type": "url",
+            "id": "shop_all_url",
+            "label": "Bottom Link Link URL"
+          },
+          {
+            "type": "header",
+            "content": "Image Column 1"
+          },
+          {
+            "type": "image_picker",
+            "id": "column_image_1",
+            "label": "Image 1",
+            "info": "Recommended dimensions: 400px+ Width"
+          },
+          {
+            "type": "text",
+            "id": "column_text_1",
+            "label": "Image 1 Caption"
+          },
+          {
+            "type": "text",
+            "id": "column_description_1",
+            "label": "Image 1 Description"
+          },
+          {
+            "type": "url",
+            "id": "column_url_1",
+            "label": "Image 1 Link"
+          },
+          {
+            "type": "header",
+            "content": "Image Column 2"
+          },
+          {
+            "type": "image_picker",
+            "id": "column_image_2",
+            "label": "Image 2",
+            "info": "Recommended dimensions: 400px+ Width"
+          },
+          {
+            "type": "text",
+            "id": "column_text_2",
+            "label": "Image 2 Caption"
+          },
+          {
+            "type": "text",
+            "id": "column_description_2",
+            "label": "Image 2 Description"
+          },
+          {
+            "type": "url",
+            "id": "column_url_2",
+            "label": "Image 2 Link"
+          },
+          {
+            "type": "header",
+            "content": "Image Column 3"
+          },
+          {
+            "type": "image_picker",
+            "id": "column_image_3",
+            "label": "Image 3",
+            "info": "Recommended dimensions: 400px+ Width"
+          },
+          {
+            "type": "text",
+            "id": "column_text_3",
+            "label": "Image 3 Caption"
+          },
+          {
+            "type": "text",
+            "id": "column_description_3",
+            "label": "Image 3 Description"
+          },
+          {
+            "type": "url",
+            "id": "column_url_3",
+            "label": "Image 3 Link"
+          }
+        ]
+      },
+      {
+        "type": "two_ll_one_image",
+        "name": "2 Link Lists + 1 Image",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Settings"
+          },
+          {
+            "type": "text",
+            "id": "group_id",
+            "label": "Menu Link Text"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#000000"
+          },
+          {
+            "type": "image_picker",
+            "id": "group_img",
+            "label": "Menu Image",
+            "info": "Menu name will be ignored if this field contains an image. Recommended Dimenionsions: x 40px"
+          },
+          {
+            "type": "text",
+            "id": "shop_all_text",
+            "label": "Shop All Link Text",
+            "default": "Shop All",
+            "info": "By default, this will display as 'Shop All'"
+          },
+          {
+            "type": "url",
+            "id": "shop_all_url",
+            "label": "Shop All Link URL"
+          },
+          {
+            "type": "text",
+            "id": "extra_link_text",
+            "label": "Extra Link Text"
+          },
+          {
+            "type": "url",
+            "id": "extra_link_url",
+            "label": "Extra Link URL"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_banner",
+            "label": "Mobile Banner",
+            "info": "This appears at the top of the mobile menu"
+          },
+          {
+            "type": "header",
+            "content": "Link Column 1"
+          },
+          {
+            "type": "link_list",
+            "id": "link_list_1",
+            "label": "Link List"
+          },
+          {
+            "type": "header",
+            "content": "Link Column 2"
+          },
+          {
+            "type": "link_list",
+            "id": "link_list_2",
+            "label": "Link List"
+          },
+          {
+            "type": "header",
+            "content": "Image Column 1"
+          },
+          {
+            "type": "image_picker",
+            "id": "column_image_1",
+            "label": "Image 1",
+            "info": "Recommended dimensions: 400px+ Width"
+          },
+          {
+            "type": "text",
+            "id": "column_text_1",
+            "label": "Image 1 Caption"
+          },
+          {
+            "type": "url",
+            "id": "column_url_1",
+            "label": "Image 1 Link"
+          }
+        ]
+      },
+      {
+        "type": "three_ll_one_image",
+        "name": "3 Link Lists + 1 Image",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Settings"
+          },
+          {
+            "type": "text",
+            "id": "group_id",
+            "label": "Menu Link Text"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#000000"
+          },
+          {
+            "type": "image_picker",
+            "id": "group_img",
+            "label": "Menu Image",
+            "info": "Menu name will be ignored if this field contains an image. Recommended Dimenionsions: x 40px"
+          },
+          {
+            "type": "text",
+            "id": "shop_all_text",
+            "label": "Shop All Link Text",
+            "default": "Shop All",
+            "info": "By default, this will display as 'Shop All'"
+          },
+          {
+            "type": "url",
+            "id": "shop_all_url",
+            "label": "Shop All Link URL"
+          },
+          {
+            "type": "text",
+            "id": "extra_link_text",
+            "label": "Extra Link Text"
+          },
+          {
+            "type": "url",
+            "id": "extra_link_url",
+            "label": "Extra Link URL"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_banner",
+            "label": "Mobile Banner",
+            "info": "This appears at the top of the mobile menu"
+          },
+          {
+            "type": "header",
+            "content": "Link Column 1"
+          },
+          {
+            "type": "link_list",
+            "id": "link_list_1",
+            "label": "Link List"
+          },
+          {
+            "type": "header",
+            "content": "Link Column 2"
+          },
+          {
+            "type": "link_list",
+            "id": "link_list_2",
+            "label": "Link List"
+          },
+          {
+            "type": "header",
+            "content": "Link Column 3"
+          },
+          {
+            "type": "link_list",
+            "id": "link_list_3",
+            "label": "Link List"
+          },
+          {
+            "type": "header",
+            "content": "Image Column 1"
+          },
+          {
+            "type": "image_picker",
+            "id": "column_image_1",
+            "label": "Image 1",
+            "info": "Recommended dimensions: 400px+ Width"
+          },
+          {
+            "type": "text",
+            "id": "column_text_1",
+            "label": "Image 1 Caption"
+          },
+          {
+            "type": "url",
+            "id": "column_url_1",
+            "label": "Image 1 Link"
+          }
+        ]
+      },
+      {
+        "type": "search_suggestion",
+        "name": "Search Suggestion",
+        "settings": [
+          {
+            "type": "text",
+            "id": "suggestion",
+            "label": "Key words"
+          }
+        ]
+      },
+      {
+        "type": "product_set",
+        "name": "Product Group",
+        "settings": [
+          {
+            "type": "text",
+            "id": "group_id",
+            "label": "Menu Name",
+            "info": "This content should appear when I hover over or click <Menu Name>"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#000000"
+          },
+          {
+            "type": "image_picker",
+            "id": "group_img",
+            "label": "Menu Image",
+            "info": "Menu name will be ignored if this field contains an image. Recommended Dimenionsions: x 40px"
+          },
+          {
+            "type": "collection",
+            "id": "product_collection",
+            "label": "Product Collection"
+          },
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading"
+          },
+          {
+            "type": "text",
+            "id": "subheading",
+            "label": "Subheading"
+          }
+        ]
+      },
+      {
+        "type": "btn_link",
+        "name": "Button Link Mobile",
+        "settings": [
+          {
+            "type": "text",
+            "id": "group_id",
+            "label": "Menu Name",
+            "info": "This content should appear when I hover over or click <Menu Name>"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title Color",
+            "default": "#000000"
+          },
+          {
+            "type": "image_picker",
+            "id": "group_img",
+            "label": "Menu Image",
+            "info": "Menu name will be ignored if this field contains an image. Recommended Dimenionsions: x 40px"
+          },
+          {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link URL"
+          },
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link Text"
+          },
+          {
+            "type": "select",
+            "id": "text_color_class",
+            "label": "Button Text Color",
+            "options": <%- textColorOptions -%>,
+            "default": "text-black"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

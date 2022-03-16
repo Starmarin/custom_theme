@@ -1,0 +1,22 @@
+
+<!doctype html>
+<html class="no-js supports-no-cookies" lang="{{ shop.locale }}">
+  <head>
+    {%- include 'template-head' -%}
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template.name | handle }} layout--minimal">
+    {%- include 'icon-store' -%}
+
+    <div id="app" v-cloak>
+      <main role="main" id="MainContent">
+        {{ content_for_layout }}
+      </main>
+
+      <toast></toast>
+    </div>
+
+    {%- include 'template-scripts' -%}
+  </body>
+</html>

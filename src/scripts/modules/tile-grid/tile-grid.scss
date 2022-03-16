@@ -1,0 +1,20 @@
+.large-tile-copy p {
+  @apply font-body font-normal text-md;
+}
+
+.large-tile-copy strong {
+  @apply font-body text-md font-bold;
+}
+
+.large-tile-copy a {
+  @apply font-body font-normal text-md underline;
+}
+
+.clip-triangle {
+  clip-path: polygon(48% 0, 100% 0, 100% 100%, 0 100%, 0 0);
+}
+
+.clip-triangle.active {
+  clip-path: polygon(50% 19%, 100% 0, 100% 100%, 0 100%, 0% 38%);
+  padding-top: 100px;
+}

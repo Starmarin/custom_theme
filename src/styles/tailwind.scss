@@ -1,0 +1,19 @@
+@import './variables.scss';
+
+@tailwind base;
+@tailwind components;
+
+@import './custom.scss';
+
+@tailwind utilities;
+
+@layer utilities {
+  @variants hover {
+    .filter-brightness {
+      filter: brightness(90%);
+    }
+  }
+  .filter-grayscale {
+    filter: grayscale(1);
+  }
+}

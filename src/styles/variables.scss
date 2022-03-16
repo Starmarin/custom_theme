@@ -1,0 +1,102 @@
+@import 'swiper/swiper-bundle';
+@import 'aos/dist/aos';
+
+:root {
+  --color-gray-100: '{{ settings.color_gray_100 | color_to_hex }}';
+  --color-gray-200: '{{ settings.color_gray_200 | color_to_hex }}';
+  --color-gray-300: '{{ settings.color_gray_300 | color_to_hex }}';
+  --color-gray-400: '{{ settings.color_gray_400 | color_to_hex }}';
+  --color-gray-500: '{{ settings.color_gray_500 | color_to_hex }}';
+  --color-gray-600: '{{ settings.color_gray_600 | color_to_hex }}';
+  --color-gray-700: '{{ settings.color_gray_700 | color_to_hex }}';
+  --color-gray-900: '{{ settings.color_gray_900 | color_to_hex }}';
+  --color-gray-misc: #dddddd;
+  --color-primary-200: '{{ settings.color_primary_200 | color_to_hex }}';
+  --color-primary-400: '{{ settings.color_primary_400 | color_to_hex }}';
+  --color-primary-500: '{{ settings.color_primary_500 | color_to_hex }}';
+  --color-primary-700: '{{ settings.color_primary_700 | color_to_hex }}';
+  --color-red-200: '{{ settings.color_red_200 | color_to_hex }}';
+  --color-red-500: '{{ settings.color_red_500 | color_to_hex }}';
+  --color-red-700: '{{ settings.color_red_700 | color_to_hex }}';
+  --color-blue-200: '{{ settings.color_blue_200 | color_to_hex }}';
+  --color-blue-500: '{{ settings.color_blue_500 | color_to_hex }}';
+  --color-blue-700: '{{ settings.color_blue_700 | color_to_hex }}';
+  --color-blue-900: '{{ settings.color_blue_900 | color_to_hex }}';
+  --color-yellow-200: '{{ settings.color_yellow_200 | color_to_hex }}';
+  --color-yellow-500: '{{ settings.color_yellow_500 | color_to_hex }}';
+  --color-yellow-700: '{{ settings.color_yellow_700 | color_to_hex }}';
+  --color-teal-500: '{{ settings.color_teal_500 | color_to_hex }}';
+  --color-lightblue-500: '{{ settings.color_lightblue_500 | color_to_hex }}';
+  --color-util-error: '{{ settings.color_util_error | color_to_hex }}';
+  --color-util-success: '{{ settings.color_util_success | color_to_hex }}';
+  --color-util-notification: '{{ settings.color_util_notification | color_to_hex }}';
+  --color-util-focus: '{{ settings.color_util_focus | color_to_hex }}';
+  --color-util-sale: '{{ settings.color_util_sale | color_to_hex }}';
+  --color-util-upsell: #109d01;
+  --color-text-dark1: '{{ settings.color_text_dark_1 | color_to_hex }}';
+  --color-text-dark2: '{{ settings.color_text_dark_2 | color_to_hex }}';
+  --color-text-accent1: '{{ settings.color_text_accent_1 | color_to_hex }}';
+  --color-text-accent2: '{{ settings.color_text_accent_2 | color_to_hex }}';
+  --color-divider-dark: '{{ settings.color_dark_divider | color_to_hex }}';
+  --color-divider-light: '{{ settings.color_light_divider | color_to_hex }}';
+  --color-gray-discount: #4a4a4a;
+  --color-white: white;
+  --color-black: black;
+
+  --color-btn-disabled: '{{ settings.btn_disabled_color | color_to_hex }}';
+  --color-btn-primary-main: '{{ settings.btn_primary_main | color_to_hex }}';
+  --color-btn-primary-hover: '{{ settings.btn_primary_hover | color_to_hex }}';
+  --color-btn-primary-pressed: '{{ settings.btn_primary_pressed | color_to_hex }}';
+  --color-btn-primary-focus: '{{ settings.btn_primary_focus | color_to_hex }}';
+  --color-btn-secondary-main: '{{ settings.btn_secondary_main | color_to_hex }}';
+  --color-btn-secondary-hover: '{{ settings.btn_secondary_hover | color_to_hex }}';
+  --color-btn-secondary-pressed: '{{ settings.btn_secondary_pressed | color_to_hex }}';
+  --color-btn-secondary-focus: '{{ settings.btn_secondary_focus | color_to_hex }}';
+  --color-btn-tertiary-main: '{{ settings.btn_tertiary_main | color_to_hex }}';
+  --color-btn-tertiary-hover: '{{ settings.btn_tertiary_hover | color_to_hex }}';
+  --color-btn-tertiary-pressed: '{{ settings.btn_tertiary_pressed | color_to_hex }}';
+  --color-btn-tertiary-focus: '{{ settings.btn_tertiary_focus | color_to_hex }}';
+  --color-util-outline: #0064ff;
+
+  --color-brand-raw: #d0021b;
+  --color-brand-smackdown: #0066cc;
+  --color-brand-nxt: #C7FF00;
+  --color-brand-nxt-old: #f5a605;
+  --color-brand-legends: #60afe7;
+
+  // box shadow
+  --box-shadow-light: '{{ settings.box_shadow_light }}';
+  --box-shadow-standard: '{{ settings.box_shadow_standard }}';
+  --box-shadow-heavy: '{{ settings.box_shadow_heavy }}';
+  --box-shadow-desktop-dropdown: 0 0 10px rgba(0, 0, 0, 0.2);
+  --box-shadow-outline: 0 0 0 1px var(--color-util-outline);
+
+  --mdc-theme-primary: '{{ settings.color_gray_500 | color_to_hex }}';
+  --mdc-theme-error: '{{ settings.color_red_500 | color_to_hex }}';
+  --mdc-typography-subtitle1-font-size: 14px;
+
+  --swiper-navigation-color: #ffffff;
+  --swiper-navigation-size: 18px;
+
+  // badges
+  --color-badge-oos-text: '{{ settings.oos_text_color | color_to_hex }}';
+  --color-badge-oos-bg: '{{ settings.oos_bg_color | color_to_hex }}';
+  --color-badge-sale-text: '{{ settings.sale_text_color | color_to_hex }}';
+  --color-badge-sale-bg: '{{ settings.sale_bg_color | color_to_hex }}';
+  --color-badge-new-text: '{{ settings.new_text_color | color_to_hex }}';
+  --color-badge-new-bg: '{{ settings.new_bg_color | color_to_hex }}';
+  --color-badge-limited-text: '{{ settings.limited_text_color | color_to_hex }}';
+  --color-badge-limited-bg: '{{ settings.limited_bg_color | color_to_hex }}';
+  --color-badge-promo-text: '{{ settings.promo_text_color | color_to_hex }}';
+  --color-badge-promo-bg: '{{ settings.promo_bg_color | color_to_hex }}';
+  --color-badge-youth-text: '{{ settings.youth_text_color | color_to_hex }}';
+  --color-badge-youth-bg: '{{ settings.youth_bg_color | color_to_hex }}';
+  --color-badge-customizable-text: '{{ settings.customizable_text_color | color_to_hex }}';
+  --color-badge-customizable-bg: '{{ settings.customizable_bg_color | color_to_hex }}';
+  --color-badge-bestseller-text: '{{ settings.bestseller_text_color | color_to_hex }}';
+  --color-badge-bestseller-bg: '{{ settings.bestseller_bg_color | color_to_hex }}';
+  --color-badge-preorder-text: '{{ settings.preorder_text_color | color_to_hex }}';
+  --color-badge-preorder-bg: '{{ settings.preorder_bg_color | color_to_hex }}';
+  --color-badge-backorder-text: '{{ settings.backorder_text_color | color_to_hex }}';
+  --color-badge-backorder-bg: '{{ settings.backorder_bg_color | color_to_hex }}';
+}

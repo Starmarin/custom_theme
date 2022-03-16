@@ -1,0 +1,86 @@
+{%- for block in section.blocks -%}
+{%- if block.settings.blog == blog.handle -%}
+  {%- render 'global--hero', 
+    mod_settings: block.settings, 
+    mod_collection: blog,
+    mod_description: blog.metafields.global.description,
+    mod_mobile_center: true
+  -%}
+  {%- break -%}
+{%- endif -%}
+{%- endfor -%}
+{% schema %}
+{
+  "name": "Blog Hero",
+  "blocks": [
+    {
+      "type": "blog",
+      "name": "Blog",
+      "settings": [
+        {
+          "type": "blog",
+          "id": "blog",
+          "label": "For Blog",
+          "info": "Select blog target for this hero"
+        },
+        {
+          "id": "theme",
+          "type": "select",
+          "label": "Theme",
+          "options": [
+            {
+              "value": "dark",
+              "label": "Dark"
+            },
+            {
+              "value": "light",
+              "label": "Light"
+            }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "select",
+          "id": "align",
+          "label": "Align",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay Opacity",
+          "min": 0,
+          "max": 75,
+          "default": 30
+        },
+        {
+          "id": "image",
+          "label": "Image",
+          "type": "image_picker",
+          "info": "Image Dimensions: Width: 1920px, Height: 720px"
+        },
+        {
+          "id": "mobile_image",
+          "label": "Mobile Image",
+          "type": "image_picker",
+          "info": "Image Dimensions: Width: 400px, Height: 562px"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

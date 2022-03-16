@@ -1,0 +1,52 @@
+{
+  "attributes": {{- cart.attributes | json -}},
+  "cart_level_discount_applications": {{- cart.cart_level_discount_applications | json -}},
+  "currency": "{{- cart.currency.iso_code -}}",
+  "discount_applications": {{- cart.discount_applications | json -}},
+  "item_count": {{- cart.item_count | json -}},
+  "items_subtotal_price": {{- cart.items_subtotal_price | json -}},
+  "note": {{- cart.note | json -}},
+  "original_total_price": {{- cart.original_total_price | json -}},
+  "total_discount": {{- cart.total_discount | json -}},
+  "total_price": {{- cart.total_price | json -}},
+  "total_weight": {{- cart.total_weight | json -}}, 
+  "items": [
+    {%- for line_item in cart.items -%}
+      {
+        "discount_allocations": {{- line_item.discount_allocations | json -}},
+        "final_line_price": {{- line_item.final_line_price | json -}},
+        "final_price": {{- line_item.final_price | json -}},
+        "fulfillment": {{- line_item.fulfillment | json -}},
+        "fulfillment_service": {{- line_item.fulfillment_service | json -}},
+        "gift_card": {{- line_item.gift_card | json -}},
+        "grams": {{- line_item.grams | json -}},
+        "image": {{- line_item.image | img_url: '240x' | json -}},
+        "key": {{- line_item.key | json -}},
+        "line_level_discount_allocations": {{- line_item.line_level_discount_allocations | json -}},
+        "line_level_total_discount": {{- line_item.line_level_total_discount | json -}},
+        "message": {{- line_item.message | json -}},
+        "options_with_values": {{- line_item.options_with_values | json -}},
+        "original_line_price": {{- line_item.original_line_price | json -}},
+        "original_price": {{- line_item.original_price | json -}},
+        "product": {% render 'json--product', product: line_item.product, include_product_collections: true %},
+        "product_id": {{- line_item.product_id | json -}},
+        "properties": {{- line_item.properties | json -}},
+        "quantity": {{- line_item.quantity | json -}},
+        "requires_shipping": {{- line_item.requires_shipping | json -}},
+        "selling_plan_allocation": {{- line_item.selling_plan_allocation | json -}},
+        "selling_plan": {{- line_item.selling_plan_allocation.selling_plan | json -}},
+        "sku": {{- line_item.sku | json -}},
+        "successfully_fulfilled_quantity": {{- line_item.successfully_fulfilled_quantity | json -}},
+        "taxable": {{- line_item.taxable | json -}},
+        "title": {{- line_item.title | json -}},
+        "unit_price": {{- line_item.unit_price | json -}},
+        "unit_price_measurement": {{- line_item.unit_price_measurement | json -}},
+        "url": {{- line_item.url | json -}},
+        "variant": {{- line_item.variant | json -}},
+        "variant_id": {{- line_item.variant_id | json -}},
+        "vendor": {{- line_item.vendor | json -}},
+        "id": {{- line_item.id | json -}}
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+}

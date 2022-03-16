@@ -1,0 +1,221 @@
+{% assign megamenu_brands = "featured, raw, smackdown, nxt, legends" %}
+{% assign brands_array = megamenu_brands | split: ', ' %}
+
+{% assign i = 1 %}
+{% for block in section.blocks %}
+  {% if block.settings.group_id == root %}
+    {% case block.type %}
+      {% when 'superstars' %}
+        <section class="w-full flex flex-col items-start fade-in-delay-{{ i | times: 100 }} animation-duration-600">
+          <div class="w-full px-auto flex justify-center bg-gray-200">
+            <div class="w-full flex justify-start max-w-md">
+              {% for brand in brands_array %}
+                <button tabindex="0" @mouseover="superstarTab = '{{ brand }}'" @click="superstarTab = '{{ brand }}'" :class="{'text-primary-500 bg-white' : superstarTab === '{{ brand }}'}"  class="superstar-tab font-primary font-bold uppercase text-md tracking-wider p-4 mr-8 cursor-pointer transition-all duration-300 hover:text-primary-500 hover:bg-white border border-transparent focus:border-util-focus">
+                  {{ 'general.brands.menu_' | append: brand | t }}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+        <section class="w-full flex justify-center items-start fade-in-delay-{{ i | times: 100 }} animation-duration-600">
+          <div class="flex max-w-screen-md w-full">
+            {% for brand in brands_array %}
+            {% assign superstars_shopall_url_key =  'superstars_' | append: brand | append: '_url' %}
+            <div class="w-full flex flex-col items-center py-5 fade-in-delay-{{ i | times: 100 }} animation-duration-600" v-if="superstarTab === '{{ brand }}'">
+                <div class="w-full flex justify-start max-w-md">
+                  <a class="link--primary font-bold tracking-header text-megamenu_sub focus:shadow-outline" href="{{ settings[superstars_shopall_url_key] }}">{{ 'general.megamenu.shop_' | append: brand | t }}</a>
+                </div>
+                <div class="w-full flex mt-5 justify-center max-w-md">
+                  {% assign selected_superstars = "" %}
+                  {% for i in (1..6) %}
+                    {% assign superstar_name_key = 'superstars_' | append: brand | append: '_name_' | append: i %}
+                    {% assign superstar_url_key = 'superstars_' | append: brand | append: '_url_' | append: i %}
+                    {% assign superstar_headshot_key = 'superstars_' | append: brand | append: '_headshot_' | append: i %}
+                    {% assign superstar_color_key = 'superstars_' | append: brand | append: '_color_' | append: i %}
+                    {% assign superstar_champion_title_key = 'superstars_' | append: brand | append: '_champion_title_' | append: i %}
+                    {% assign superstar_handle = settings[superstar_name_key] | handleize %}
+                    {% assign selected_superstars = selected_superstars | append: superstar_handle | append: ',' %}
+                    <div class="w-e156 h-e216 overflow-hidden mr-2">
+                      <a 
+                        class="megamenu-image w-e156 h-e216 flex flex-col hvr-grow items-center justify-end px-3 py-4 mr-2 bg-black focus:shadow-outline" 
+                        href="{{ settings[superstar_url_key] }}" 
+                        data-bg="{{ settings[superstar_headshot_key] | img_url: '312x432'}}"
+                        style="background-image:url({{ settings[superstar_headshot_key] | img_url: '312x432', crop: 'center' }});">
+                      </a>
+                      <div class="w-e156 h-e216 absolute -mt-e216 flex flex-col items-center justify-end pointer-events-none">
+                        {% if settings[superstar_champion_title_key] != blank %}
+                          <p class="font-primary font-bold uppercase text-xs py-1 px-2 mx-2 flex justify-center text-center text-white mb-1 tracking-wider" style="background-color:{{ settings[superstar_color_key] }};">{{ settings[superstar_champion_title_key] }}</p>
+                        {% endif %}
+                        <p class="font-primary font-bold uppercase text-menu text-white text-center tracking-wider mb-e18">{{ settings[superstar_name_key] }}</p>    
+                      </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="hidden flex-wrap mt-10 max-w-md w-full">
+                  {% assign linklist_key = 'linklist_' | append: brand %}
+                  {% assign superstars_featured = selected_superstars | split: ',' %}
+                  {% for superstar in linklists[block.settings[linklist_key]].links %}
+                    {% assign title_handle = superstar.title | handleize %}
+                      {% unless superstars_featured contains title_handle %}
+                        <a class="w-1/5 mx-0 mb-2 font-body font-semibold text-megamenu_sub relative transition-colors duration-300 hover:text-brands-{{ brand }} hover:underline focus:shadow-outline" href="/collections/{{ superstar.title | handleize }}">{{ superstar.title }}</a>
+                      {% endunless %}
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+      {% when 'brands' %}
+        <section class="w-2/5 flex flex-col items-start mr-9 fade-in-delay-{{ i | times: 100 }} animation-duration-600 {% if block.settings.subbrand_url_5 != blank %}compact{% endif %}">
+          {% for i in (1..5) %}
+            {% assign subbrand_url_key = 'subbrand_url_' | append: i %}
+            {% assign subbrand_image_key = 'subbrand_image_' | append: i %}
+            {% if block.settings[subbrand_url_key] != blank %}
+              <a class="sub-brand overflow-hidden focus:shadow-outline h-e95 mb-e15" href="{{ block.settings[subbrand_url_key] }}">
+                <img data-src="{{ block.settings[subbrand_image_key]}}" alt="{{subbrand_image_key}}" class="lazy mb-4 hvr-grow" src="{{ block.settings[subbrand_image_key] | img_url: '300x'}}" />
+              </a>
+            {% endif %}
+          {% endfor %}
+        </section>
+        <section class="w-e450 flex flex-wrap justify-between fade-in-delay-{{ i | times: 100 }} animation-duration-600 {% if block.settings.partnerbrand_url_11 != blank %}compact{% endif %}">
+          {% if block.settings.partner_heading_text != blank %}
+            <p class="w-full font-primary font-bold uppercase mb-3">{{ block.settings.partner_heading_text }}</p>
+          {% endif %}
+          {% for i in (1..12) %}
+            {% assign partner_url_key = 'partnerbrand_url_' | append: i %}
+            {% assign partner_image_key = 'partnerbrand_image_' | append: i %}
+            {% if block.settings[partner_url_key] != blank %}
+              <a class="partner-brand focus:shadow-outline mb-e6 overflow-hidden" href="{{ block.settings[partner_url_key] }}">
+                <img class="lazy object-contain w-4/5 h-full hvr-grow"  alt="{{partner_image_key}}" data-src="{{ block.settings[partner_image_key]}}" src="{{ block.settings[partner_image_key] | img_url: '300x'}}" />
+              </a>
+            {% endif %}
+          {% endfor %}
+        </section>
+        <section class="w-full">
+          <hr class="divider-light mt-10 mb-6" />
+          <a class="link--secondary font-primary font-bold uppercase text-megamenu_top text-primary-500 tracking-widest mr-e25 focus:shadow-outline" href="{{ block.settings.shop_all_url }}">{{ block.settings.shop_all_text }}</a>
+          <a class="link--secondary font-primary font-bold uppercase text-megamenu_top text-black tracking-widest focus:shadow-outline" href="{{ block.settings.extra_link_url }}">{{ block.settings.extra_link_text }}</a>
+        </section>
+      {% when 'one_ll_two_image' %}
+        <div class="flex w-full">
+          <section class="w-1/6 min-w-e220 flex flex-col items-start mr-9 pt-4 fade-in-delay-{{ i | times: 100 }} animation-duration-600">
+            {% for link in linklists[block.settings.link_list_1].links %}
+              <a class="font-primary font-bold uppercase text-black text-megamenu_top tracking-widest hover:underline mb-2 focus:shadow-outline" href="{{ link.url }}">{{ link.title }}</a>
+              {% for child_link in link.links %}
+                <a class="font-body font-normal text-megamenu_sub focus:shadow-outline text-black hover:underline {% if forloop.last %}mb-6{% endif %}" href="{{ child_link.url }}">{{ child_link.title }}</a>
+              {% endfor %}
+            {% endfor %}
+          </section>
+          <section class="w-full mr-9 fade-in-delay-{{ i | times: 100 }} animation-duration-600">
+            <a href="{{ block.settings.column_url_1 }}" class="focus:shadow-outline">
+              <div class="overflow-hidden">
+                <img class="lazy transition-all duration-200 transform hover:scale-110" 
+                alt="{% if block.settings.column_image_1.alt != blank %}{{ block.settings.column_image_1.alt }}{% else %}{{ block.settings.column_text_1  | escape }}{% endif %}" 
+                data-src="{{ block.settings.column_image_1}}" 
+                src="{{ block.settings.column_image_1 | img_url: '300x'}}" />
+              </div>
+              <p class="font-body font-semibold uppercase text-md mt-6 hover:underline">{{ block.settings.column_text_1 }}</p>
+            </a>
+          </section>
+          <section class="w-full fade-in-delay-{{ i | times: 100 }} animation-duration-600">
+            <a href="{{ block.settings.column_url_2 }}" class="focus:shadow-outline">
+              <div class="overflow-hidden">
+                <img class="lazy hvr-grow"  
+                alt="{% if block.settings.column_image_2.alt != blank %}{{ block.settings.column_image_2.alt }}{% else %}{{ block.settings.column_text_2  | escape }}{% endif %}"  
+                data-src="{{ block.settings.column_image_2 }}" 
+                src="{{ block.settings.column_image_2 | img_url: '300x'}}" />
+              </div>
+              <p class="font-body font-semibold uppercase text-md mt-6 hover:underline">{{ block.settings.column_text_2 }}</p>
+            </a>
+          </section>  
+        </div>
+        <section class="w-full">
+          <hr class="divider-light mt-10 mb-6" />
+          <a class="link--secondary font-primary font-bold p-0 uppercase text-megamenu_top text-primary-500 tracking-widest mr-e25 focus:shadow-outline" href="{{ block.settings.shop_all_url }}">{{ block.settings.shop_all_text }}</a>
+          {% if block.settings.extra_link_url and block.settings.extra_link_text %}
+            <a class="link--secondary font-primary font-bold p-0 uppercase text-megamenu_top text-black tracking-widest focus:shadow-outline" href="{{ block.settings.extra_link_url }}">{{ block.settings.extra_link_text }}</a>
+          {% endif %}
+        </section>
+      {% when 'deals' %}
+        <div class="flex w-full">
+          <% for (let i = 1; i <= 3; i++) { %>
+            <section class="w-full mr-9 fade-in-delay-{{ i | times: 100 }} animation-duration-600">
+              <a href="{{ block.settings.column_url_<%- i -%> }}" class="focus:shadow-outline">
+                <div class="overflow-hidden">
+                  <img class="lazy transition-all duration-200 transform hover:scale-110 w-full cover" 
+                  alt="{% if block.settings.column_image_<%- i -%> .alt != blank %}{{ block.settings.column_image_<%- i -%> .alt }}{% else %}{{ block.settings.column_text_<%- i -%>   | escape }}{% endif %}" 
+                  data-src="{{ block.settings.column_image_<%- i -%> }}" 
+                  src="{{ block.settings.column_image_<%- i -%>  | img_url: '300x'}}" />
+                </div>
+                <p class="font-body font-semibold uppercase text-md mt-6 hover:underline">{{ block.settings.column_text_<%- i -%>  }}</p>
+              </a>
+              <p class="font-body font-normal text-e12 mt-e8 leading-e16">{{ block.settings.column_description_<%- i -%>  }}</p>
+            </section>
+          <% } %>
+        </div>
+        <section class="w-full">
+          <hr class="divider-light mt-10 mb-6" />
+          <a class="link--secondary font-primary font-bold p-0 uppercase text-megamenu_top text-primary-500 tracking-widest mr-e25 focus:shadow-outline" href="{{ block.settings.shop_all_url }}">{{ block.settings.shop_all_text }}</a>
+          {% if block.settings.extra_link_url and block.settings.extra_link_text %}
+            <a class="link--secondary font-primary font-bold p-0 uppercase text-megamenu_top text-black tracking-widest focus:shadow-outline" href="{{ block.settings.extra_link_url }}">{{ block.settings.extra_link_text }}</a>
+          {% endif %}
+        </section>
+      {% when 'two_ll_one_image' %}
+        <div class="flex w-full">
+          <% for (let i = 1; i <= 2; i++) { %>
+            <section class="w-1/6 flex flex-col items-start mr-e{{ <%- i -%> | times: 100 }} min-w-e200 fade-in-delay-{{ i | times: 100 }} animation-duration-600">
+              {% for link in linklists[block.settings.link_list_<%- i -%>].links %}
+                <a class="font-primary font-bold uppercase text-black text-megamenu_top focus:shadow-outline tracking-wider hover:underline mb-2" href="{{ link.url }}">{{ link.title }}</a>
+                {% for child_link in link.links %}
+                  <a class="font-body font-normal text-megamenu_sub mb-1 text-black focus:shadow-outline hover:underline {% if forloop.last %}mb-6{% endif %}" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                {% endfor %}
+              {% endfor %}
+            </section>
+          <% } %>
+          <section class="w-full fade-in-delay-{{ i | times: 100 }} animation-duration-600">
+            <a href="{{ block.settings.column_url_1 }}" class="focus:shadow-outline">
+              <div class="overflow-hidden">
+                <img class="lazy hvr-grow" 
+                alt="{% if block.settings.column_image_1.alt != blank %}{{ block.settings.column_image_1.alt}}{% else %}{{ block.settings.column_text_1  | escape }}{% endif %}" 
+                data-src="{{ block.settings.column_image_1 }}" 
+                src="{{ block.settings.column_image_1 | img_url: '300x' }}" />
+              </div>
+              <p class="font-body font-semibold uppercase text-md mt-6 hover:underline">{{ block.settings.column_text_1 }}</p>
+            </a>
+          </section>
+        </div>
+        <section class="w-full">
+          <hr class="divider-light mb-6" />
+          <a class="link--secondary font-primary font-bold uppercase text-megamenu_top text-primary-500 tracking-widest mr-e25 focus:shadow-outline" href="{{ block.settings.shop_all_url }}">{{ block.settings.shop_all_text }}</a>
+          <a class="link--secondary font-primary font-bold uppercase text-megamenu_top text-black tracking-widest focus:shadow-outline" href="{{ block.settings.extra_link_url }}">{{ block.settings.extra_link_text }}</a>
+        </section>
+      {% when 'three_ll_one_image' %}
+        <div class="flex w-full">
+          <% for (let i = 1; i <= 3; i++) { %>
+            <section class="w-1/6 flex flex-col items-start mr-9 min-w-e200 fade-in-delay-{{ i | times: 100 }} animation-duration-600">
+              {% for link in linklists[block.settings.link_list_<%- i -%>].links %}
+                <a class="font-primary font-bold uppercase text-black text-megamenu_top tracking-wider focus:shadow-outline hover:underline mb-2" href="{{ link.url }}">{{ link.title }}</a>
+                {% for child_link in link.links %}
+                  <a class="font-body font-normal text-megamenu_sub mb-1 text-black focus:shadow-outline hover:underline {% if forloop.last %}mb-6{% endif %}" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                {% endfor %}
+              {% endfor %}
+            </section>
+          <% } %>
+          <section class="w-full fade-in-delay-{{ i | times: 100 }} animation-duration-600">
+            <a href="{{ block.settings.column_url_1 }}" class="focus:shadow-outline">
+              <div class="overflow-hidden">
+                <img class="lazy hvr-grow" alt="{{ block.settings.column_text_1 }}" data-src="{{ block.settings.column_image_1 }}" src="{{ block.settings.column_image_1 | img_url: '300x'}}" />
+              </div>
+              <p class="font-body font-semibold uppercase text-md mt-4 hover:underline">{{ block.settings.column_text_1 }}</p>
+            </a>
+          </section>  
+        </div>
+        <section class="w-full">
+          <hr class="divider-light my-6" />
+          <a class="link--secondary font-primary font-bold p-0 focus:shadow-outline uppercase text-megamenu_top text-primary-500 tracking-widest mr-e25" href="{{ block.settings.shop_all_url }}">{{ block.settings.shop_all_text }}</a>
+          <a class="link--secondary font-primary font-bold p-0 focus:shadow-outline uppercase text-megamenu_top text-black tracking-widest" href="{{ block.settings.extra_link_url }}">{{ block.settings.extra_link_text }}</a>
+        </section>
+    {% endcase %}
+    {% assign i = i | plus: 1 %}
+  {% endif %}
+{% endfor %}

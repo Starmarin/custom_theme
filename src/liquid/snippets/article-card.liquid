@@ -1,0 +1,60 @@
+{% if item.image %}
+  <div class="result-image">
+    <a href="{{ item.url }}" title="{{ item.title | escape }}">
+      {{ item | img_url: 'small' | img_tag: item.title }}
+    </a>
+  </div>
+{% endif %}
+{%- assign featured_image = blank -%}
+{%- if mod_article.image != blank -%}
+  {%- assign featured_image = mod_article.image -%}
+{%- endif -%}
+
+{%- capture conditional_classes -%}
+  {% if featured_image == blank -%}
+    flex flex-col justify-center
+  {% endif %}
+  
+  {%- if mod_highlight -%}
+    md:flex md:items-center md:justify-center
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture lower_label -%}
+  {%- if mod_article.object_type == 'page' -%}
+    Page
+  {%- endif -%}
+
+  {%- if mod_article.object_type == 'article' -%}
+    Blog
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if mod_article.metafields.global.card_lower_label != blank -%}
+  {%- assign lower_label = mod_article.metafields.global.card_lower_label -%}
+{%- endif -%}
+
+<a data-aos="fade-up" href="{{ mod_article.url }}" class="{{ conditional_classes }} block relative ease-in-out duration-500 shadow-card bg-white sm:transform sm:hover:-translate-y-2 transition">
+  {%- if featured_image != blank -%}
+    <div class="w-full ratio ro-58 {% if mod_highlight %}md:w-6/12{% endif %}">
+      <img class="object-cover absolute inset-0 w-full h-full" src="{{ featured_image | img_url: '700x' }}" alt="{{ featured_image.alt }}">
+    </div>
+    <div class="p-e16 {% if mod_highlight %}md:w-6/12 md:px-e40{% endif %}">
+      {%- if mod_article.metafields.global.card_upper_label != blank -%}
+      <p class="tracking-wide text-red-700 mb-e8 text-e14 font-medium">{{ mod_article.metafields.global.card_upper_label }}</p>  
+      {%- else -%}
+      <time class="tracking-wide text-red-700 mb-e8 text-e14 font-medium">{{ mod_article.published_at | date: format: 'abbreviated_date' }}</time>
+      {%- endif -%}
+      <h5 class="text-h5 tracking-wide font-medium mb-e40 {% if mod_highlight %}md:mt-e8 md:text-e36 md:leading-6 md:font-bold{% endif %}">{{ mod_article.title }}</h5>
+      {%- if mod_highlight -%}
+      <p class="hidden md:block text-e14 text-gray-700">{{ lower_label }}</p>
+      {%- endif -%}
+    </div>
+  {%- else -%}
+    <div class="text-center w-10/12 mx-auto py-e70 md:py-e125 flex flex-col justify-center items-center">
+      <h5 class="text-h5 w-full tracking-wide font-medium mb-2">{{ mod_article.title }}</h5>
+      <p class="text-e14 w-full tracking-wide text-gray-700">{{ mod_article.excerpt_or_content | strip_html | truncate: 150 }}</p>
+    </div>
+  {%- endif -%}
+  <p class="{% if mod_highlight %}md:hidden{% endif %} absolute z-10 bottom-16 left-16 text-e14 text-gray-700">{{ lower_label }}</p>
+</a>

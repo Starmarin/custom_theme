@@ -1,0 +1,11 @@
+{%- assign mod_icon_size = mod_icon_size | default: '18px' -%}
+{%- case swiper-arrow -%}
+  {%- when 'prev' -%}
+  <div class="swiper-button-prev {{ mod_class }}" {{ mod_attr }}>
+    <icon name="chevron-left" size="{{mod_icon_size}}"></icon>
+  </div>    
+  {%- else -%}
+  <div class="swiper-button-next {{ mod_class }}" {{ mod_attr }}>
+    <icon name="chevron-right" size="{{mod_icon_size}}"></icon>
+  </div>
+{%- endcase -%} 

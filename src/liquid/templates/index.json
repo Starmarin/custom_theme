@@ -1,0 +1,48 @@
+{
+    "sections": {
+        "tile-grid": {
+            "type": "hp--tile-grid",
+            "settings": {
+            }
+        },
+        "column-section": {
+            "type": "hp--columns",
+            "settings": {
+            }
+        },
+        "product-carousel": {
+            "type": "hp--product-carousel",
+            "settings": {
+            }
+        },
+        "superstar-carousel": {
+            "type": "hp--superstar-carousel",
+            "settings": {
+            }
+        },
+        "fifty-fifty": {
+            "type": "hp--fifty-fifty",
+            "settings": {
+            }
+        },
+        "instagram": {
+            "type": "hp--ugc-gallery",
+            "settings": {
+            }
+        },
+        "promo-banner": {
+            "type": "hp--promo-banner",
+            "settings": {
+            }
+        }
+    },
+    "order": [
+        "tile-grid",
+        "column-section",
+        "product-carousel",
+        "superstar-carousel",
+        "fifty-fifty",
+        "instagram",
+        "promo-banner"
+    ]
+}

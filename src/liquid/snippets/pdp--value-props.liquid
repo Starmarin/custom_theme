@@ -1,0 +1,13 @@
+<section class="w-full bg-white-100 pt-e20 pb-e12 px-e24 md:pt-e48 md:pb-e40">
+  <ul class="max-w-screen-md mx-auto text-center text-0">
+    {% for i in (1..3) %}
+      {% assign accessor = 'vp_text_' | append: i %}
+      {% if section.settings[accessor] != blank %}
+        <li class="inline-flex items-center justify-center w-1/2 md:w-1/3 mb-e8">
+          <span class="inline-block accent-bar mr-e8 sm:mr-e14 bg-red-500"></span>
+          <span class="font-medium text-e16 tracking-tighter md:text-e18">{{ section.settings[accessor] }}</span>
+        </li>
+      {% endif %}
+    {% endfor %} 
+  </ul>
+</section>

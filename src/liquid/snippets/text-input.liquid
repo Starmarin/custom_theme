@@ -1,0 +1,15 @@
+<div is="InputText"
+  label="{{ mod_label }}" 
+  name="{{ mod_name }}"
+  type="{{ mod_type }}"
+  {% if mod_initial_value == blank %}
+  value="{{ mod_value }}"  
+  {% else %}
+  :value="{{ mod_initial_value }}"
+  {% endif %}
+  class="w-full"
+  {%- if mod_required -%}
+  :required='true'
+  {%- endif -%}
+>
+</div>

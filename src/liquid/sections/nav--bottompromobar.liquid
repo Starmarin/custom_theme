@@ -1,0 +1,160 @@
+{% if section.settings.enable %}  
+  {% capture props %}
+    {
+      "slideCount": {{ section.blocks | size | json }},
+      "timeout": {{ section.settings.timeout | default: 15000 | json }},
+      "promos": [
+      {% for block in section.blocks %}
+        {
+          "title": {{ block.settings.modal_promo_title | json }},
+          "content": {{ block.settings.modal_promo_content | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+      ]
+    }
+  {% endcapture %}
+  
+  <article 
+    data-vue-component="BottomPromoBar"
+    v-cloak
+    v-if="showPromo" 
+    data-props="{{ props | strip_newlines | escape }}"
+    class="px-e16 md:pr-e44 py-e3 xl:px-0 bg-black relative bottom-promo-bar">
+    <div class="flex justify-between items-center max-w-lg mx-auto">
+      <div class="flex items-center justify-between w-full">
+        <div class="w-1/3 hidden items-center md:flex">
+          {% if section.settings.additional_link_url != blank %}
+            <a is="LinkPrimary" class="font-primary font-bold uppercase underline hover:no-underline text-white text-e14 focus:shadow-outline" href="{{ section.settings.additional_link_url }}">{{ section.settings.additional_link_text }}</a>
+          {% endif %}
+        </div>
+        <div class="w-full md:w-1/3 text-center flex py-e4 md:py-e12">
+            <div class="swiper-container promo-swiper-container overflow-hidden z-0" ref="promoswiper" class="overflow-visible">
+              {% if section.blocks.size > 1 %}
+                <button tabindex="0" @click="promoPrev" class="promo-swiper-arrow-prev hover:text-primary-500 w-3 h-3 text-white cursor-pointer absolute top-3 left-50 md:left-0 flex z-10 border border-transparent focus:border-primary-500">
+                  <svg is="icon" name="promo-right" size="12px" class=""></svg>
+                </button>
+              {% endif %}
+                <ul class="swiper-wrapper">
+                {% for block in section.blocks %}
+                  {% if forloop.index > 1 %}
+                    {% assign hide_class = 'hidden-until-vue-loaded' %}
+                  {% endif %}
+                  <li class="{{ hide_class }} swiper-slide focus:border-primary-500" key="pb{{ forloop.index }}">
+                    <div class="font-body-font text-xs text-black tracking-normal bottom-promo-content uppercase">
+                      {% if cart.currency.iso_code == 'GBP' %}
+                        {% assign current_currency = '£' %}
+                      {% elsif cart.currency.iso_code == 'EUR' %}
+                        {% assign current_currency = '€' %}
+                      {% else %}
+                        {% assign current_currency = '$' %}
+                      {% endif %}
+                      {{ block.settings.promo_content | replace: '$', current_currency }}</div>
+                  </li>
+                {% endfor %}
+                </ul>
+              {% if section.blocks.size > 1 %}
+                <button tabindex="0" @click="promoNext" class="promo-swiper-arrow-next w-3 h-3 text-white hover:text-primary-500 cursor-pointer absolute top-3 right-50 md:right-0 transform rotate-180 flex z-10 border border-transparent focus:border-primary-500">
+                  <svg is="icon" name="promo-right" size="12px" class=""></svg>
+                </button>
+              {% endif %}
+              <div class="promo-swiper-scrollbar hidden mt-e40"></div>
+              {% if section.blocks.size > 1 %}
+                <div class="promo-swiper-pagination hidden"></div>
+              {% endif %}
+          </div>
+        </div>
+        <div class="w-1/3 text-right hidden md:block">
+          {% if section.blocks.size > 0 %} 
+          <button tabindex="0" class="font-primary font-bold uppercase underline hover:no-underline text-white text-e14 cursor-pointer border border-transparent focus:border-primary-500" @click="openModal">{{ 'general.header.see_all_offers' | t }} ({{ section.blocks.size }})</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <button
+      class="block bg-black opacity-50 fixed top-0 left-0 w-full h-full z-60"
+      @click="modalOpen = false"
+      v-cloak
+      aria-label="{{ 'general.modal.close' | t }}"
+      v-show="modalOpen"
+    ></button>
+    <div v-cloak is="ModalWithOverlay" :open="modalOpen" @update:open="modalOpen = false">
+      <button
+        class="fade-in-delay-1000 absolute right-0 top-0 p-1 transition-colors duration-300 focus:shadow-outline z-80"
+        @click="modalOpen = false"
+        aria-label="{{ 'general.modal.close' | t }}"
+      > 
+        <svg is="icon" name="modal-close" size="18px"></svg>
+      </button>
+
+      {% for block in section.blocks %}
+        <div class="promo-card mx-e80">
+          <p class="font-primary font-bold uppercase text-lg text-white mb-4 {% if forloop.first %}pt-5{% endif %}">{{ block.settings.modal_promo_title }}</p>
+          <div class="font-body font-normal modal-content text-black mt-o mb-4 {% if forloop.last %}pb-5 mb-0{% endif %}">{{ block.settings.modal_promo_content }}</div>
+          {% unless forloop.last %}
+          <hr class="dark-divider mt-7 mb-5" />
+          {% endunless %}
+        </div>
+      {% endfor %}
+    </div>
+    <button aria-label="{{ 'cart.general.gift_note_close' | t }}" class="absolute right-10 cursor-pointer top-50p transform -translate-y-1/2 z-30" @click="showPromo = false">
+      <svg is="icon" name="box-close" size="20px" class="text-white transition-colors duration-300 hover:text-primary-500"></svg>
+    </button>
+  </article>
+{% endif %}
+
+
+
+{% schema %}
+  {
+    "name": "Bottom Promo Bar",
+    "max_blocks": 3,
+    "settings": [
+      {
+        "id": "enable",
+        "type": "checkbox",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "id": "timeout",
+        "type": "number",
+        "label": "Timer",
+        "default": 10000,
+        "info": "In milliseconds"
+      },
+      {
+        "id": "additional_link_text",
+        "type": "text",
+        "label": "Additional Link Text"
+      },
+      {
+        "id": "additional_link_url",
+        "type": "url",
+        "label": "Additional Link URL"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "promo",
+        "name": "Promo Carousel",
+        "settings": [
+          {
+            "id": "promo_content",
+            "type": "richtext",
+            "label": "Promo Content"
+          },
+          {
+            "id": "modal_promo_title",
+            "type": "text",
+            "label": "Promo Title (Modal)"
+          },
+          {
+            "id": "modal_promo_content",
+            "type": "richtext",
+            "label": "Promo Content (Modal)"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="16px" viewBox="0 0 10 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>5185E1B0-BEA8-4FAD-86EC-593BB52AFEAA</title>
+    <defs>
+        <polygon id="path-1" points="12.3538736 0 14.3652053 1.86093175 7.67063454 8.05490748 0.97606383 1.86093175 2.98739545 3.55271368e-15 7.67063454 4.33304397"></polygon>
+    </defs>
+    <g id="Navigation" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="M_Navigations_1.2-/-Open-" transform="translate(-338.000000, -84.000000)">
+            <g id="Link-List" transform="translate(0.000000, 63.000000)">
+                <g id="Title" transform="translate(0.000000, 1.000000)">
+                    <g id="Icons/Arrow-Down-Copy-2" transform="translate(342.587766, 28.457447) rotate(-90.000000) translate(-342.587766, -28.457447) translate(335.087766, 23.957447)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <use id="icon-chevron-down" fill="#232828" xlink:href="#path-1"></use>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

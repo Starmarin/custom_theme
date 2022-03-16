@@ -1,0 +1,23 @@
+{%- layout 'theme' -%}
+
+<div data-vue-component="AccountBase" class="relative">
+  <div class="lg:container mx-auto px-0 lg:px-0 grid grid-cols-12">
+    <div class="absolute left-0 top-0 bottom-0 bg-white-100 hidden md:block w-3/12"></div>
+    <div class="md:bg-white-100 col-span-12 md:col-span-3 relative z-10">
+      <div class="pt-0 md:pt-10 pb-0 md:pb-e20">
+        {%- include 'account-nav' -%}
+      </div>
+    </div>
+    <div class="bg-white col-span-12 md:col-span-9">
+      <div class="md:py-10 md:pl-10 lg:pl-10 mx-4">
+        <div class="text-xl tracking-header font-primary font-bold uppercase flex items-center mb-6">
+          {{ 'customer.navigation.address_book' |  t }}
+        </div>
+        {%- include 'account-address' -%}
+        <div class="md:hidden py-e40 md:py-e64">
+          {% render 'account-support' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+{%- assign name = name | default: false -%}
+{%- assign company = company | default: false -%}
+{%- assign street = street | default: false -%}
+{%- assign city = city | default: false -%}
+{%- assign province = province | default: false -%}
+{%- assign zip = zip | default: false -%}
+{%- assign country = country | default: false -%}
+{%- assign phone = phone | default: false -%}
+{%- assign default = default | default: false -%}
+{%- assign edit = edit | default: false -%}
+
+<div class="address pv2 ph2 bg-light-grey relative">
+  <div class="mv0 font-body text-megamenu_sub">
+    <p class="font-body text-megamenu_sub">{{- name -}}</p>
+    {%- if company != blank -%}{{- company -}}<br>{%- endif -%}
+    {{- street -}}<br>
+    {{ city }}{%- if province -%}, {{ province | upcase }} {%- endif -%} {{ zip | upcase }}<br>
+    {{- country -}}<br>
+    {%- if phone -%}{{- phone -}}{%- endif -%}
+  </div>
+</div>
+
+{%- assign name = nil -%}
+{%- assign company = nil -%}
+{%- assign street = nil -%}
+{%- assign city = nil -%}
+{%- assign province = nil -%}
+{%- assign zip = nil -%}
+{%- assign country = nil -%}
+{%- assign phone = nil -%}
+{%- assign default = nil -%}
+{%- assign edit = nil -%}

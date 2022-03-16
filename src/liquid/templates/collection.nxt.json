@@ -1,0 +1,16 @@
+{
+    "sections": {
+        "collection-nxt": {
+            "type": "collection__nxt",
+            "settings": {}
+        },
+        "sub-brand-nxt": {
+            "type": "sub-brand__nxt",
+            "settings": {}
+        }
+    },
+    "order": [
+        "collection-nxt",
+        "sub-brand-nxt"
+    ]
+}

@@ -1,0 +1,1095 @@
+{% if settings.sidecart_enable_gwp %}
+<script>
+{% include 'gwp-data' %}
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "GWP -- Admin",
+  "settings": [
+    {
+      "type": "header",
+      "content": "GWP Copy Settings"
+    },
+    {
+      "type": "text",
+      "id": "upsell_heading",
+      "label": "Section Title"
+    },
+    {
+      "type": "text",
+      "id": "upsell_subheading",
+      "label": "Section Description (Subheading)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "atc_collections",
+      "name": "ATC Collections",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "toggle",
+          "label": "Enable Trigger",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Multiple Product Categories"
+        },
+        {
+          "type": "collection",
+          "id": "collection_1",
+          "label": "Collection 1"
+        },
+        {
+          "type": "collection",
+          "id": "collection_2",
+          "label": "Collection 2"
+        },
+        {
+          "type": "collection",
+          "id": "collection_3",
+          "label": "Collection 3"
+        },
+        {
+          "type": "header",
+          "content": "Benefit Settings"
+        },
+        {
+          "type": "textarea",
+          "id": "benefit_text",
+          "label": "Benefit Copy",
+          "info": "Appears in GWP list"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_image",
+          "label": "Benefit Image",
+          "info": "Only visible in giftengine mode, and with the discount benefit."
+        },
+        {
+          "type": "select",
+          "id": "benefit_type",
+          "options": [
+            {
+              "value": "gwp",
+              "label": "GWP Single"
+            },
+            {
+              "value": "free_ship",
+              "label": "Free Shipping"
+            },
+            {
+              "value": "discount",
+              "label": "Cart Discount"
+            },
+            {
+              "value": "dollar_discount",
+              "label": "Cart Dollar Discount"
+            },
+            {
+              "value": "discounted_product",
+              "label": "Discounted Product"
+            },
+            {
+              "value": "full_price_product",
+              "label": "Full Price Product"
+            }
+          ],
+          "label": "Benefit Type",
+          "info": "Select the benefit to correspond to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "Benefits",
+          "info": "Only the benefit selected above will apply to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "GWP Single"
+        },
+        {
+          "type": "product",
+          "id": "gwp_product",
+          "label": "GWP Product"
+        },
+        {
+          "type": "header",
+          "content": "Free Shipping"
+        },
+        {
+          "type": "select",
+          "id": "shipping_type",
+          "options": [
+            {
+              "value": "International Shipping",
+              "label": "International Shipping"
+            },
+            {
+              "value": "2 Business Day Shipping",
+              "label": "2 Business Day Shipping"
+            },
+            {
+              "value": "6-8 Business Days (Smartpost)",
+              "label": "6-8 Business Days (Smartpost)"
+            },
+            {
+              "value": "Delivery by This Weekend",
+              "label": "Delivery by This Weekend"
+            },
+            {
+              "value": "Next Business Day (FedEx)",
+              "label": "Next Business Day (FedEx)"
+            }
+          ],
+          "label": "Shipping Type"
+        },
+        {
+          "type": "header",
+          "content": "Cart Discount"
+        },
+        {
+          "type": "range",
+          "id": "discount_amount",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Cart Dollar Discount"
+        },
+        {
+          "type": "range",
+          "id": "dollar_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Discounted Product"
+        },
+        {
+          "type": "product",
+          "id": "discounted_product",
+          "label": "Discounted Product"
+        },
+        {
+          "type": "range",
+          "id": "product_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Full Price Product"
+        },
+        {
+          "type": "product",
+          "id": "full_price_product_object",
+          "label": "Full Price Product"
+        }
+      ]
+    },
+    {
+      "type": "atc_same_collection",
+      "name": "Same Collection",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "toggle",
+          "label": "Enable Trigger",
+          "default": true
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "The collection products must be added from."
+        },
+        {
+          "type": "select",
+          "id": "product_count",
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            }
+          ],
+          "label": "Number of Products required from collection"
+        },
+        {
+          "type": "header",
+          "content": "Benefit Settings"
+        },
+        {
+          "type": "textarea",
+          "id": "benefit_text",
+          "label": "Benefit Copy",
+          "info": "Appears in GWP List"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_image",
+          "label": "Benefit Image",
+          "info": "Only visible in giftengine mode, and with the discount benefit."
+        },
+        {
+          "type": "select",
+          "id": "benefit_type",
+          "options": [
+            {
+              "value": "gwp",
+              "label": "GWP Single"
+            },
+            {
+              "value": "free_ship",
+              "label": "Free Shipping"
+            },
+            {
+              "value": "discount",
+              "label": "Cart Discount"
+            },
+            {
+              "value": "dollar_discount",
+              "label": "Cart Dollar Discount"
+            },
+            {
+              "value": "discounted_product",
+              "label": "Discounted Product"
+            },
+            {
+              "value": "full_price_product",
+              "label": "Full Price Product"
+            }
+          ],
+          "label": "Benefit Type",
+          "info": "Select the benefit to correspond to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "Benefits",
+          "info": "Only the benefit selected above will apply to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "GWP Single"
+        },
+        {
+          "type": "product",
+          "id": "gwp_product",
+          "label": "GWP Product"
+        },
+        {
+          "type": "header",
+          "content": "Free Shipping"
+        },
+        {
+          "type": "select",
+          "id": "shipping_type",
+          "options": [
+            {
+              "value": "International Shipping",
+              "label": "International Shipping"
+            },
+            {
+              "value": "2 Business Day Shipping",
+              "label": "2 Business Day Shipping"
+            },
+            {
+              "value": "6-8 Business Days (Smartpost)",
+              "label": "6-8 Business Days (Smartpost)"
+            },
+            {
+              "value": "Delivery by This Weekend",
+              "label": "Delivery by This Weekend"
+            },
+            {
+              "value": "Next Business Day (FedEx)",
+              "label": "Next Business Day (FedEx)"
+            }
+          ],
+          "label": "Shipping Type"
+        },
+        {
+          "type": "header",
+          "content": "Cart Discount"
+        },
+        {
+          "type": "range",
+          "id": "discount_amount",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Cart Dollar Discount"
+        },
+        {
+          "type": "range",
+          "id": "dollar_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Discounted Product"
+        },
+        {
+          "type": "product",
+          "id": "discounted_product",
+          "label": "Discounted Product"
+        },
+        {
+          "type": "range",
+          "id": "product_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Full Price Product"
+        },
+        {
+          "type": "product",
+          "id": "full_price_product_object",
+          "label": "Full Price Product"
+        }
+      ]
+    },
+    {
+      "type": "atc_products",
+      "name": "ATC Products",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "toggle",
+          "label": "Enable Trigger",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Specific Product(s)"
+        },
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "Product 1"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Product 2"
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "Product 3"
+        },
+
+        {
+          "type": "header",
+          "content": "Benefit Settings"
+        },
+        {
+          "type": "textarea",
+          "id": "benefit_text",
+          "label": "Benefit Copy",
+          "info": "Appears in GWP List"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_image",
+          "label": "Benefit Image",
+          "info": "Only visible in giftengine mode, and with the discount benefit."
+        },
+        {
+          "type": "select",
+          "id": "benefit_type",
+          "options": [
+            {
+              "value": "gwp",
+              "label": "GWP Single"
+            },
+            {
+              "value": "free_ship",
+              "label": "Free Shipping"
+            },
+            {
+              "value": "discount",
+              "label": "Cart Discount"
+            },
+            {
+              "value": "dollar_discount",
+              "label": "Cart Dollar Discount"
+            },
+            {
+              "value": "discounted_product",
+              "label": "Discounted Product"
+            },
+            {
+              "value": "full_price_product",
+              "label": "Full Price Product"
+            }
+          ],
+          "label": "Benefit Type",
+          "info": "Select the benefit to correspond to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "Benefits",
+          "info": "Only the benefit selected above will apply to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "GWP Single"
+        },
+        {
+          "type": "product",
+          "id": "gwp_product",
+          "label": "GWP Product"
+        },
+        {
+          "type": "header",
+          "content": "Free Shipping"
+        },
+        {
+          "type": "select",
+          "id": "shipping_type",
+          "options": [
+            {
+              "value": "International Shipping",
+              "label": "International Shipping"
+            },
+            {
+              "value": "2 Business Day Shipping",
+              "label": "2 Business Day Shipping"
+            },
+            {
+              "value": "6-8 Business Days (Smartpost)",
+              "label": "6-8 Business Days (Smartpost)"
+            },
+            {
+              "value": "Delivery by This Weekend",
+              "label": "Delivery by This Weekend"
+            },
+            {
+              "value": "Next Business Day (FedEx)",
+              "label": "Next Business Day (FedEx)"
+            }
+          ],
+          "label": "Shipping Type"
+        },
+        {
+          "type": "header",
+          "content": "Cart Discount"
+        },
+        {
+          "type": "range",
+          "id": "discount_amount",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Cart Dollar Discount"
+        },
+        {
+          "type": "range",
+          "id": "dollar_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Discounted Product"
+        },
+        {
+          "type": "product",
+          "id": "discounted_product",
+          "label": "Discounted Product"
+        },
+        {
+          "type": "range",
+          "id": "product_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Full Price Product"
+        },
+        {
+          "type": "product",
+          "id": "full_price_product_object",
+          "label": "Full Price Product"
+        }
+      ]
+    },
+    {
+      "type": "order_threshold",
+      "name": "Order Threshold",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "toggle",
+          "label": "Enable Trigger",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Order Threshold"
+        },
+        {
+          "type": "range",
+          "id": "order_threshold",
+          "min": 5,
+          "max": 250,
+          "step": 5,
+          "unit": "$",
+          "label": "Order amount threshold",
+          "default": 50
+        },
+
+        {
+          "type": "header",
+          "content": "Benefit Settings"
+        },
+        {
+          "type": "textarea",
+          "id": "benefit_text",
+          "label": "Benefit Copy",
+          "info": "Appears in GWP List"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_image",
+          "label": "Benefit Image",
+          "info": "Only visible in giftengine mode, and with the discount benefit."
+        },
+        {
+          "type": "select",
+          "id": "benefit_type",
+          "options": [
+            {
+              "value": "gwp",
+              "label": "GWP Single"
+            },
+            {
+              "value": "free_ship",
+              "label": "Free Shipping"
+            },
+            {
+              "value": "discount",
+              "label": "Cart Discount"
+            },
+            {
+              "value": "dollar_discount",
+              "label": "Cart Dollar Discount"
+            },
+            {
+              "value": "discounted_product",
+              "label": "Discounted Product"
+            },
+            {
+              "value": "full_price_product",
+              "label": "Full Price Product"
+            }
+          ],
+          "label": "Benefit Type",
+          "info": "Select the benefit to correspond to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "Benefits",
+          "info": "Only the benefit selected above will apply to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "GWP Single"
+        },
+        {
+          "type": "product",
+          "id": "gwp_product",
+          "label": "GWP Product"
+        },
+        {
+          "type": "header",
+          "content": "Free Shipping"
+        },
+        {
+          "type": "select",
+          "id": "shipping_type",
+          "options": [
+            {
+              "value": "International Shipping",
+              "label": "International Shipping"
+            },
+            {
+              "value": "2 Business Day Shipping",
+              "label": "2 Business Day Shipping"
+            },
+            {
+              "value": "6-8 Business Days (Smartpost)",
+              "label": "6-8 Business Days (Smartpost)"
+            },
+            {
+              "value": "Delivery by This Weekend",
+              "label": "Delivery by This Weekend"
+            },
+            {
+              "value": "Next Business Day (FedEx)",
+              "label": "Next Business Day (FedEx)"
+            }
+          ],
+          "label": "Shipping Type"
+        },
+        {
+          "type": "header",
+          "content": "Cart Discount"
+        },
+        {
+          "type": "range",
+          "id": "discount_amount",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Cart Dollar Discount"
+        },
+        {
+          "type": "range",
+          "id": "dollar_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Discounted Product"
+        },
+        {
+          "type": "product",
+          "id": "discounted_product",
+          "label": "Discounted Product"
+        },
+        {
+          "type": "range",
+          "id": "product_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Full Price Product"
+        },
+        {
+          "type": "product",
+          "id": "full_price_product_object",
+          "label": "Full Price Product"
+        }
+      ]
+    },
+    {
+      "type": "product_threshold",
+      "name": "Product Count",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "toggle",
+          "label": "Enable Trigger",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Product Count Threshold"
+        },
+        {
+          "type": "text",
+          "id": "product_threshold",
+          "label": "Product Count Threshold Number"
+        },
+        {
+          "type": "header",
+          "content": "Benefit Settings"
+        },
+        {
+          "type": "textarea",
+          "id": "benefit_text",
+          "label": "Benefit Copy",
+          "info": "Appears in GWP List"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_image",
+          "label": "Benefit Image",
+          "info": "Only visible in giftengine mode, and with the discount benefit."
+        },
+        {
+          "type": "select",
+          "id": "benefit_type",
+          "options": [
+            {
+              "value": "gwp",
+              "label": "GWP Single"
+            },
+            {
+              "value": "free_ship",
+              "label": "Free Shipping"
+            },
+            {
+              "value": "discount",
+              "label": "Cart Discount"
+            },
+            {
+              "value": "dollar_discount",
+              "label": "Cart Dollar Discount"
+            },
+            {
+              "value": "discounted_product",
+              "label": "Discounted Product"
+            },
+            {
+              "value": "full_price_product",
+              "label": "Full Price Product"
+            }
+          ],
+          "label": "Benefit Type",
+          "info": "Select the benefit to correspond to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "Benefits",
+          "info": "Only the benefit selected above will apply to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "GWP Single"
+        },
+        {
+          "type": "product",
+          "id": "gwp_product",
+          "label": "GWP Product"
+        },
+        {
+          "type": "header",
+          "content": "Free Shipping"
+        },
+        {
+          "type": "select",
+          "id": "shipping_type",
+          "options": [
+            {
+              "value": "International Shipping",
+              "label": "International Shipping"
+            },
+            {
+              "value": "2 Business Day Shipping",
+              "label": "2 Business Day Shipping"
+            },
+            {
+              "value": "6-8 Business Days (Smartpost)",
+              "label": "6-8 Business Days (Smartpost)"
+            },
+            {
+              "value": "Delivery by This Weekend",
+              "label": "Delivery by This Weekend"
+            },
+            {
+              "value": "Next Business Day (FedEx)",
+              "label": "Next Business Day (FedEx)"
+            }
+          ],
+          "label": "Shipping Type"
+        },
+        {
+          "type": "header",
+          "content": "Cart Discount"
+        },
+        {
+          "type": "range",
+          "id": "discount_amount",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Cart Dollar Discount"
+        },
+        {
+          "type": "range",
+          "id": "dollar_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Discounted Product"
+        },
+        {
+          "type": "product",
+          "id": "discounted_product",
+          "label": "Discounted Product"
+        },
+        {
+          "type": "range",
+          "id": "product_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Full Price Product"
+        },
+        {
+          "type": "product",
+          "id": "full_price_product_object",
+          "label": "Full Price Product"
+        }
+      ]
+    },
+    {
+      "type": "atc_any",
+      "name": "Add any Product",
+      "settings": [
+        {
+          "type": "header",
+          "content": "ATC Any Product"
+        },
+        {
+          "type": "checkbox",
+          "id": "toggle",
+          "label": "Enable Trigger",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Benefit Settings"
+        },
+        {
+          "type": "textarea",
+          "id": "benefit_text",
+          "label": "Benefit Copy",
+          "info": "Appears in GWP List"
+        },
+        {
+          "type": "image_picker",
+          "id": "benefit_image",
+          "label": "Benefit Image",
+          "info": "Only visible in giftengine mode, and with the discount benefit."
+        },
+        {
+          "type": "select",
+          "id": "benefit_type",
+          "options": [
+            {
+              "value": "gwp",
+              "label": "GWP Single"
+            },
+            {
+              "value": "free_ship",
+              "label": "Free Shipping"
+            },
+            {
+              "value": "discount",
+              "label": "Cart Discount"
+            },
+            {
+              "value": "dollar_discount",
+              "label": "Cart Dollar Discount"
+            },
+            {
+              "value": "discounted_product",
+              "label": "Discounted Product"
+            },
+            {
+              "value": "full_price_product",
+              "label": "Full Price Product"
+            }
+          ],
+          "label": "Benefit Type",
+          "info": "Select the benefit to correspond to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "Benefits",
+          "info": "Only the benefit selected above will apply to this trigger."
+        },
+        {
+          "type": "header",
+          "content": "GWP Single"
+        },
+        {
+          "type": "product",
+          "id": "gwp_product",
+          "label": "GWP Product"
+        },
+        {
+          "type": "header",
+          "content": "Free Shipping"
+        },
+        {
+          "type": "select",
+          "id": "shipping_type",
+          "options": [
+            {
+              "value": "International Shipping",
+              "label": "International Shipping"
+            },
+            {
+              "value": "2 Business Day Shipping",
+              "label": "2 Business Day Shipping"
+            },
+            {
+              "value": "6-8 Business Days (Smartpost)",
+              "label": "6-8 Business Days (Smartpost)"
+            },
+            {
+              "value": "Delivery by This Weekend",
+              "label": "Delivery by This Weekend"
+            },
+            {
+              "value": "Next Business Day (FedEx)",
+              "label": "Next Business Day (FedEx)"
+            }
+          ],
+          "label": "Shipping Type"
+        },
+        {
+          "type": "header",
+          "content": "Cart Discount"
+        },
+        {
+          "type": "range",
+          "id": "discount_amount",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Cart Dollar Discount"
+        },
+        {
+          "type": "range",
+          "id": "dollar_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Discounted Product"
+        },
+        {
+          "type": "product",
+          "id": "discounted_product",
+          "label": "Discounted Product"
+        },
+        {
+          "type": "range",
+          "id": "product_discount_amount",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "$",
+          "label": "Discount Amount",
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Full Price Product"
+        },
+        {
+          "type": "product",
+          "id": "full_price_product_object",
+          "label": "Full Price Product"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

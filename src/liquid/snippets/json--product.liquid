@@ -1,0 +1,305 @@
+{% comment %} 
+  @param include_product_collections {Boolean}
+{% endcomment %}
+
+{% capture yotpo_stars %}{% render 'yotpo--stars', product: product %}{% endcapture %}
+
+{%- capture mod_json -%}
+{
+  {%- if order != blank -%}
+    "order": {{ order | json }}, 
+  {%- endif -%}
+  "title": {{ product.title | json }},
+  "metafields": {
+    "global": {
+      "subtext": {{ product.metafields.global.subtext | json }},
+      {% if product.metafields.global.value_prop_label != blank %}
+      "value_props": [
+        {% for value in product.metafields.global.value_prop_label %}
+        {
+          "label": {{ product.metafields.global.value_prop_label[forloop.index0] | json }},
+          {% comment %} Media is always an array to using first index {% endcomment %}
+          "icon": {{ product.metafields.global.value_prop_icon[forloop.index0][0].cloudinary_src | json }}
+        }
+        {%- unless forloop.last -%},{%- endunless -%}
+        {% endfor %}
+      ],
+      {% endif %}
+      "specifications": {
+        "type": {{ product.metafields.global.spec_type | json }},
+        "is_highlight": {{ product.metafields.global.sepc_is_highlight | json }},
+        "value": {{ product.metafields.global.spec_value | json }},
+        "icon": {{ product.metafields.global.spec_icon | json }}
+      },
+      "spec_type": {{ product.metafields.global.spec_type | json }},
+      "sepc_is_highlight": {{ product.metafields.global.sepc_is_highlight | json }},
+      "spec_value": {{ product.metafields.global.spec_value | json }},
+      "spec_icon": {{ product.metafields.global.spec_icon | json }},
+      "promo_title": {{ product.metafields.product.promo_title | json }}
+    },
+    "accentuate": {{ product.metafields.accentuate | json }}, 
+    "pdp": {
+      "short_description_heading": {{ product.metafields.custom_fields["short_description_heading"] | json }},
+      "short_description_text": {{ product.metafields.custom_fields["short_description_text"] | json }},
+      "subscriptions_block_title": {{ product.metafields.custom_fields["subscriptions_block_title"] | json }},
+      "expected_to_ship_date": {{ product.metafields.custom_fields["expected_to_ship_by"] | date: " %B %e, %Y"  | json }},
+      "onetime_text": {{ product.metafields.custom_fields["onetime_text"] | json }},
+      "subscriptions_text": {{ product.metafields.custom_fields["subscriptions_text"] | json }},
+      "subscription_countdown_title":  {{ product.metafields.custom_fields["subscription_countdown_title"] | json }},
+      "subscription_countdown_title_color": {{ product.metafields.custom_fields["_countdown_title_color"] | json }},
+      "subscription_countdown_text": {{ product.metafields.custom_fields["subscription_countdown_text"] | json }},
+      "subscription_countdown_text_color": {{ product.metafields.custom_fields["sc_text_color"] | json }},
+      "subscription_countdown_bg":  {{ product.metafields.custom_fields["subscription_countdown_bg"] | json }},
+      "subscription_timer_bg_color": {{ product.metafields.custom_fields["timer_bg_color"] | json }},
+      "subscription_end_date":  {{ product.metafields.custom_fields['subscription_end_date'] | date: "%d %b %Y %H:%M:%S" | json }},
+      "enable_buy_it_now": {{ product.metafields.custom_fields["enable_buy_it_now"] | default: 0 }},
+      "low_stock_threshold": {{ product.metafields.custom_fields["low_stock_threshold"] | json }},
+      "additional_product_types": {{ product.metafields.custom_fields["additional_product_types"] | json }},
+      "preorder_text": {{ product.metafields.custom_fields["pre-order_text"] | json }},
+      "enable_promotion": {{ product.metafields.custom_fields["enable_promotion"] | default: 0 }},
+      "promo_text": {{ product.metafields.custom_fields["special_promo_text"] | json }},
+      "promo_collection": {{ product.metafields.custom_fields["promo_collection"] | json }},
+      "is_customizable": {{ product.metafields.printful.customisable | json }},
+      "promo_link_text": {{ product.metafields.custom_fields["promo_link_text"] | json }}{% if is_pdp %},{% endif %}
+      {% if is_pdp %}
+        "countdown_background_image": {{ product.metafields.custom_fields["countdown_background_image"] | json }},
+        "countdown_hex_color": {{ product.metafields.custom_fields["countdown_hex_color"] | json }},
+        "primary_text_color": {{ product.metafields.custom_fields["primary_text_color"] | json }},
+        "accent_text_color_1": {{ product.metafields.custom_fields["accent_text_color_1"] | json }},
+        "accent_text_color_2": {{ product.metafields.custom_fields["accent_text_color_2"] | json }},
+        "countdown_headline_text": {{ product.metafields.custom_fields["countdown_headline_text"] | json }},
+        "countdown_sub_header_text_1": {{ product.metafields.custom_fields["countdown_sub-header_text_1"] | json}},
+        "countdown_promocode": {{ product.metafields.custom_fields["countdown_promocode"] | json}},
+        "countdown_sub_header_text_2": {{ product.metafields.custom_fields["countdown_sub-header_text_2"] | json}},
+        "available_in_text": {{product.metafields.custom_fields['available_in_text'] | json}},
+        "enable_progress_bar": {{ product.metafields.custom_fields["enable_progress_bar_"] | default: 0 }},
+        "countdown_timer_end_date": {{ product.metafields.custom_fields['countdown_timer_end_date'] | date: "%d %b %Y %H:%M:%S" | json }},
+        "countdown_timer_start_date": {{ product.metafields.custom_fields['countdown_timer_start_date'] | date: "%d %b %Y %H:%M:%S" | json }},
+        "is_subscription": {{product.selling_plan_groups[0] | json }},
+        "complete_the_look": {{ product.metafields.custom_fields["complete_the_look"] | json }},
+        "rotating_view": {{ product.metafields.custom_fields["rotating_view"] | json }},
+        "rotating_view_img": {{ product.metafields.custom_fields["rotating_view_img"] | json }},
+        "heading_text": {{ product.metafields.custom_fields["heading_text"] | json }},
+        "description": {{ product.metafields.custom_fields["description"] | json }},
+        "hero_desktop_banner": {{ product.metafields.custom_fields["desktop_hero_banner"] | json }},
+        "hero_mobile_banner": {{ product.metafields.custom_fields["mobile_hero_banner"] | json }},
+        "hero_video_shopify": {{ product.metafields.custom_fields["hero_video_shopify"] | json }},
+        "hero_video_vimeo": {{ product.metafields.custom_fields["hero_video_vimeo"] | json }}, 
+        "hero_video_youtube": {{ product.metafields.custom_fields["hero_video_youtube"] | json }},
+        "rotating_hero": {{ product.metafields.custom_fields["rotating_hero"] | json }},
+        "text__cta_color": {{ product.metafields.custom_fields["text__cta_color"] | json }},
+        "section_title": {{ product.metafields.custom_fields["section_title"] | json }},
+        "shop_all_collection": {{ product.metafields.custom_fields["shop_all_collection"] | json }},  
+        "shop_all_text": {{ product.metafields.custom_fields["shop_all_text"] | json }},
+        "icons_image": {{ product.metafields.custom_fields["icon_image"] | split:'|###|' | json }},
+        "icons_line_one": {{ product.metafields.custom_fields["icon_line_one"] | split:'|###|' | json }},
+        "icons_line_two": {{ product.metafields.custom_fields["icon_line_two"] | split:'|###|' | json }},
+        "cross_products": {{ product.metafields.custom_fields["cross-sell_products"] | json }},
+        "banner_desktop_banner": {{ product.metafields.custom_fields["desktop_banner"] | json }},
+        "banner_mobile_banner": {{ product.metafields.custom_fields["mobile_banner"] | json }},
+        "video_url_shopify": {{ product.metafields.custom_fields["video_url_shopify"] | json }},
+        "video_url_vimeo": {{ product.metafields.custom_fields["video_url_vimeo"] | json }}, 
+        "video_url_youtube": {{ product.metafields.custom_fields["video_url_youtube"] | json }},
+        "preheader": {{ product.metafields.custom_fields["banner_pre-header"] | json }}, 
+        "header": {{ product.metafields.custom_fields["banner_header"] | json }},
+        "body_copy": {{ product.metafields.custom_fields["banner_body_copy"] | json }},
+        "text_container_background_colo": {{ product.metafields.custom_fields["text_container_background_colo"] | json }},
+        "preheader_color": {{ product.metafields.custom_fields["pre-header_color"] | json }},
+        "header__body_copy_color": {{ product.metafields.custom_fields["header__body_copy_color"] | json }},
+        "cross_products": {
+          {% assign cross_products = product.metafields.custom_fields["cross-sell_products"] | split: '|' %}
+          {% for cross_product in cross_products %}
+            {% assign cs_product = all_products[cross_product] %}
+            {% if cs_product.available == true %}
+              "cross_product_{{ forloop.index }}": {
+                "handle":  {{ cs_product.handle | json }},
+                "type":  {{ cs_product.type | json }},
+                "title":  {{ cs_product.title | json }}, 
+                "url":  {{ cs_product.url | json }},
+                "featured_image":  "{{ cs_product.featured_image | img_url: '300x' }}",
+                "variants": [ 
+                  {% for cs_variant in cs_product.variants %}
+                    {
+                      "title": {{ cs_variant.title | json }},
+                      "id": {{ cs_variant.id | json }},
+                      "price": {{ cs_variant.price | json }}
+                    }{% unless forloop.last%},{% endunless %} 
+                  {% endfor %}
+                ]
+              },
+            {% endif %}
+          {% endfor %}
+        },
+        "complete_looks": [
+          {% assign complete_looks = product.metafields.custom_fields["complete_the_look"] | split: '|' %}
+          {% assign look_counter = 0 %}
+          {% for complete_look in complete_looks limit:2 %}
+            {% assign look_product = all_products[complete_look] %}
+              {% if look_product.available == true %}
+              {
+                "available":  {{ look_product.available | json }},
+                "variants": [ 
+                  {% for look_variant in look_product.variants %}
+                    {% if look_variant.available %}
+                      {
+                        "title": {{ look_variant.title | json }},
+                        "id": {{ look_variant.id | json }},
+                        "price": {{ look_variant.price | json }},
+                        "compare_at_price": {{ look_variant.compare_at_price | json }},
+                        "options": "{{ look_variant.options }}"
+                      }{% unless forloop.last%},{% endunless %}
+                    {% endif %}
+                  {% endfor %}
+                ],
+                "handle":  {{ look_product.handle | json }},
+                "type":  {{ look_product.type | json }},
+                "title":  {{ look_product.title | json }},
+                "url":  {{ look_product.url | json }},
+                "featured_image":  "{{ look_product.featured_image | img_url: '300x' }}"              
+              },
+              {% endif %}
+          {% endfor %}
+        ],        
+        "product_types": {
+          {% assign product_types = product.metafields.custom_fields["additional_product_types"] | split: '|' %}
+          {% for product_type in product_types %}
+            {% assign additional_product =  all_products[product_type] %}
+            "product_type_{{ forloop.index }}": {
+              "available":  {{ additional_product.available | default: false }},
+              "handle":  {{ additional_product.handle | json }},
+              "type":  {{ additional_product.type | json }},
+              "title":  {{ additional_product.title | json }},
+              "url":  {{ additional_product.url | json }},
+              "featured_image":  "{{ additional_product.featured_image | img_url: '100x' }}"
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        },
+        "size_chart_metafields": {
+          {% for tag in product.tags %}
+            {% if tag contains 'SizeChart::'%}
+              {% assign tagSplit = tag | split:'::' %}
+              {% assign selected_size_chart = tagSplit.last %}
+            {% endif %}
+          {% endfor %}
+          {% assign size_chart_page = pages[selected_size_chart].metafields %}
+          "show_fit_tab": {{ size_chart_page.custom_fields['show_fit_tab'] | json }},
+          "size_chart_description": {{ size_chart_page.custom_fields['size_chart_description'] | json }},
+          "fit_title_1": {{ size_chart_page.custom_fields['fit_title_1'] | json }},
+          "fit_image_1": {{ size_chart_page.custom_fields['fit_image_1'] | json }},
+          "fit_description_1": {{ size_chart_page.custom_fields['fit_description_1'] | json }},
+          "fit_title_2": {{ size_chart_page.custom_fields['fit_title_2'] | json }},
+          "fit_image_2": {{ size_chart_page.custom_fields['fit_image_2'] | json }},
+          "fit_description_2": {{ size_chart_page.custom_fields['fit_description_2'] | json }},
+          "size_chart_1_title": {{ size_chart_page.custom_fields['size_chart_1_title'] | json }},
+          "size_chart_2_title": {{ size_chart_page.custom_fields['size_chart_2_title'] | json }},
+          "sc_1_rows": {{ size_chart_page.custom_fields["row_title"] | json }},
+          "sc_1_row_title": {{ size_chart_page.custom_fields["row_title"] | split:'|###|' | json }},
+          "sc_1_2xs": {{ size_chart_page.custom_fields["2xs"] | split:'|###|' | json }},
+          "sc_1_cf_xs": {{ size_chart_page.custom_fields["cf_xs"] | split:'|###|' | json }},
+          "sc_1_cf_s": {{ size_chart_page.custom_fields["cf_s"] | split:'|###|' | json }},
+          "sc_1_cf_m": {{ size_chart_page.custom_fields["cf_m"] | split:'|###|' | json }},
+          "sc_1_cf_l": {{ size_chart_page.custom_fields["cf_l"] | split:'|###|' | json }},
+          "sc_1_cf_xl": {{ size_chart_page.custom_fields["cf_xl"] | split:'|###|' | json }},
+          "sc_1_2xl": {{ size_chart_page.custom_fields["2xl"] | split:'|###|' | json }},
+          "sc_1_3xl": {{ size_chart_page.custom_fields["3xl"] | split:'|###|' | json }},
+          "sc_1_4xl": {{ size_chart_page.custom_fields["4xl"] | split:'|###|' | json }},
+          "sc_1_5xl": {{ size_chart_page.custom_fields["5xl"] | split:'|###|' | json }},
+          "sc_2_rows": {{ size_chart_page.custom_fields["row_title2"] | json }},
+          "sc_2_row_title": {{ size_chart_page.custom_fields["row_title2"] | split:'|###|' | json }},
+          "sc_2_2xs": {{ size_chart_page.custom_fields["2xs2"] | split:'|###|' | json }},
+          "sc_2_cf_xs": {{ size_chart_page.custom_fields["xs2"] | split:'|###|' | json }},
+          "sc_2_cf_s": {{ size_chart_page.custom_fields["cf_s2"] | split:'|###|' | json }},
+          "sc_2_cf_m": {{ size_chart_page.custom_fields["cf_m2"] | split:'|###|' | json }},
+          "sc_2_cf_l": {{ size_chart_page.custom_fields["cf_l2"] | split:'|###|' | json }},
+          "sc_2_cf_xl": {{ size_chart_page.custom_fields["xl2"] | split:'|###|' | json }},
+          "sc_2_2xl": {{ size_chart_page.custom_fields["2xl2"] | split:'|###|' | json }},
+          "sc_2_3xl": {{ size_chart_page.custom_fields["3xl2"] | split:'|###|' | json }},
+          "sc_2_4xl": {{ size_chart_page.custom_fields["4xl2"] | split:'|###|' | json }},
+          "sc_2_5xl": {{ size_chart_page.custom_fields["5xl2"] | split:'|###|' | json }}
+        }
+      {% endif %}
+    }
+  },
+  {%- if include_product_collections -%}
+    "collections": {{ product.collections | json }},
+  {%- endif -%}
+  "handle": {{ product.handle | json }},
+  "id": {{ product.id | json }},
+  "type": {{ product.type | json }},
+  "url": {{ product.url | json }},
+  "vendor": {{ product.vendor | json }},
+  "media": {{ product.media | json }},
+  "external_video": [
+  {%- for media in product.media -%}
+    {% if media.media_type == 'external_video' %}
+        {{ media | external_video_url | json }}{% unless forloop.last %},{% endunless %}
+    {% else %}
+      {% continue %}
+    {% endif%}
+  {%- endfor -%}
+  ],
+  "price_max": {{ product.price_max | json }},
+  "price_min":  {{ product.price_min | json }},
+  "description": {{ product.description | json }},
+  "price": {{ product.price | json }},
+  "price_varies": {{ product.price_varies | json }},
+  "featured_image": {{ product.featured_image | json }},
+  "featured_media": {{ product.featured_media | json }},
+  "available": {{ product.available | json }},
+  "tags": {{ product.tags | json }},
+  "options": {{- product.options | json -}},
+  "options_with_values": {{- product.options_with_values | json -}},
+  "has_only_default_variant": {{- product.has_only_default_variant | json -}},
+  "yotpo": {
+    "starsHtml": {{ yotpo_stars | json }}
+  },
+  "selected_or_first_available_variant": {
+    "title": {{ product.selected_or_first_available_variant.title | json }},
+    "id": {{ product.selected_or_first_available_variant.id | json }}, 
+    "url": "{{ product.selected_or_first_available_variant.url }}",
+    "available": {{ product.selected_or_first_available_variant.available | json }},
+    "inventory_quantity": {{ product.selected_or_first_available_variant.inventory_quantity | json }},
+    "inventory_policy": {{ product.selected_or_first_available_variant.inventory_policy | json }},
+    "price": {{ product.selected_or_first_available_variant.price | json }},
+    "compare_at_price": {{ product.selected_or_first_available_variant.compare_at_price | json }},
+    "featured_media": {{- product.selected_or_first_available_variant.featured_media | json -}},
+    "option1": {{ product.selected_or_first_available_variant.option1  | json }},
+    "option2": {{ product.selected_or_first_available_variant.option2  | json }},
+    "option3": {{ product.selected_or_first_available_variant.option3  | json }},
+    "options": {{ product.selected_or_first_available_variant.options | json }},
+    "sku": {{ product.selected_or_first_available_variant.sku | json }},
+    "metafields": {
+      "accentuate": {{ product.selected_or_first_available_variant.metafields.accentuate | json }} 
+    }
+  },
+  "variants": [
+    {%- for variant in product.variants -%}
+      {
+        "title": {{ variant.title | json }},
+        "id": {{ variant.id | json }},
+        "url": "{{ variant.url }}",
+        "available": {{ variant.available | json }},
+        "inventory_quantity": {{ variant.inventory_quantity | json }},
+        "inventory_policy": {{ variant.inventory_policy | json }},
+        "price": {{ variant.price | json }},
+        "compare_at_price": {{ variant.compare_at_price | json }},
+        "featured_media": {{- variant.featured_media | json -}},
+        "option1": {{ variant.option1  | json }},
+        "option2": {{ variant.option2  | json }},
+        "option3": {{ variant.option3  | json }},
+        "options": {{ variant.options | json }}, 
+        "sku": {{ variant.sku | json }},
+        "metafields": {
+          "accentuate": {{ variant.metafields.accentuate | json }}
+        }
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ],
+  "optionsWithValues": {{ product.options_with_values | json }}
+  {%- for option in product.options_with_values -%}
+    {% if forloop.first %},{% endif %}
+  {{ option.name | json }}: [{%- for value in option.values -%}{{ value | json }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]{%- unless forloop.last -%},{%- endunless -%}
+  {%- endfor -%}
+}
+{%- endcapture -%}
+{{ mod_json }}

@@ -1,0 +1,171 @@
+{%- assign mod_settings = section.settings -%}
+{%- assign mod_blocks = section.blocks -%}
+
+{% capture props %}
+{
+  {% if block_data_from_metafields %}
+    "modsettings": {{ mod_settings }},
+    "blocks": {{ mod_blocks }}
+  {% elsif block_data_from_collections %}
+    "modsettings": {{ mod_settings | json }},
+    "blocks": {{ mod_blocks }}
+  {% else %}
+    "modsettings": {{ mod_settings | json }},
+    "blocks": [
+    {% for block in mod_blocks %}
+      {
+        "settings": {{ block.settings | json }},
+        "collection": {
+          "superstar_name": {{ collections[block.settings.superstar_collection].metafields.custom_fields['superstar_name'] | json }},
+          "sub_brand": {{ collections[block.settings.superstar_collection].metafields.custom_fields['sub-brand'] | json }},
+          "superstar_photo": {{ collections[block.settings.superstar_collection].metafields.custom_fields['superstar_photo'] | json }},
+          "badge_text": {{ collections[block.settings.superstar_collection].metafields.custom_fields['badge_text'] | json }},
+          "badge_bg_color": {{ collections[block.settings.superstar_collection].metafields.custom_fields['badge_background_color'] | json }},
+          "badge_text_color": {{ collections[block.settings.superstar_collection].metafields.custom_fields['badge_text_color'] | json }}
+        }
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    ]
+  {% endif %}
+}
+{% endcapture %}
+
+<div style="background-color: {{ mod_settings.background_color }};" class="w-full pl-4 md:px-6 py-5 md:py-10 bg-gray-200 flex flex-wrap justify-center {{ block_type }}" data-vue-component="SuperstarCarousel" data-aos="fade-up" data-props="{{ props | escape | strip_newlines }}" v-if="blocks.length">
+  <div class="flex flex-wrap md:flex-no-wrap justify-center md:justify-between w-full items-center">
+    <h3 style="color: {{ mod_settings.header_text_color }};" class="w-full md:w-2/3 text-center md:text-left font-primary font-extrabold text-e28 md:text-hero uppercase tracking-header" v-html="modsettings.header"></h3>
+    <a v-if="modsettings.shop_all_link_url !== ''" class="font-primary font-bold text-center text-primary-500 md:text-left text-lg tracking-header px-0 uppercase link--secondary-reverse mt-e8 md:mt-0" :href="modsettings.shop_all_link_url" v-html="modsettings.shop_all_link_text"></a>  
+  </div>
+
+  <div v-swiper:swiper="swiperOptions" class="overflow-hidden mt-10 pb-6 w-full">
+    <div class="swiper-wrapper"> 
+      <div v-if="blocks[superstarIndex].settings.superstar_collection !== ''" v-for="(superstarCard, superstarIndex) in blocks" data-aos="fade-up" :data-aos-delay="[superstarIndex] * 100"class="swiper-slide flex justify-center items-center max-w-e220 w-e220 md:w-e256 md:max-w-e256 h-e440 md:h-e540 cursor-pointer"> 
+        <div tabindex="0" @keyup.enter="selectSuperstarMobile(superstarIndex, $mq)" @click="selectSuperstarMobile(superstarIndex, $mq)" @mouseover="selectSuperstar(superstarIndex, $mq)" @keyup="selectSuperstar(superstarIndex, $mq)" class="transition-all duration-100" :class="[activeSuperstar === superstarIndex ? 'h-e440 md:h-e540 shadow-chart' : 'h-e440']">
+          <img class="lazy swiper-lazy w-full h-full object-cover transition-all duration-200 bg-gray-superstar_bg" :data-src="imageSized(superstarImage(superstarIndex), '_600x600.$1', '_1000x1000.$1')"  :alt="superstarText(superstarIndex)" />
+          <div class="flex flex-wrap content-end absolute p-4 transition-all duration-200" :class="[activeSuperstar === superstarIndex ? 'h-e440 md:h-e540 top-0' : 'h-e440 top-0 md:top-50']">
+            <div v-if="foundBadgeText(superstarIndex)" v-show="activeSuperstar !== superstarIndex" class="font-primary font-bold text-megamenu_sub tracking-header uppercase text-white transition-all duration-200" v-html="badgeText(superstarIndex)"></div>
+            <div v-if="foundBadgeText(superstarIndex)" v-show="activeSuperstar === superstarIndex" :style="badgeStyle(superstarIndex)" class="font-primary font-bold text-megamenu_sub tracking-header uppercase text-white leading-1 p-4 mb-2 -ml-4 transition-all duration-200" v-html="badgeText(superstarIndex)"></div>
+            <div :class="[activeSuperstar === superstarIndex ? 'text-xl md:text-e40' : 'text-xl md:text-e28']" class="font-primary font-extrabold uppercase tracking-header leading-1 text-white w-3/5 mr-p38" v-html="superstarText(superstarIndex)"></div>
+          
+            <a 
+              v-show="activeSuperstar === superstarIndex && $mq !== 'sm'" 
+              {% if block_data_from_metafields %}
+                class="font-primary font-bold text-megamenu_sub tracking-header uppercase text-white p-2 text-center w-full mt-2 transition-all duration-200 hover:filter-brightness"
+                style="width: calc(100% - 14px); background-color: {{ mod_settings.bg_color }}; color: {{ mod_settings.shop_all_text_color }};"
+              {% else %}
+                :style="ctaColors"
+                class="font-primary font-bold text-megamenu_sub tracking-header uppercase p-2 text-center w-full mt-2 transition-all duration-200 hover:filter-brightness"
+                style="width: calc(100% - 20px)"
+              {% endif %}
+              >
+              {{ 'collections.general.shop_now' | t}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% render 'swiper-arrow' with 'prev', mod_class: '' %}
+    {% render 'swiper-arrow' with 'next', mod_class: '' %}
+    <div v-if="blocks.length > 5" class="swiper-scrollbar mt-5 w-full left-0"></div>
+  </div>
+</div>
+
+{% if block_data_from_metafields %}
+<style>
+  .superstar_carousel .swiper-scrollbar-drag {
+    background-color: {{ mod_settings.bg_color }} !important;
+  }
+</style>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Superstars",
+    "class": "hero",
+    "max_blocks": 18,
+    "settings": [
+      {"type": "header", "content": "Content"},
+      {
+        "type": "text",
+        "id": "header",
+        "label": "Header"
+      },
+      {
+        "type": "text",
+        "id": "shop_all_link_text",
+        "label": "Shop All Link Text"
+      },
+      {
+        "type": "url",
+        "id": "shop_all_link_url",
+        "label": "Shop All Link URL"
+      },
+      {"type": "header", "content": "Colors"},
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color"
+      },
+      {
+        "type": "color",
+        "id": "header_text_color",
+        "label": "Header Text Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Shop All Background Color",
+        "default": "#D0021B"
+      },
+      {
+        "type": "color",
+        "id": "shop_all_text_color",
+        "label": "Shop All Text Color"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "superstar",
+        "name": "Superstar",
+        "settings": [
+          {"type": "header", "content": "Settings"},
+          {
+            "type": "collection",
+            "id": "superstar_collection",
+            "label": "Superstar Collection"
+          },
+          {"type": "header", "content": "Overrides"},
+          {"type": "paragraph", "content": "By default, all superstar information is pulled from the superstars collection metafields. Override those settings here."},
+          {
+            "type": "image_picker",
+            "id": "superstar_photo",
+            "label": "Superstar Photo",
+            "info": "Suggested dimensions: 512 x 1080"
+          },
+          {
+            "type": "text",
+            "id": "badge_text",
+            "label": "Badge Text"
+          },
+          {
+            "type": "color",
+            "id": "badge_bg_color",
+            "label": "Badge Background Color",
+            "default": "#D0021B"
+          },
+          {
+            "type": "color",
+            "id": "badge_text_color",
+            "label": "Badge Text Color",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "text",
+            "id": "superstar_name",
+            "label": "Superstar Name"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

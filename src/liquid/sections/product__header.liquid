@@ -1,0 +1,59 @@
+
+<product-display product-handle="{{ product.handle }}">
+  <template slot="content">
+    <h1 class="product-info__title">{{ product.title }}</h1>
+    <product-bottomline :product-id="{{ product.id }}"></product-bottomline>
+    {%- if product.description != blank -%}
+      <p class="product-info__description">{{ product.description }}</p>
+    {%- endif -%}
+  </template>
+  <template slot="icons">
+    <div class="product-icon--list">
+      <div class="row small-up-2 medium-up-5">
+        {%- for block in section.blocks -%}
+          {%- assign tag_id = '__icon:' | append: block.settings.title -%}
+          {%- if product.tags contains tag_id -%}
+            <div class="column">
+              <div class="product-icon">
+                <img src="{{ block.settings.icon | img_url: '100x100' }}" alt="{{ block.settings.icon_alt }}" />
+                <p class="product-icon__title">{{ block.settings.title }}</p>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </template>
+</product-display>
+
+{% schema %}
+  {
+    "name": "Product Header",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "icon",
+        "name": "Icon",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "info": "Tag a product with __icon:<this-title> to add to a product"
+          },
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon",
+            "info": "100x100"
+          },
+          {
+            "type": "text",
+            "id": "icon_alt",
+            "label": "Icon alt text"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

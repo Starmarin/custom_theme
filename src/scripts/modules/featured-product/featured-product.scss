@@ -1,0 +1,49 @@
+.variant-btn[active='true'] {
+  @apply bg-gray-600 text-white;
+}
+
+.featured-product {
+  .yotpo.bottomLine {
+    display: inline-block;
+  }
+
+  .yotpo.bottomLine .yotpo-stars + .text-m {
+    margin: 4px 0 0 4px !important;
+    color: black !important;
+    @apply block font-body font-semibold text-xs uppercase;
+  }
+
+  .yotpo-bottomline.pull-left.star-clickable {
+    display: flex !important;
+    width: 300px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+
+  .yotpo-bottomline .rating-star {
+    margin-right: 3px !important;
+  }
+
+  .yotpo .yotpo-icon-star:before {
+    @apply text-primary-500;
+  }
+}
+
+.description-text p {
+  @apply font-body text-megamenu_sub;
+}
+.description-text a {
+  @apply font-body text-megamenu_sub underline;
+}
+
+.pdp__quantity-dropdown {
+  @apply border border-black rounded-e2;
+
+  .selected {
+    @apply py-3 bg-white h-e44;
+  }
+
+  .dropdown-arrow {
+    @apply p-2 bg-white;
+  }
+}

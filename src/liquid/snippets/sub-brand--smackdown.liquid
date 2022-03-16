@@ -1,0 +1,180 @@
+{% if mod_settings.desktop_image != blank %}
+  <img 
+    class="w-full h-e240 object-cover hidden md:block" 
+    src="{{ mod_settings.desktop_image | img_url: '1400x' }}" 
+    alt="{{ mod_settings.desktop_image.alt }}" />
+
+  <img 
+    class="w-full h-e200 object-cover block md:hidden" 
+    {% if mod_settings.mobile_image != blank %}
+      src="{{ mod_settings.mobile_image | img_url: '600x' }}" 
+    {% else %}
+      src="{{ mod_settings.desktop_image | img_url: '600x' }}" 
+    {% endif %}
+    alt="{{ mod_settings.desktop_image.alt }}" />
+{% endif %}
+
+{% for block in mod_blocks %}
+  {% case block.type %}
+    {% when 'promo_banner' %}
+      {% capture properties %}
+        [
+          <% for (let i = 1; i <= 6; i++) { %>
+            {
+              "settings": {
+                "link_text": {{ block.settings.link_text_<%- i -%> | json }},
+                "link_url": {{ block.settings.link_url_<%- i -%> | json }}  
+              }
+            }<% if (i < 6) { %>,<% } %>
+          <% } %>
+        ]
+      {% endcapture %}
+      {% assign section_props = properties %}
+      {%- render 'hp--promo-banner', mod_settings: block.settings, mod_blocks: section_props, block_data_from_collections: true -%}
+    {% when 'product_carousel' %} 
+      {%- render 'hp--product-carousel', mod_settings: block.settings, block_data_from_collections: true -%}
+    {% when 'superstar_carousel' %} 
+      {% capture properties %}
+        [
+          <% for (let i = 1; i <= 12; i++) { %>
+            {
+              "settings": {
+                "superstar_collection": {{ block.settings.superstar_collection_<%- i -%> | json }},
+                "superstar_photo": {{ block.settings.superstar_photo_<%- i -%> | json }},
+                "badge_text": {{ block.settings.badge_text_<%- i -%> | json }},
+                "badge_bg_color": {{ block.settings.badge_bg_color_<%- i -%> | json }},
+                "badge_text_color": {{ block.settings.badge_text_color_<%- i -%> | json }},
+                "superstar_name": {{ block.settings.superstar_name_<%- i -%> | json }}
+              },
+              "collection": {
+                "superstar_name": "{{ collections[block.settings.superstar_collection_<%- i -%>].metafields.custom_fields['superstar_name'] }}",
+                "sub_brand": "{{ collections[block.settings.superstar_collection_<%- i -%>].metafields.custom_fields['sub-brand'] }}",
+                "superstar_photo": "{{ collections[block.settings.superstar_collection_<%- i -%>].metafields.custom_fields['superstar_photo'] }}",
+                "badge_text": "{{ collections[block.settings.superstar_collection_<%- i -%>].metafields.custom_fields['badge_text'] }}",
+                "badge_bg_color": "{{ collections[block.settings.superstar_collection_<%- i -%>].metafields.custom_fields['badge_background_color'] }}",
+                "badge_text_color": "{{ collections[block.settings.superstar_collection_<%- i -%>].metafields.custom_fields['badge_text_color'] }}"
+              }
+            }<% if (i < 12) { %>,<% } %>
+          <% } %>
+        ]
+      {% endcapture %}
+      {% assign section_props = properties %}
+      {%- render 'hp--superstar-carousel', mod_settings: block.settings, mod_blocks: section_props, block_data_from_collections: true, block_type: block.type -%}
+    {% when 'button_collection' %} 
+      {% capture properties %}
+        [
+          <% for (let i = 1; i <= 7; i++) { %>
+            {
+              "settings": {
+                "collection": {{ block.settings.collection_<%- i -%> | json }},
+                "collection_title": {{ block.settings.collection_title_<%- i -%> | json }},
+                "collection_image": {{ block.settings.collection_image_<%- i -%> | json }},
+                "border_color": {{ block.settings.border_color_<%- i -%> | json }}
+              },
+              "collection": {
+                "url": "{{ collections[block.settings.collection_<%- i -%>].url }}"
+              }
+            }<% if (i < 7) { %>,<% } %>
+          <% } %>
+        ]
+      {% endcapture %}
+      {% assign section_props = properties %}
+      {%- render 'hp--button-collection', mod_settings: block.settings, mod_blocks: section_props, block_data_from_collections: true, block_type: block.type -%}
+    {% when 'hero' %} 
+      {% capture properties %}
+        [
+          <% for (let i = 1; i <= 1; i++) { %>
+            {
+              "settings": {
+                "desktop_image": {{ block.settings.desktop_image_<%- i -%> | json }},
+                "mobile_image": {{ block.settings.mobile_image_<%- i -%> | json }},
+                "shopify_video_url": {{ block.settings.shopify_video_url_<%- i -%> | json }},
+                "vimeo_video_url": {{ block.settings.vimeo_video_url_<%- i -%> | json }},
+                "enable_image_overlay": {{ block.settings.enable_image_overlay_<%- i -%> | json }},
+                "image_overlay_color": {{ block.settings.image_overlay_color_<%- i -%> | json }},
+                "image_overlay_opacity_percentage": {{ block.settings.image_overlay_opacity_percentage_<%- i -%> | json }},
+                "enable_text_box": {{ block.settings.enable_text_box_<%- i -%> | json }},
+                "text_box_color": {{ block.settings.text_box_color_<%- i -%> | json }},
+                "text_box_opacity_percentage": {{ block.settings.text_box_opacity_percentage_<%- i -%> | json }},
+                "text_box_alignment": {{ block.settings.text_box_alignment_<%- i -%> | json }},
+                "slide_title": {{ block.settings.slide_title_<%- i -%> | json }},
+                "slide_preheader": {{ block.settings.slide_preheader_<%- i -%> | json }},
+                "slide_header": {{ block.settings.slide_header_<%- i -%> | json }},
+                "slide_body_copy": {{ block.settings.slide_body_copy_<%- i -%> | json }},
+                "preheader_color": {{ block.settings.preheader_color_<%- i -%> | json }},
+                "header_body_color": {{ block.settings.header_body_color_<%- i -%> | json }},
+                "cta_1_text": {{ block.settings.cta_1_text_<%- i -%> | json }},
+                "cta_1_url": {{ block.settings.cta_1_url_<%- i -%> | json }},
+                "cta_1_text_color": {{ block.settings.cta_1_text_color_<%- i -%> | json }},
+                "cta_1_bg_color": {{ block.settings.cta_1_bg_color_<%- i -%> | json }},
+                "cta_2_text": {{ block.settings.cta_2_text_<%- i -%> | json }},
+                "cta_2_url": {{ block.settings.cta_2_url_<%- i -%> | json }},
+                "cta_2_text_color": {{ block.settings.cta_2_text_color_<%- i -%> | json }},
+                "cta_2_bg_color": {{ block.settings.cta_2_bg_color_<%- i -%> | json }}
+              }
+            }<% if (i < 1) { %>,<% } %>
+          <% } %>
+        ]
+      {% endcapture %}
+      {% assign section_props = properties %}
+      {%- render 'hp--hero-banner', mod_settings: block.settings, mod_blocks: section_props, block_data_from_collections: true, block_type: block.type -%}
+    {% when 'fifty_fifty' %} 
+      {%- render 'hp--fifty-fifty', mod_settings: block.settings, block_data_from_collections: true -%}
+    {% when 'columns' %} 
+      {% capture properties %}
+        [
+          <% for (let i = 1; i <= 3; i++) { %>
+            {
+              "settings": {
+                "column_desktop_image": {{ block.settings.column_desktop_image_<%- i -%> | json }},
+                "column_mobile_image": {{ block.settings.column_mobile_image_<%- i -%> | json }},
+                "column_heading": {{ block.settings.column_heading_<%- i -%> | json }},
+                "column_body_copy": {{ block.settings.column_body_copy_<%- i -%> | json }},
+                "column_text_cta1": {{ block.settings.column_text_cta1_<%- i -%> | json }},
+                "column_url_cta1": {{ block.settings.column_url_cta1_<%- i -%> | json }},
+                "column_text_cta2": {{ block.settings.column_text_cta2_<%- i -%> | json }},
+                "column_url_cta2": {{ block.settings.column_url_cta2_<%- i -%> | json }},
+                "column_color_text": {{ block.settings.column_color_text_<%- i -%> | json }},
+                "column_color_text_container_bg": {{ block.settings.column_color_text_container_bg_<%- i -%> | json }},
+                "column_color_cta1": {{ block.settings.column_color_cta1_<%- i -%> | json }},
+                "column_text_color_cta1": {{ block.settings.column_text_color_cta1_<%- i -%> | json }},
+                "column_color_cta2": {{ block.settings.column_color_cta2_<%- i -%> | json }},
+                "column_text_color_cta2": {{ block.settings.column_text_color_cta2_<%- i -%> | json }}
+              }
+            }<% if (i < 3) { %>,<% } %>
+          <% } %>
+        ]
+      {% endcapture %}
+      {% assign section_props = properties %}
+      {% render 'hp--columns', mod_settings: block.settings, mod_blocks: section_props, block_data_from_collections: true %}
+    {% when 'collection_blocks' %} 
+      {% capture properties %}
+        [
+          <% for (let i = 1; i <= 6; i++) { %>
+            {
+              "settings": {
+                "desktop_image": {{ block.settings.desktop_image_<%- i -%> | json }},
+                "mobile_image": {{ block.settings.mobile_image_<%- i -%> | json }},
+                "block_link": {{ block.settings.block_link_<%- i -%> | json }},
+                "block_header": {{ block.settings.block_header_<%- i -%> | json }},
+                "block_header_color": {{ block.settings.block_header_color_<%- i -%> | json }},
+                "block_header_background_color": {{ block.settings.block_header_background_color_<%- i -%> | json }}
+              }
+            }<% if (i < 6) { %>,<% } %>
+          <% } %>
+        ]
+      {% endcapture %}
+      {% assign section_props = properties %}
+      {%- render 'hp--collection-blocks', mod_settings: block.settings, mod_blocks: section_props, block_data_from_collections: true, block_type: block.type -%}
+    {% when 'tile_grid' %} 
+      {%- render 'hp--tile-grid', mod_settings: block.settings, block_data_from_collections: true -%}
+    {% when 'instagram' %} 
+      {%- render 'hp--ugc-gallery', mod_settings: block.settings, block_data_from_collections: true -%}
+  {% endcase %}
+{% endfor %}
+
+<style>
+  .boost-pfs-filter-loading {
+    display: none !important;
+  }
+</style>

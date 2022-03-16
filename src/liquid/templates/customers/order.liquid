@@ -1,0 +1,28 @@
+{%- layout 'theme' -%}
+{%- assign account_page_title = 'Order ' | append: order.name -%}
+<div data-vue-component="AccountBase" class="relative">
+  <div class="lg:container mx-auto px-0 lg:px-0 grid grid-cols-12">
+    <div class="absolute left-0 top-0 bottom-0 bg-white-100 hidden md:block w-3/12"></div>
+    <div class="md:bg-white-100 col-span-12 md:col-span-3 relative z-10">
+      <div class="pt-0 md:pt-10 pb-0 md:pb-e20">
+        {%- include 'account-nav' -%}
+      </div>
+    </div>
+    <div class="bg-white col-span-12 md:col-span-9 px-4 md:px-0">
+      <div class="md:py-10 md:pl-10 lg:pl-10">
+        <div class="flex items-center justify-between mb-0 bg-black py-3 px-4">
+          <div  class="flex justify-start">
+            <a href="{{ routes.account_url }}" is="LinkPrimaryLeft" icon-size="12px" class="font-primary font-bold uppercase text-white tracking-header">
+              {{ 'customer.orders.order_number' | t }} {{ order.name }}
+            </a>
+          </div>
+          <p class="font-body text-white text-megamenu_sub">{{ order.created_at | date: format: 'date' }}</p>
+        </div>
+        {%- include 'account-order-details' with order: order -%}
+        <div class="md:hidden py-e40 md:py-e64">
+          {% render 'account-support' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

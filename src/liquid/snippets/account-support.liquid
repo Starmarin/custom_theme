@@ -1,0 +1,8 @@
+<p class="px-4 md:px-0 mb-4 md:mb-3 font-primary font-bold uppercase tracking-header text-megamenu_top md:text-xl">{{ settings.support_title }}</p>
+<div class="px-4 md:px-0 font-body text-md mb-e50 support-content">
+  {{ settings.support_content }}
+</div>
+
+{% if settings.account_extra_link_url != blank %}
+  <a class="px-4 md:px-0 font-body font-semibold text-primary-500 underline text-xs tracking-normal" href="{{ settings.account_extra_link_url }}">{{ settings.account_extra_link_title }}</a>
+{% endif %}

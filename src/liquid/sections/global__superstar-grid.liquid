@@ -1,0 +1,230 @@
+<div class="w-full flex flex-wrap items-center justify-start py-10 bg-gray-200 px-e10 md:px-0" data-vue-component="SuperstarGrid" data-props="{{ props | escape | strip_newlines }}">
+  <div class="w-1/2 hidden md:flex mx-auto justify-center items-end min-h-e96" role="tablist">
+    <button
+      tabindex="0" role="tab" 
+      @click="activeTab = ''"
+      @focus="activeTab = ''"
+      class="bg-gray-700 flex justify-center items-center transition-all duration-200 cursor-pointer"
+      :class="[activeTab === '' ? 'h-e96 w-e200' : 'h-16 w-e120']">
+      <img 
+        :class="[activeTab === '' ? 'h-15 w-e72' : 'w-15 h-10']" 
+        class="object-contain transition-all duration-200" 
+        src="{{ 'logo_white_wwe.svg' | asset_url }}" />
+    </button>
+    <button
+      tabindex="0" role="tab" 
+      @click="activeTab = 'raw'"
+      @focus="activeTab = 'raw'"
+      class="bg-brands-raw flex justify-center items-center transition-all duration-200 cursor-pointer"
+      :class="[activeTab === 'raw' ? 'h-e96 w-e200' : 'h-16 w-e120']">
+      <img 
+        :class="[activeTab === 'raw' ? 'h-15 w-e72' : 'w-15 h-10']" 
+        class="object-contain transition-all duration-200" 
+        src="{{ 'logo_white_raw.png' | asset_url }}" />
+    </button>
+    <button
+      tabindex="0" role="tab" 
+      @click="activeTab = 'smackdown'" 
+      @focus="activeTab = 'smackdown'" 
+      class="bg-brands-smackdown flex justify-center items-center transition-all duration-200 cursor-pointer"
+      :class="[activeTab === 'smackdown' ? 'h-e96 w-e200' : 'h-16 w-e120']">
+      <img 
+        :class="[activeTab === 'smackdown' ? 'h-15 w-e72' : 'w-15 h-10']" 
+        class="object-contain transition-all duration-200" 
+        src="{{ 'logo_white_smackdown.png' | asset_url }}" />
+    </button>
+    <button
+      tabindex="0" role="tab" 
+      @click="activeTab = 'nxt'" 
+      @focus="activeTab = 'nxt'" 
+      class="bg-brands-nxt flex justify-center items-center transition-all duration-200 cursor-pointer"
+      :class="[activeTab === 'nxt' ? 'h-e96 w-e200' : 'h-16 w-e120']">
+      <img 
+        :class="[activeTab === 'nxt' ? 'h-15 w-e72' : 'w-15 h-10']" 
+        class="object-contain transition-all duration-200" 
+        src="{{ 'logo_black_nxt.png' | asset_url }}" />
+    </button>
+    <button
+      tabindex="0" role="tab" 
+      @click="activeTab = 'legends'" 
+      @focus="activeTab = 'legends'" 
+      class="bg-gray-900 flex justify-center items-center transition-all duration-200 cursor-pointer"
+      :class="[activeTab === 'legends' ? 'h-e96 w-e200' : 'h-16 w-e120']">
+      <img 
+        :class="[activeTab === 'legends' ? 'h-15 w-e72' : 'w-15 h-10']" 
+        class="object-contain transition-all duration-200" 
+        src="{{ 'logo_white_legends.png' | asset_url }}" />
+    </button>
+  </div>
+
+  <div class="flex flex-wrap md:flex-no-wrap w-full mb-6 max-w-lg md:mx-10 lg:mx-auto">
+    <div  :class="countCSS" class="p-4 font-primary font-bold uppercase text-lg tracking-wider flex items-center transition-all duration-200 superstar-count">
+      <img v-if="activeTab === ''"  class="object-contain transition-all duration-200 w-16 h-16 mr-4 md:hidden" src="{{ 'logo_white_wwe.svg' | asset_url }}" />
+      <img v-if="activeTab === 'raw'"  class="object-contain transition-all duration-200 w-16 h-16 mr-4 md:hidden" src="{{ 'logo_white_raw.png' | asset_url }}" />
+      <img v-if="activeTab === 'smackdown'"  class="object-contain transition-all duration-200 w-16 h-16 mr-4 md:hidden" src="{{ 'logo_white_smackdown.png' | asset_url }}" />
+      <img v-if="activeTab === 'nxt'"  class="object-contain transition-all duration-200 w-16 h-16 mr-4 md:hidden" src="{{ 'logo_black_nxt.png' | asset_url }}" />
+      <img v-if="activeTab === 'legends'"  class="object-contain transition-all duration-200 w-16 h-16 mr-4 md:hidden" src="{{ 'logo_white_legends.png' | asset_url }}" />
+      <div class="flex md:block flex-col items-start">
+        {{ 'general.megamenu.all_superstars' | t }}
+        <span class="font-body text-megamenu_sub tracking-normal lowercase md:ml-4" v-html="superstarCount"></span>  
+      </div>
+    </div>
+    <div @click="showSubBrands = !showSubBrands" class="flex md:hidden justify-between items-center bg-gray-discount w-e50">
+      <div class="p-4 flex justify-center items-center">
+        <span is="Icon" name="chevron-down" class="text-white transition-all duration-300" :class="[showSubBrands ? 'transform rotate-180' : 'transform']" size="14px"></span>
+      </div>
+    </div>
+    <transition-expand :duration="300" v-cloak v-show="showSubBrands">
+      <section class="flex flex-col items-start w-full bg-gray-breadcrumbs">
+        <div class="flex flex-wrap w-full bg-gray-discount py-5 px-6">
+          <div 
+            @click="selectSubBrand('')" 
+            class="w-full flex justify-start items-center mb-2">
+            <img 
+              class="object-contain transition-all duration-200 w-16 h-16 p-1 bg-gray-700" 
+              src="{{ 'logo_wwe.png' | asset_url }}" />
+              <span class="text-white font-primary font-extrabold uppercase tracking-wider text-megamenu_top ml-4">{{ 'general.megamenu.all_superstars' | t}}</span>
+          </div>
+          <div 
+            @click="selectSubBrand('raw')" 
+            class="w-full flex justify-start items-center mb-2">
+            <img 
+              class="object-contain transition-all duration-200 w-16 h-16 p-1 bg-brands-raw" 
+              src="{{ 'logo_white_raw.png' | asset_url }}" />
+              <span class="text-white font-primary font-extrabold uppercase tracking-wider text-megamenu_top ml-4">{{ 'general.megamenu.raw_superstars' | t}}</span>
+          </div>
+          <div 
+            @click="selectSubBrand('smackdown')" 
+            class="w-full flex justify-start items-center mb-2">
+            <img 
+              class="object-contain transition-all duration-200 w-16 h-16 p-1 bg-brands-smackdown" 
+              src="{{ 'logo_white_smackdown.png' | asset_url }}" />
+              <span class="text-white font-primary font-extrabold uppercase tracking-wider text-megamenu_top ml-4">{{ 'general.megamenu.smackdown_superstars' | t}}</span>
+          </div>
+          <div 
+            @click="selectSubBrand('nxt')" 
+            class="w-full flex justify-start items-center mb-2">
+            <img 
+              class="object-contain transition-all duration-200 w-16 h-16 p-1 bg-brands-nxt" 
+              src="{{ 'logo_black_nxt.png' | asset_url }}" />
+              <span class="text-white font-primary font-extrabold uppercase tracking-wider text-megamenu_top ml-4">{{ 'general.megamenu.nxt_superstars' | t}}</span>
+          </div>
+          <div 
+            @click="selectSubBrand('legends')" 
+            class="w-full flex justify-start items-center mb-2">
+            <img 
+              class="object-contain transition-all duration-200 w-16 h-16 p-1 bg-black" 
+              src="{{ 'logo_white_legends.png' | asset_url }}" />
+              <span class="text-white font-primary font-extrabold uppercase tracking-wider text-megamenu_top ml-4">{{ 'general.megamenu.legends' | t}}</span>
+          </div>
+        </div>
+      </section>
+    </transition-expand>  
+    <div class="w-full md:w-e250 flex items-center bg-gray-discount">
+      <input 
+        v-model="searchTerm" 
+        type="text" 
+        placeholder="search"
+        class="py-4 px-3 font-primary font-bold uppercase text-white bg-gray-discount w-full" />
+      <svg class="w-4 h-4 text-white mr-3">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search"></use>
+      </svg>
+    </div>
+  </div>
+
+  <div class="w-full max-w-lg md:mx-10 lg:mx-auto">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-e10 md:gap-e15 grid-container">
+      <div v-show="searchTerm === ''" class="promo-card-one grid grid-cols-1 grid-rows-1 gap-0">
+        <img v-show="activeTab === ''" class="w-full object-cover object-top md:max-h-e440" src="{{ section.settings.all_superstar_main_promo | img_url: '800x'}}" >
+        <img v-show="activeTab === 'raw'" class="w-full object-cover object-top md:max-h-e440" src="{{ section.settings.raw_superstar_main_promo | img_url: '800x'}}" >
+        <img v-show="activeTab === 'smackdown'" class="w-full object-cover object-top md:max-h-e440" src="{{ section.settings.smackdown_superstar_main_promo | img_url: '800x'}}" >
+        <img v-show="activeTab === 'nxt'" class="w-full object-cover object-top md:max-h-e440" src="{{ section.settings.nxt_superstar_main_promo | img_url: '800x'}}" >
+        <img v-show="activeTab === 'legends'" class="w-full object-cover object-top md:max-h-e440" src="{{ section.settings.legends_superstar_main_promo | img_url: '800x'}}" >
+
+        <p v-show="activeTab === ''" class="bg-black text-white text-center font-primary font-bold uppercase text-e32 md:text-e56 tracking-header leading-1 w-full p-4">{{ 'general.megamenu.all_superstars' | t }}</p>
+        <p v-show="activeTab === 'raw'" class="bg-brands-raw text-white text-center font-primary font-bold uppercase text-e32 md:text-e56 tracking-header leading-1 w-full p-4">{{ 'general.megamenu.raw_superstars' | t }}</p>
+        <p v-show="activeTab === 'smackdown'" class="bg-brands-smackdown text-white text-center font-primary font-bold uppercase text-e40 md:text-e44 tracking-header leading-1 w-full p-4">{{ 'general.megamenu.smackdown_superstars' | t }}</p>
+        <p v-show="activeTab === 'nxt'" class="bg-brands-nxt text-black text-center font-primary font-bold uppercase text-e32 md:text-e56 tracking-header leading-1 w-full p-4">{{ 'general.megamenu.nxt_superstars' | t }}</p>
+        <p v-show="activeTab === 'legends'" class="bg-brands-legends text-black text-center font-primary font-bold uppercase text-e32 md:text-e56 tracking-header leading-1 w-full p-4">{{ 'general.megamenu.legends' | t }}</p>
+      </div>
+      <div v-show="searchTerm === ''" class="promo-card-two grid grid-cols-1 grid-rows-1 gap-0">
+        <img v-show="activeTab === ''" class="h-e350 md:h-full w-full object-cover object-top" src="{{ section.settings.all_superstar_secondary_promo | img_url: '800x'}}" >
+        <img v-show="activeTab === 'raw'" class="h-e350 md:h-full w-full object-cover object-top" src="{{ section.settings.raw_superstar_secondary_promo | img_url: '800x'}}" >
+        <img v-show="activeTab === 'smackdown'" class="h-e350 md:h-full w-full object-cover object-top" src="{{ section.settings.smackdown_superstar_secondary_promo | img_url: '800x'}}" >
+        <img v-show="activeTab === 'nxt'" class="h-e350 md:h-full w-full object-cover object-top" src="{{ section.settings.nxt_superstar_secondary_promo | img_url: '800x'}}" >
+        <img v-show="activeTab === 'legends'" class="h-e350 md:h-full w-full object-cover object-top" src="{{ section.settings.legends_superstar_secondary_promo | img_url: '800x'}}" >
+      </div>
+      <template v-for="(superstar, superstarIndex) in filteredSuperstars">
+        <a 
+          v-if="superstar.superstar_title"
+          class="bg-gray-700 bg-cover bg-center h-e260 flex items-end" 
+          :style="superstarImage(superstarIndex)"
+          :href="superstar.superstar_collection_link">
+          <p class="bg-black bg-opacity-60 text-white font-primary font-bold uppercase text-xl tracking-wider w-full p-4" v-html="superstar.superstar_title"></p>
+        </a>
+      </template>  
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Global Superstars Grid",
+    "class": "superstar-carousel",
+    "settings": [
+      {"type": "header", "content": "Promo Images"},
+      {
+        "type": "image_picker",
+        "id": "all_superstar_main_promo",
+        "label": "All Superstars - Main Promo"
+      },
+      {
+        "type": "image_picker",
+        "id": "all_superstar_secondary_promo",
+        "label": "All Superstars - Secondary Promo"
+      },
+      {
+        "type": "image_picker",
+        "id": "raw_superstar_main_promo",
+        "label": "Raw Superstars - Main Promo"
+      },
+      {
+        "type": "image_picker",
+        "id": "raw_superstar_secondary_promo",
+        "label": "Raw Superstars - Secondary Promo"
+      },
+
+      {
+        "type": "image_picker",
+        "id": "smackdown_superstar_main_promo",
+        "label": "Smackdown Superstars - Main Promo"
+      },
+      {
+        "type": "image_picker",
+        "id": "smackdown_superstar_secondary_promo",
+        "label": "Smackdown Superstars - Secondary Promo"
+      },
+      {
+        "type": "image_picker",
+        "id": "nxt_superstar_main_promo",
+        "label": "NXT Superstars - Main Promo"
+      },
+      {
+        "type": "image_picker",
+        "id": "nxt_superstar_secondary_promo",
+        "label": "NXT Superstars - Secondary Promo"
+      },
+      {
+        "type": "image_picker",
+        "id": "legends_superstar_main_promo",
+        "label": "Legends Superstars - Main Promo"
+      },
+      {
+        "type": "image_picker",
+        "id": "legends_superstar_secondary_promo",
+        "label": "Legends Superstars - Secondary Promo"
+      }
+    ]
+  }
+{% endschema %}

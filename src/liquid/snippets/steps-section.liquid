@@ -1,0 +1,34 @@
+<div class="tile-box max-w-lg mx-auto py-e40">
+    {%- if mod_settings.steps_section_title != blank -%}
+        <p class="section__title text-e36  uppercase tracking-header text-center mb-5 font-extrabold">{{mod_settings.steps_section_title}}</p>
+    {%- endif -%}
+    <div class="steps-list flex justify-around flex-col md:flex-row mb-e24 md:mb-e40">
+        {%- for item in mod_blocks -%}
+        <div class="steps-item relative bg-gray-700 text-white px-e15 py-e30 min-w-e306 md:max-w-1/3 mb-e8 md:mr-e16">
+            <span class="absolute top-0 font-bold left-0 bg-blue-500 text-e48 py-e10 px-e30">{{ forloop.index }}</span>
+            {%- if item.settings.steps_title != blank -%}
+                <div class="steps-title">
+                    <p class="text-e28 tracking-header font-semibold pl-e72 md:pl-e100 mb-e40 uppercase">{{ item.settings.steps_title }}</p>
+                </div>
+            {%- endif -%}
+            {%- if item.settings.steps_description != blank -%}
+                <div class="steps-description">
+                    <p class="font-body tracking-wider font-normal text-e16">{{ item.settings.steps_description }}</p>
+                </div>
+            {%- endif -%}
+        </div>
+        {%- endfor -%}
+    </div>
+    <div class="steps__btns flex justify-center items-center flex-col md:flex-row">
+        {%- if mod_settings.steps_url_cta1 and mod_settings.steps_text_cta1 -%}
+        <a style="color: {{ mod_settings.steps_text_color_cta1 }}; background-color: {{ mod_settings.steps_color_cta1 }};"
+            class="font-primary font-bold text-md text-center max-w-e200 min-w-e200 md:max-w-e256 tracking-header uppercase py-3 px-10 transition-all  mb-2 md:mr-2 duration-200 hover:filter-brightness"
+            href="{{ mod_settings.steps_url_cta1 }}">{{ mod_settings.steps_text_cta1 }}</a>
+        {%- endif -%}
+        {%- if mod_settings.steps_url_cta2 and mod_settings.steps_text_cta2 -%}
+        <a style="color: {{ mod_settings.steps_text_color_cta2 }}; background-color: {{ mod_settings.steps_color_cta2 }};"
+            class="font-primary font-bold text-md text-center max-w-e200 min-w-e200 md:max-w-e256 tracking-header uppercase py-3 px-10 transition-all mb-2 duration-200 hover:filter-brightness"
+            href="{{ mod_settings.steps_url_cta2 }}">{{ mod_settings.steps_text_cta2 }}</a>
+        {%- endif -%}
+    </div>
+</div>

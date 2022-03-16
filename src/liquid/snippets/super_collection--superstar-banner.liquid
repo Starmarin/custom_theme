@@ -1,0 +1,36 @@
+{% if collection.metafields.custom_fields["super_superstar-enable"] == 1 %}
+  <div>
+    {% capture superstar_banner_settings %}
+      {
+        "superstar_background_image": {{ collection.metafields.custom_fields["super_sb-background_image"] | json }},
+        "superstar_image": {{ collection.metafields.custom_fields["super_sb-superstar_image"] | json }},
+        "superstar_title": {{ collection.metafields.custom_fields["super_sb-superstar_title"] | json }},
+        "superstar_body_copy": {{ collection.metafields.custom_fields["super_sb-superstar_body_copy"] | json }},
+        "superstar_textbox_text_color": {{ collection.metafields.custom_fields["super_sb-superstar_text_color"] | json }},
+        "superstar_textbox_background_color": {{ collection.metafields.custom_fields["super_sb-superstar_bg_color"] | json }},
+        "superstar_featured_product": {{ collection.metafields.custom_fields["super_sb-featured_product"] | json }},
+        "superstar_featured_product_url": {{ all_products[collection.metafields.custom_fields["super_sb-featured_product"]].url | json }},
+        "superstar_featured_product_title": {{ all_products[collection.metafields.custom_fields["super_sb-featured_product"]].title | json }},
+        "superstar_featured_product_image": {{ collection.metafields.custom_fields["super_sb-product_image"] | default: all_products[collection.metafields.custom_fields["super_sb-featured_product"]].featured_image | json }},
+        "superstar_brand": {{ collection.metafields.custom_fields["sub-brand"] | downcase | json }},
+        "superstar_badge": {{ collection.metafields.custom_fields["badge_text"] | downcase | json }},
+        "superstar_name": {{ collection.metafields.custom_fields["superstar_name"] | json }}
+      }
+    {% endcapture %}
+    {% capture superstar_banner_blocks %}
+      [
+        {% for item in collection.metafields.custom_fields["super_sb-ctas"] %}
+          {
+            "settings": {
+              "cta_text": {{ item["super_sb-cta_text"] | json }},
+              "cta_url": {{ item["super_sb-cta_url"] | json }},
+              "cta_text_color": {{ item["super_sb-cta_text_color"] | json }},
+              "cta_background_color": {{ item["super_sb-cta_background"] | json }}
+            }
+          }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    {% endcapture %}
+    {%- render 'hp--superstar-banner', mod_settings: superstar_banner_settings, mod_blocks: superstar_banner_blocks, block_data_from_metafields: true -%}
+  </div>
+{% endif %}

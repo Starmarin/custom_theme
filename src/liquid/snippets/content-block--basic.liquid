@@ -1,0 +1,20 @@
+
+{%- include 'logic--content-block' -%}
+
+<div class="column small-12 {{ block.settings.column_class }}">
+  <div class="content-block content-block--basic" style="{{ content_block_wrapper_styles }}">
+    <div class="content-block__content" style="{{ content_block_styles }}">
+      <div class="content-block__overlay" style="{{ content_block_overlay_styles }}"></div>
+      {%- if block.settings.subtitle != blank -%}
+        <p class="content-block__subtitle" style="{{ content_block_subtitle_styles }}">{{ block.settings.subtitle }}</p>
+      {%- endif -%}
+      <h2 class="content-block__title" style="{{ content_block_title_styles }}">{{ block.settings.title }}</h2>
+      {%- if block.settings.description != blank -%}
+        <div class="content-block__description" style="{{ content_block_text_styles }}">{{ block.settings.description }}</div>
+      {%- endif -%}
+      {%- if block.settings.cta_link != blank -%}
+        <link-button class="content-block__cta" label="{{ block.settings.cta_label }}" href="{{ block.settings.cta_link }}"></link-button>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
