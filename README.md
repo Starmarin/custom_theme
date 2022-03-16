@@ -1,6 +1,3 @@
-# bva-gulp
-
-## Workflow Summary
 
 This is a hybrid of vue-cli 3 and the shopify gulp workflow. Vue-cli manages js, ts, vue, scss. Gulp handles uploading to Shopify.
 
